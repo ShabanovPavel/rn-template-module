@@ -1,0 +1,19 @@
+{
+    "editor.fontSize": 15,
+    "editor.tabSize": 4,
+    "editor.wordWrap": "bounded",
+    "javascript.preferences.quoteStyle": "single",
+    "files.exclude": {
+        "node_modules/": true,
+        "**/._*": true,
+        "**/*.meta": true
+    },
+    "git.autofetch": true,
+    "workbench.iconTheme": "vscode-icons",
+    "git.confirmSync": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "workbench.colorTheme": "One Dark Pro",
+    "explorer.confirmDelete": false,
+    "editor.formatOnSave": true,
+    "eslint.autoFixOnSave": true,
+}

@@ -1,23 +1,29 @@
-import {SET_NAME} from './action'
+import { SET_NAME } from './action';
 
-export default function profile(state = {
-    name: `Василий`
-}, action = {}) {
-  switch (action.type) {
-    case SET_NAME:{
-        return { ...state, name: action.name}
-    }
-    default:
-      return state;
-  }
+function profile(
+	state = {
+		name: 'Василий',
+	},
+	action = {},
+) {
+	switch (action.type) {
+		case SET_NAME: {
+			return {
+				...state,
+				name: action.name,
+			};
+		}
+		default:
+			return state;
+	}
 }
 
-//----Функции с какой-либо бизнес логикой
+// ----Функции с какой-либо бизнес логикой
 profile.updateName = () => dispatch => {
-  dispatch({
-    type: SET_NAME,
-    name:'Pavel',
-  });
+	dispatch({
+		type: SET_NAME,
+		name: 'Pavel',
+	});
 };
 
 /*
@@ -30,4 +36,5 @@ export const defineModule = (
       return {title, path, component, reducer, onEnter}
   }
 */
-//export default defineModule('Личный кабинет', '/profile, Profile')
+// export default defineModule('Личный кабинет', '/profile, Profile')
+export default profile;
