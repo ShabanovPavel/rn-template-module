@@ -4,33 +4,34 @@ import { persistStore, persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
-import { navigationMiddleware } from './core/redux-navigation';
-import { nav, profile, login } from './modules';
+import { middleware } from './core/navigation';
+import nav from './core/navigation/reducer';
+import { profile, login } from './modules';
 
 const rootReducer = combineReducers({
-	nav,
 	profile,
 	login,
+	nav,
 });
 
 const persistConfig = {
 	storage,
 	key: 'root',
 	stateReconciler: autoMergeLevel2,
-	whitelist: ['app'],
+	whitelist: ['profile'],
 };
 
 let enhacers;
 
 // eslint-disable-next-line
 if (__DEV__ === true) {
-	enhacers = applyMiddleware(thunk, navigationMiddleware, createLogger({ collapsed: true }));
+	enhacers = applyMiddleware(thunk, middleware, createLogger({ collapsed: true }));
 } else {
-	enhacers = applyMiddleware(thunk, navigationMiddleware, createLogger({ collapsed: true }));
+	enhacers = applyMiddleware(thunk, middleware, createLogger({ collapsed: true }));
 }
 
 export default function configureStore() {
-	const store = createStore(persistReducer(persistConfig, rootReducer), undefined, enhacers);
+	const store = createStore(persistReducer(persistConfig, rootReducer), enhacers);
 	const persistor = persistStore(store);
 	return { store, persistor };
 }

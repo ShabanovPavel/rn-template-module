@@ -3,12 +3,10 @@ import LoginScreen from './components';
 import loginReducer from './reducer';
 
 const Login = connect(
-	state => ({
-		name: state.profile.name,
-	}),
+	null,
 	dispatch => ({
 		onUpdateName: () => {
-			dispatch(loginReducer.goExit());
+			dispatch(loginReducer.goFarther());
 		},
 	}),
 )(LoginScreen);

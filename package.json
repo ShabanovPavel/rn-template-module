@@ -10,9 +10,10 @@
     "react": "16.6.1",
     "react-native": "0.57.5",
     "react-native-router-flux": "^4.0.6",
-    "react-navigation-redux-helpers": "1.0.1",
+    "react-navigation": "2.13.x",
+    "react-navigation-redux-helpers": "^2.0.5",
     "react-redux": "5.0.6",
-    "redux": "3.7.2",
+    "redux": "4.0.x",
     "redux-logger": "3.0.6",
     "redux-persist": "5.7.2",
     "redux-thunk": "2.2.0"

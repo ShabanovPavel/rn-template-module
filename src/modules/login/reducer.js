@@ -1,19 +1,13 @@
 import { LOGIN_SET_NAME } from './action';
 
-function login(
-	state = {
-		name: 'Василий',
-	},
-	action = {},
-) {
+function login(state = {}, action = {}) {
 	switch (action.type) {
 		default:
 			return state;
 	}
 }
 
-// ----Функции с какой-либо бизнес логикой
-login.goExit = () => dispatch => {
+login.goFarther = () => dispatch => {
 	dispatch({
 		type: LOGIN_SET_NAME,
 	});

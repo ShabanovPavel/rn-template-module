@@ -12,10 +12,11 @@ const styles = StyleSheet.create({
 
 export default class ProfileScreen extends React.PureComponent {
 	render() {
-		const { name, onUpdateName } = this.props;
+		const { name, onUpdateName, onBack } = this.props;
 		return (
 			<View style={styles.container}>
 				<Text onPress={onUpdateName}>Hello, {name}</Text>
+				<Text onPress={onBack}>Back navigation!</Text>
 			</View>
 		);
 	}

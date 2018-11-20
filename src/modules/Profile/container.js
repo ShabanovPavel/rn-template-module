@@ -10,6 +10,9 @@ const Profile = connect(
 		onUpdateName: () => {
 			dispatch(profileReducer.updateName());
 		},
+		onBack: () => {
+			dispatch(profileReducer.back());
+		},
 	}),
 )(ProfileScreen);
 

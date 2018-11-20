@@ -1,13 +1,13 @@
-import { SET_NAME } from './action';
+import { PROFILE_SET_NAME, PROFILE_BACK } from './action';
 
 function profile(
 	state = {
-		name: 'Василий',
+		name: 'Maksim',
 	},
 	action = {},
 ) {
 	switch (action.type) {
-		case SET_NAME: {
+		case PROFILE_SET_NAME: {
 			return {
 				...state,
 				name: action.name,
@@ -18,23 +18,16 @@ function profile(
 	}
 }
 
-// ----Функции с какой-либо бизнес логикой
-profile.updateName = () => dispatch => {
+profile.updateName = () => (dispatch, getState) => {
 	dispatch({
-		type: SET_NAME,
-		name: 'Pavel',
+		type: PROFILE_SET_NAME,
+		name: getState().profile.name === 'Pavel' ? 'Maksim' : 'Pavel',
+	});
+};
+profile.back = () => dispatch => {
+	dispatch({
+		type: PROFILE_BACK,
 	});
 };
 
-/*
-export const defineModule = (
-    title,
-    path,
-    component,
-    reducer = (state = {}) => state,
-    onEnter = null) => {
-      return {title, path, component, reducer, onEnter}
-  }
-*/
-// export default defineModule('Личный кабинет', '/profile, Profile')
 export default profile;
