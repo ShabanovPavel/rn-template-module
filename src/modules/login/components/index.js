@@ -10,12 +10,12 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default class ProfileScreen extends React.PureComponent {
+export default class LoginScreen extends React.PureComponent {
 	render() {
-		const { name, onUpdateName } = this.props;
+		const { onUpdateName } = this.props;
 		return (
 			<View style={styles.container}>
-				<Text onPress={onUpdateName}>Hello, {name}</Text>
+				<Text onPress={onUpdateName}> LoginScreen </Text>
 			</View>
 		);
 	}

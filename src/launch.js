@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 
 const styles = StyleSheet.create({
 	container: {
@@ -17,10 +17,6 @@ const styles = StyleSheet.create({
 
 export default () => (
 	<View style={styles.container}>
-		<Image
-			source={require('../images/logo.png')}
-			style={styles.logo}
-			resizeMode='contain'
-		/>
+		<Text>Launch</Text>
 	</View>
 );

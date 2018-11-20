@@ -1,2 +1,2 @@
-export const SET_NAME = 'Profile/SetName';
-export const GET_NAME = 'Profile/GetName';
+export const PROFILE_SET_NAME = 'Profile/SetName';
+export const PROFILE_GET_NAME = 'Profile/GetName';
