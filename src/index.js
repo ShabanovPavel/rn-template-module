@@ -1,32 +1,25 @@
-import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import AppRoot from './core/navigation';
-import configureStore from './store';
+import {Navigation} from 'react-native-navigation';
+import {registerComponent} from './core/navigation';
+import {AppScreen, OnboardingScreen, PlaygroundScreen} from './modules';
+import {settingsDefault, rootLoadApp} from './routes';
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#bfd8ff',
-	},
-});
+/** Инициализация модулей */
+function initModules() {
+	registerComponent('playground', PlaygroundScreen);
+	registerComponent('onboarding', OnboardingScreen);
+	registerComponent('initApp', AppScreen);
+}
 
-const LaunchScreen = () => (
-	<View style={styles.container}>
-		<Text>Launch</Text>
-	</View>
-);
+/** Инициализация дерева навигаци */
+function initRoutes() {
+	Navigation.events().registerAppLaunchedListener(() => {
+		Navigation.setDefaultOptions(settingsDefault);
+		Navigation.setRoot(rootLoadApp);
+	});
+}
 
-const { store, persistor } = configureStore();
-
-export default () => (
-	<Provider store={store}>
-		<PersistGate loading={<LaunchScreen />} persistor={persistor}>
-			<AppRoot />
-		</PersistGate>
-	</Provider>
-);
+/** Точка входа */
+export default function runApp() {
+	initModules();
+	initRoutes();
+}
