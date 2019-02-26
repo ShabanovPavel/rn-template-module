@@ -10,10 +10,12 @@
     "ios": "react-native run-ios"
   },
   "dependencies": {
+    "add": "^2.0.6",
     "final-form": "^4.11.1",
     "i18n-js": "^3.2.1",
     "react": "16.6.3",
     "react-native": "0.58.5",
+    "react-native-image-picker": "^0.28.0",
     "react-native-languages": "^3.0.2",
     "react-native-navigation": "^2.12.0",
     "react-native-simple-toast": "^0.0.8",
@@ -22,7 +24,8 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "yarn": "^1.13.0"
   },
   "devDependencies": {
     "babel-core": "^7.0.0-bridge.0",

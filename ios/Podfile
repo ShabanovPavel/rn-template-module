@@ -34,6 +34,8 @@ target 'rn' do
 
   pod 'ReactNativeNavigation', :path => '../node_modules/react-native-navigation'
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
 end
 
 
