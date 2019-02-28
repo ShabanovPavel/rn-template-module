@@ -1,18 +1,18 @@
 import React from 'react';
 import {AnalyticService} from '../../../core/analytic-service';
 
-import {bindComponent, traking} from '../../../core/navigation';
-import {Text, View, StatusBar, BackHandler, SplashScreen, Theme} from '../../../library';
+import {traking} from '../../../core/navigation';
+import {Text, View, BackHandler, SplashScreen, Theme, BindComponent} from '../../../library';
 
 export default class Screen extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		StatusBar.setDarkTranslucent();
+		BindComponent(this, {
+			isLightStatus: true,
+		});
+
 		Theme.setBalck();
-		bindComponent(this);
 		traking({analytic: AnalyticService});
-		this.handleBackPress = () => true;
-		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
 	}
 
 	componentDidMount() {
@@ -20,10 +20,12 @@ export default class Screen extends React.PureComponent {
 	}
 
 	componentWillUnmount() {
-		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+		this.onClearBindComponent();
 	}
 
-	componentDidAppear() {}
+	componentDidAppear() {
+		this.onFocus();
+	}
 
 	componentDidDisappear() {}
 

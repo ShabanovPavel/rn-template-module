@@ -1,24 +1,24 @@
 import React from 'react';
 
-import {pop, bindComponent} from '../../../core/navigation';
-import {Text, View, StatusBar, BackHandler} from '../../../library';
+import {Text, View, BindComponent} from '../../../library';
 
 export default class Screen extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		StatusBar.setDarkTranslucent();
-		bindComponent(this);
-		this.handleBackPress = () => pop(props.componentId);
-		BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+		BindComponent(this, {
+			isBack: true, // работает ли бек
+		});
 	}
 
 	componentDidMount() {}
 
 	componentWillUnmount() {
-		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+		this.onClearBindComponent();
 	}
 
-	componentDidAppear() {}
+	componentDidAppear() {
+		this.onFocus();
+	}
 
 	componentDidDisappear() {}
 

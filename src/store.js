@@ -27,7 +27,7 @@ let enhacers;
 if (__DEV__ === true) {
 	enhacers = applyMiddleware(thunk, createLogger({collapsed: true}));
 } else {
-	enhacers = applyMiddleware(thunk, createLogger({collapsed: true}));
+	enhacers = applyMiddleware(thunk);
 }
 
 export default function configureStore() {

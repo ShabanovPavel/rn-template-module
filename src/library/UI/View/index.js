@@ -11,7 +11,7 @@ import styles from './styles';
 class View extends React.PureComponent {
 	render() {
 		const {style} = this.props;
-		console.log(styles);
+		// console.log(styles);
 		return <RNView {...this.props} style={{...styles.view, ...style}} />;
 	}
 }
