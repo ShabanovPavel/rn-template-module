@@ -1,6 +1,7 @@
+import {NetInfo} from 'react-native';
 import * as Requests from './requests';
 import {getToken, getItem, setToken} from './storadge';
-import {Toast} from '../../library/Toast';
+import {Toast} from '../../library';
 
 let instance;
 
@@ -9,7 +10,13 @@ const FAILD_RESPONSE = {
 	error: 'Timeout wait error',
 };
 
-const isConected = true; // соединение есть или нет
+const FAILD_RESPONSE_NET = {
+	ok: false,
+	error: 'Timeout wait error',
+	result: 'Проверьте соединения с сетью',
+};
+
+let isConnected = false; // соединение есть или нет
 
 /**
  * @class RequestsManager
@@ -31,12 +38,14 @@ class RequestsManager {
 	}
 
 	constructor() {
+		this.callbackChangeConnectedNet = () => {};
 		this.bufferRequest = [];
 		this.currentNextId = 0;
 		this.isWait = false;
 		this.methodList = [
 			// лист методов которые не должны дублироваться
 			'login',
+			'changedOrders',
 		];
 		this.methodResponse = [
 			// лист методов которые должны получать ответ в любом случае
@@ -51,7 +60,7 @@ class RequestsManager {
 	 */
 	generationId() {
 		this.currentNextId += 1;
-		if (+this.currentNextId > 9 * 1000) this.currentNextId = 0;
+		if (+this.currentNextId > 9 * 1000) this.currentNextId = 1;
 		return this.currentNextId + this.bufferRequest.length;
 	}
 
@@ -62,16 +71,28 @@ class RequestsManager {
 	update() {
 		setInterval(() => {
 			this.bufferRequest.forEach(item => {
-				if (!item.isWorkRequest && isConected && !this.isWait) {
+				if (!item.isWorkRequest && isConnected && !this.isWait) {
 					item.method();
+					// this.stopRequest(item.id);
 					item.isWorkRequest = true;
 				}
-				if (item.timeWait <= item.timeWork || item.timeWait <= item.timeWaitWork) {
+				if (item.timeWait <= item.timeWork) {
 					this.stopRequest(item.id);
 					item.callback(FAILD_RESPONSE);
 				}
+				if (item.timeWait <= item.timeWaitWork) {
+					this.stopRequest(item.id);
+					item.callback(FAILD_RESPONSE_NET);
+				}
 				if (item.isWorkRequest) item.timeWork += 1;
 				if (!item.isWorkRequest) item.timeWaitWork += 1;
+				// console.log(item);
+			});
+			NetInfo.isConnected.fetch().then(isNet => {
+				if (isConnected !== isNet) {
+					isConnected = isNet;
+					this.callbackChangeConnectedNet(isNet);
+				}
 			});
 		}, 1000);
 	}
@@ -111,12 +132,9 @@ class RequestsManager {
 	 */
 	addRequest(timeWait, method, name, params, callback) {
 		if (this.filterRequest(name)) {
-			const request = {
-				id: this.generationId(),
-			};
-
+			const id = this.generationId();
 			this.bufferRequest.push({
-				id: request.id,
+				id,
 				name, // Имя запроcа
 				isWorkRequest: false,
 				timeWaitWork: 0, // время ожидания в очереди
@@ -125,7 +143,7 @@ class RequestsManager {
 				method: async () => {
 					try {
 						method({...params, token: await getToken()}, res => {
-							this.stopRequest(request.id);
+							this.stopRequest(id);
 							callback(res);
 						});
 					} catch (e) {
@@ -144,6 +162,7 @@ class RequestsManager {
 	 * @memberof RequestsManager
 	 */
 	stopRequest(id) {
+		// console.log('stop id',id)
 		this.bufferRequest = this.bufferRequest.filter(element => element.id !== id);
 	}
 
@@ -152,7 +171,6 @@ class RequestsManager {
 	 */
 	async refreshToken(success, error) {
 		const time = await getItem('timeRefresh');
-		console.log(time, Date.now());
 		if (time !== '' && +time < Date.now()) {
 			this.isWait = true;
 			const refreshToken = await getItem('refreshToken');
@@ -170,6 +188,17 @@ class RequestsManager {
 			success && success();
 		}
 	}
+
+	/** Устанавливает обратную связь на изменение состояния соединение */
+	listenerNetConnected(online, offline) {
+		this.callbackChangeConnectedNet = isConnect => {
+			if (isConnect) {
+				online();
+			} else {
+				offline();
+			}
+		};
+	}
 }
 
 const manager = RequestsManager.instance();
@@ -181,7 +210,7 @@ export default async (method, params, success, error) => {
 
 		console.log(`request.${method}.params: `, params);
 
-		manager.addRequest(35, Requests[method], method, params, async res => {
+		manager.addRequest(30, Requests[method], method, params, async res => {
 			// Настраивается в зависимости от клиента и типа сообщений
 			console.log(`response.${method}: `, res);
 			if (res.ok) {

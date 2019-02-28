@@ -10,7 +10,7 @@ export const setToken = async (token, refreshToken, time) => {
 	try {
 		console.log('token', token, 'refreshToken', refreshToken, 'time', time);
 		await AsyncStorage.setItem('token', token.toString());
-		await AsyncStorage.setItem('timeRefresh', (Date.now() + (+time - 10) * 1000).toString());
+		await AsyncStorage.setItem('timeRefresh', time.toString());
 		await AsyncStorage.setItem('refreshToken', refreshToken.toString());
 	} catch (error) {
 		// Error saving data

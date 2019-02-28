@@ -17,11 +17,11 @@ Toast.alert = ({buttons, title, message, cancelable}) => {
 };
 
 Toast.show = (message, type = 'SHORT') => {
-	SimpleToast.show(message, SimpleToast[type]);
+	SimpleToast.show(message, SimpleToast.SHORT);
 };
 
 Toast.showWithGravity = (message, type = 'SHORT', position = 'BOTTOM') => {
-	SimpleToast.showWithGravity(message, SimpleToast[type], SimpleToast[position]);
+	SimpleToast.showWithGravity(message, SimpleToast.SHORT, SimpleToast[position]);
 };
 
 Toast.requestError = (text = '') => {
