@@ -12,13 +12,9 @@ export default class Screen extends React.PureComponent {
 
 	componentDidMount() {}
 
-	componentWillUnmount() {
-		this.onClearBindComponent();
-	}
+	componentWillUnmount() {}
 
-	componentDidAppear() {
-		this.onFocus();
-	}
+	componentDidAppear() {}
 
 	componentDidDisappear() {}
 

@@ -10,7 +10,6 @@ export default class Screen extends React.PureComponent {
 		BindComponent(this, {
 			isLightStatus: true,
 		});
-
 		Theme.setBalck();
 		traking({analytic: AnalyticService});
 	}
@@ -18,16 +17,6 @@ export default class Screen extends React.PureComponent {
 	componentDidMount() {
 		SplashScreen();
 	}
-
-	componentWillUnmount() {
-		this.onClearBindComponent();
-	}
-
-	componentDidAppear() {
-		this.onFocus();
-	}
-
-	componentDidDisappear() {}
 
 	render() {
 		const {onOpenOnboarding, onOpenPlayground} = this.props;

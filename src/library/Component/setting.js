@@ -3,7 +3,6 @@ import {StatusBar, BackHandler} from '../index';
 
 export default (self, options) => {
 	bindComponent(self);
-	StatusBar.setDarkTranslucent();
 
 	const {isBack, isLightStatus} = options;
 
@@ -15,16 +14,30 @@ export default (self, options) => {
 		return true;
 	};
 
-	self.onFocus = () => {
+	self.componentDidAppear = () => {
+		self.__proto__.componentDidAppear && self.__proto__.componentDidAppear();
+		// Логика при установки фокуса на экрана
 		if (isLightStatus) {
 			StatusBar.setLigthTranslucent();
 		} else {
 			StatusBar.setDarkTranslucent();
 		}
 	};
+	self.componentDidDisappear = () => {
+		self.__proto__.componentDidDisappear && self.__proto__.componentDidDisappear();
+		// Логика при снятии фокуса с экрана
+	};
 
-	self.onClearBindComponent = () => {
+	self.componentDidMount = () => {
+		self.__proto__.componentDidMount && self.__proto__.componentDidMount();
+		// Логика при монтировании
+		BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+		StatusBar.setDarkTranslucent();
+	};
+
+	self.componentWillUnmount = () => {
+		self.__proto__.componentWillUnmount && self.__proto__.componentWillUnmount();
+		// Логика при размонтровании
 		BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
 	};
-	BackHandler.addEventListener('hardwareBackPress', handleBackPress);
 };
