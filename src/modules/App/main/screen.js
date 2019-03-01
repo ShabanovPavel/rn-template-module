@@ -1,8 +1,7 @@
 import React from 'react';
 import {AnalyticService} from '../../../core/analytic-service';
-
 import {traking} from '../../../core/navigation';
-import {Text, View, BackHandler, SplashScreen, Theme, BindComponent} from '../../../library';
+import {Text, View, SplashScreen, Theme, BindComponent} from '../../../library';
 
 export default class Screen extends React.PureComponent {
 	constructor(props) {
@@ -10,8 +9,9 @@ export default class Screen extends React.PureComponent {
 		BindComponent(this, {
 			isLightStatus: true,
 		});
-		Theme.setBalck();
 		traking({analytic: AnalyticService});
+
+		Theme.setBalck();
 	}
 
 	componentDidMount() {

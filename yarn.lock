@@ -1884,6 +1884,11 @@ eslint-plugin-prettier@^3.0.1:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
+eslint-plugin-react-native-wix@^1.1.531:
+  version "1.1.531"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-native-wix/-/eslint-plugin-react-native-wix-1.1.531.tgz#a5e205623173a42041ea1c45385e7a9770811b96"
+  integrity sha512-RqH1aZGqxCCBYXwttexkXgkZWAXa6moOvjniKJTnI+OOvPPK10SwOVB5JOf025AI4ivaeUsn1XQ/qvg7wOWepA==
+
 eslint-plugin-react@^7.12.4:
   version "7.12.4"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.12.4.tgz#b1ecf26479d61aee650da612e425c53a99f48c8c"
