@@ -1,8 +1,3 @@
-export const headers = new Headers({
-	'Content-Type': 'application/json',
-	accept: 'application/json',
-});
-
 export const Response = async (res, callback) => {
 	const json = await res.json();
 	if (json.success) {

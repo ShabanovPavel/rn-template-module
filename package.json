@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "updateApp": "yarn && cd ios && pod install && cd ..",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "android": "react-native run-android",
     "ios5": "react-native run-ios --simulator='iPhone 5s'",
     "iosX": "react-native run-ios --simulator='iPhone X'",
@@ -12,7 +13,8 @@
     "ios": "react-native run-ios",
     "build-android": "cd ./android && ./gradlew app:assembleRelease",
     "build-ios": "react-native run-ios --configuration Release",
-    "doc": "jsdoc -p -r ./src/ && jsdoc -r ./src/"
+    "doc": "jsdoc -p -r ./src/ && jsdoc -r ./src/",
+    "eslint": "yarn add eslint && yarn add prettier && yarn add eslint-config-airbnb && yarn add eslint-config-prettier && yarn add eslint-plugin-import && yarn add eslint-plugin-jsx-a11y && yarn add eslint-plugin-prettier && yarn add eslint-plugin-react"
   },
   "dependencies": {
     "final-form": "^4.11.1",
@@ -41,17 +43,21 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-native-wix": "^1.1.531",
     "jest": "24.1.0",
+    "jest-fetch-mock": "^2.1.2",
     "metro-react-native-babel-preset": "0.52.0",
-    "prettier": "^1.16.4",
+    "prettier": "^1.17.0",
     "react-test-renderer": "16.6.3"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "setupFiles": [
+      "./jest-setup.js"
+    ]
   }
 }
