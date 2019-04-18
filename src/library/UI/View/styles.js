@@ -1,8 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {Theme} from '../../Theme';
-
-export default StyleSheet.create({
+export default theme => ({
 	view: {
-		backgroundColor: Theme.color.WHITE,
+		backgroundColor: theme.color.WHITE,
 	},
 });

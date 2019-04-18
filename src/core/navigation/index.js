@@ -81,6 +81,10 @@ const setLastNameScreen = nameScreen => {
 	lastNameScreen = nameScreen;
 };
 
+/**
+ * Расширяет компонент виксовскими штуками
+ * @param {Object} self контекст
+ */
 const bindComponent = self => {
 	Navigation.events().bindComponent(self);
 };
@@ -102,7 +106,31 @@ const traking = service => {
 	const {analytic} = service;
 	Navigation.events().registerComponentDidAppearListener(({componentId, componentName}) => {
 		analytic.pushScreen(componentName);
+		lastNameScreen = analytic.getLastItem();
 	});
+};
+
+/**
+ * Показывает компонент как наложение
+ * @param {String} name имя/ид  компонента
+ * @param {Object} options  параметры
+ */
+const showOverlay = (name, options) => {
+	Navigation.showOverlay({
+		component: {
+			id: name,
+			name,
+			options,
+		},
+	});
+};
+
+/**
+ * Скрывает все наложения на экране по имени/id
+ * @param {String} name имя/ид  компонента
+ */
+const dismissOverlay = name => {
+	Navigation.dismissOverlay(name);
 };
 
 export {
@@ -117,4 +145,6 @@ export {
 	mergeOptions,
 	setLastNameScreen,
 	traking,
+	showOverlay,
+	dismissOverlay,
 };

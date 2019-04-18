@@ -2,8 +2,7 @@
  * @module Onboarding
  * @description Модуль рекламы приложения перед запуском
  * */
-import OnboardingScreen from './main';
-import onboardingReducer from './reducer';
+import Screen from './connect';
 
 export * from './action';
-export {onboardingReducer, OnboardingScreen};
+export {Screen as OnboardingScreen};

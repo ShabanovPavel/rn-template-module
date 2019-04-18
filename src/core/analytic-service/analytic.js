@@ -37,6 +37,17 @@ export default class AnalyticService {
 	}
 
 	/**
+	 * Возвращает последний занесенный элемент
+	 *
+	 * @returns {String} имя сцены
+	 * @memberof AnalyticService
+	 * @public
+	 */
+	getLastItem() {
+		return this.arrayScreen[this.arrayScreen.length - 1];
+	}
+
+	/**
 	 * Выгружает данные о сценах
 	 * @returns {Array.String}  массив имен сцен
 	 * @memberof AnalyticService

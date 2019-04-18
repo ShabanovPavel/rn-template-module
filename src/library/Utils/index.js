@@ -1,0 +1,149 @@
+/** @module Utils */
+import moment from 'moment';
+import 'moment/locale/ru';
+import {I} from '../I18n';
+
+moment.locale('ru');
+
+/**
+ * Сон в асинхронной функции
+ * @param {Number} ms количество милисекунд
+ * @memberof module:Utils
+ */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/**
+ * Преобразует объект в хэш
+ * @param {Object} object
+ * @memberof module:Utils
+ */
+const objectToHash = object => {
+	const hash = {};
+	Object.keys(object).forEach(key => {
+		hash[key] = JSON.stringify(object[key]);
+	});
+	return hash;
+};
+
+/**
+ * Преобразует массив в объект
+ * @param {Array} array массив объектов
+ * @param {String} key поле по которому присваимват ь ключи
+ * @param {*} initial
+ * @memberof module:Utils
+ */
+const arrayToMap = (array, key, initial = {}) => {
+	return array.reduce((prev, item) => {
+		const o = prev;
+		const i = item[key];
+		o[i] = item;
+		return o;
+	}, initial);
+};
+
+/**
+ * Преобразует объект в массив
+ * @param {Object} object
+ * @memberof module:Utils
+ */
+const objectToArray = object => Object.keys(object || {}).map(key => ({...object[key], id: key}));
+
+/**
+ * Фрматирует число  расставляя пробелы
+ * @param {String} str входное число
+ * @memberof module:Utils
+ */
+const formatNumer = str => str.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+
+/**
+ * Округление числа до заданной точности и форматируем число, добавляем пробелы между разрядами
+ * @param {String|Number} numb число которое необходимо отформатировать
+ * @param {String|Number} eps точнось
+ * @returns {String} отформатированное число
+ * @memberof module:Utils
+ */
+const rounding = (numb, eps = 1) => {
+	if (numb !== undefined) {
+		let n = '';
+		if (typeof numb === 'number') {
+			n = numb;
+		} else {
+			n = +numb.split(' ').join('');
+		}
+		let e;
+		if (typeof eps === 'number') {
+			e = eps;
+		} else {
+			e = +eps.split(' ').join('');
+		}
+		const res = Math.round(n / e, 0) * e;
+		const epL = e.toString().length;
+		const needL = e < 1 ? epL - 2 : 0;
+		const r = (needL > 0 ? res.toFixed(needL) : res.toFixed()).split('.');
+		return `${formatNumer(r[0])}${r[1] ? `.${r[1]}` : ''}`;
+	}
+	return '0';
+};
+
+/**
+ * Вычисление ближайшей цели
+ * @param {Number} money текущее число
+ * @memberof module:Utils
+ */
+const getNextMoney = money => {
+	let res = '';
+	if (money && typeof money === 'number') {
+		const c = Math.round(+money, 0).toString();
+		if (+c[0] >= 5) {
+			res += '10';
+		} else {
+			res += '5';
+		}
+		for (let i = 1; i < c.length; i += 1) res += '0';
+	} else {
+		res = '0';
+	}
+	return +res;
+};
+
+/**
+ * Форматирует дату
+ * @param {Date} date дата
+ * @memberof module:Utils
+ */
+const getDate = date => {
+	const dateNow = new Date();
+	const dateInput = new Date(date);
+	const day = dateInput.getDate();
+	const month = dateInput.getMonth();
+	const year = dateInput.getFullYear();
+
+	if (dateNow.getFullYear() === year && dateNow.getMonth() === month && dateNow.getDate() === day) {
+		return I.text('Сегодня');
+	}
+	return moment(dateInput).format('DD MMM YYYY');
+};
+
+/**
+ * Вернуть первый ключ в объекте
+ * @param {Object} obj из которого надо вернуть
+ * @memberof module:Utils
+ */
+const getFirstKey = obj => {
+	const arr = Object.keys(obj);
+	if (arr.length > 0) {
+		return arr[0];
+	}
+	return undefined;
+};
+
+export const Utils = {
+	arrayToMap,
+	objectToHash,
+	objectToArray,
+	getFirstKey,
+	getDate,
+	sleep,
+	rounding,
+	getNextMoney,
+};

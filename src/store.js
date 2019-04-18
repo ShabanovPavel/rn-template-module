@@ -5,12 +5,12 @@ import thunk from 'redux-thunk';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 
-import {appReducer, onboardingReducer} from './modules';
+import {app} from './core/reducers';
 import nav from './reducer';
+import Otions from './options';
 
 const rootReducer = combineReducers({
-	onboarding: onboardingReducer,
-	app: appReducer,
+	app,
 	nav,
 });
 
@@ -24,11 +24,15 @@ const persistConfig = {
 let enhacers;
 
 // eslint-disable-next-line
-if (__DEV__ === true) {
+// if (__DEV__ === true) {
+if (Otions.isLogger) {
 	enhacers = applyMiddleware(thunk, createLogger({collapsed: true}));
 } else {
 	enhacers = applyMiddleware(thunk);
 }
+// } else {
+// 	enhacers = applyMiddleware(thunk);
+// }
 
 export default function configureStore() {
 	const store = createStore(persistReducer(persistConfig, rootReducer), undefined, enhacers);
