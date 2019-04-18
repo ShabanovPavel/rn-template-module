@@ -1,21 +1,29 @@
-import {ColorDefault, ColorBlack} from './color';
+import color from './color';
+import view from './view';
+import text from './text';
+import simple from './simple';
 
-function Theme() {}
-
-Theme.color = {
-	BLUE: '#1B2ECC',
-	BLACK: 'rgb(51, 51, 51)',
-	WHITE: 'rgb(255,255,255)',
-	GRAY_TEXT_BAR: '#808080',
-	GRAY_ELEMENT_BAR: '#cccccccc',
+let type;
+let theme = {
+	color: color(() => type),
+	simple,
+	text,
+	view,
 };
 
-Theme.setDefault = () => {
-	Theme.color = {...Theme.color, ...ColorDefault};
+const setTheme = typeTheme => {
+	type = typeTheme;
+	theme = {
+		color: color(() => type),
+		simple,
+		text,
+		view,
+	};
 };
 
-Theme.setBalck = () => {
-	Theme.color = {...Theme.color, ...ColorBlack};
-};
+export const createStyles = creator => creator(theme);
 
-export {Theme};
+export const Theme = {
+	setTheme,
+	createStyles,
+};

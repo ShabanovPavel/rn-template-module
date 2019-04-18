@@ -4,7 +4,7 @@ export const settingsDefault = {
 	},
 	statusBar: {
 		backgroundColor: 'rgba(255,255,255,0)',
-		style: 'dark',
+		style: 'light',
 	},
 	topBar: {
 		visible: false,

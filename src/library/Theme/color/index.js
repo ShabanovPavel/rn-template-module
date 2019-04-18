@@ -1,17 +1,14 @@
-const ColorDefault = {
-	BLUE: '#1B2ECC',
-	BLACK: 'rgb(51, 51, 51)',
-	WHITE: 'rgb(255,255,255)',
-	GRAY_TEXT_BAR: '#808080',
-	GRAY_ELEMENT_BAR: '#cccccccc',
-};
+import Default from './default';
+import Black from './black';
 
-const ColorBlack = {
-	BLUE: '#000000',
-	BLACK: 'rgb(51, 51, 51)',
-	WHITE: 'rgb(0,0,0)',
-	GRAY_TEXT_BAR: '#808080',
-	GRAY_ELEMENT_BAR: '#cccccccc',
+export default type => {
+	const current = type();
+	switch (current) {
+		case 'black': {
+			return {...Default, ...Black};
+		}
+		default: {
+			return Default;
+		}
+	}
 };
-
-export {ColorDefault, ColorBlack};

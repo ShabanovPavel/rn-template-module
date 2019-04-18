@@ -1,9 +1,6 @@
-import {StyleSheet} from 'react-native';
-import {Theme} from '../../Theme';
-
-export default StyleSheet.create({
+export default theme => ({
 	text: {
 		fontSize: 16,
-		color: Theme.color.BLACK,
+		color: theme.color.BLACK,
 	},
 });

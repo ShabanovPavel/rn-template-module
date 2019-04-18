@@ -16,11 +16,11 @@ Toast.alert = ({buttons, title, message, cancelable}) => {
 	});
 };
 
-Toast.show = (message, type = 'SHORT') => {
+Toast.short = message => {
 	SimpleToast.show(message, SimpleToast.SHORT);
 };
 
-Toast.showWithGravity = (message, type = 'SHORT', position = 'BOTTOM') => {
+Toast.showWithGravity = (message, position = 'BOTTOM') => {
 	SimpleToast.showWithGravity(message, SimpleToast.SHORT, SimpleToast[position]);
 };
 
@@ -37,6 +37,35 @@ Toast.requestError = (text = '') => {
 		],
 		cancelable: true,
 	});
+};
+
+Toast.requestWarning = (text = '') => {
+	const message = text === '' ? 'Что-то пошло не так' : text;
+	Toast.alert({
+		title: 'Предупреждение',
+		message,
+		buttons: [
+			{
+				text: 'OK',
+				onAction: () => {},
+			},
+		],
+		cancelable: true,
+	});
+};
+
+/**
+ * Отображение собщения
+ * @param {String} text сообщение
+ * @param {Boolean} isShort флаг вывода тоста иначе алерт
+ */
+Toast.show = (text = '', isShort = true) => {
+	const message = text === '' ? 'Что-то пошло не так' : text;
+	if (isShort) {
+		Toast.short(message);
+	} else {
+		Toast.requestError(message);
+	}
 };
 
 export {Toast};

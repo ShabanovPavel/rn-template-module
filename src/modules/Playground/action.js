@@ -1,4 +1,8 @@
-/**  @module Playground/Actions  */
+/**
+ * @module Playground/Actions
+ * @description Типы событий этого модуля. Каждое событие с *SEND* имеет два типа событий состояния оканчивающихся на SUCCESS и ERROR
+ * @private
+ */
 
-/** Закрыть рекламу */
-export const PLAYGROUND_CLOSE = 'Playground/Close';
+/** Открыть рекламу */
+export const PLAYGROUND_OPEN_ONBOARDING = 'Playground/OpenOnboarding';

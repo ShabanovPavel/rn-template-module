@@ -1,3 +1,4 @@
-import BindComponent from './setting';
+import BindComponent from './full';
+import BindSimple from './simple';
 
-export {BindComponent};
+export {BindComponent, BindSimple};

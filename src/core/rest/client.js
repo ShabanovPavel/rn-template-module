@@ -1,7 +1,9 @@
 import {NetInfo} from 'react-native';
 import * as Requests from './requests';
-import {getToken, getItem, setToken} from './storadge';
+import {getItem, setToken} from './storadge';
 import {Toast} from '../../library';
+import Fetch from './fetch';
+import Options from '../../options';
 
 let instance;
 
@@ -16,11 +18,28 @@ const FAILD_RESPONSE_NET = {
 	result: 'Проверьте соединения с сетью',
 };
 
+/**
+ * Токены для запросов
+ * @memberof class:RequestsManager
+ */
+const getTokens = async () => ({
+	token: await getItem('token'),
+});
+
+/**
+ * Инструменты для запросов
+ * @memberof class:RequestsManager
+ */
+const getTools = async () => ({
+	Fetch,
+});
+
 let isConnected = false; // соединение есть или нет
 
 /**
  * @class RequestsManager
  * @classdesc Выполняет запросы к серверу
+ * @private
  */
 class RequestsManager {
 	/**
@@ -71,15 +90,23 @@ class RequestsManager {
 	update() {
 		setInterval(() => {
 			this.bufferRequest.forEach(item => {
+				NetInfo.isConnected.fetch().then(isNet => {
+					if (isConnected !== isNet) {
+						isConnected = isNet;
+						this.callbackChangeConnectedNet(isNet);
+					}
+				});
 				if (!item.isWorkRequest && isConnected && !this.isWait) {
 					item.method();
 					// this.stopRequest(item.id);
 					item.isWorkRequest = true;
 				}
-				if (item.timeWait <= item.timeWork) {
+				// Время ожидания ответа
+				if (item.timeWait <= item.timeWork + item.timeWaitWork) {
 					this.stopRequest(item.id);
 					item.callback(FAILD_RESPONSE);
 				}
+				// Время ожидания начала запроса
 				if (item.timeWait <= item.timeWaitWork) {
 					this.stopRequest(item.id);
 					item.callback(FAILD_RESPONSE_NET);
@@ -87,12 +114,6 @@ class RequestsManager {
 				if (item.isWorkRequest) item.timeWork += 1;
 				if (!item.isWorkRequest) item.timeWaitWork += 1;
 				// console.log(item);
-			});
-			NetInfo.isConnected.fetch().then(isNet => {
-				if (isConnected !== isNet) {
-					isConnected = isNet;
-					this.callbackChangeConnectedNet(isNet);
-				}
 			});
 		}, 1000);
 	}
@@ -132,6 +153,7 @@ class RequestsManager {
 	 */
 	addRequest(timeWait, method, name, params, callback) {
 		if (this.filterRequest(name)) {
+			const callBack = callback;
 			const id = this.generationId();
 			this.bufferRequest.push({
 				id,
@@ -142,15 +164,31 @@ class RequestsManager {
 				timeWait, // заданное время ожидания ответа, после которого запрос больше не ожидается и возвращается стандартный ответ
 				method: async () => {
 					try {
-						method({...params, token: await getToken()}, res => {
-							this.stopRequest(id);
-							callback(res);
-						});
+						// console.log('Token: ', await getToken());
+						method(
+							{
+								...params,
+								...(await getTokens()),
+								...(await getTools()),
+							},
+							res => {
+								try {
+									if (this.chekId(id)) {
+										this.stopRequest(id);
+										callBack(res);
+									}
+								} catch (e) {
+									this.stopRequest(id);
+									callBack({ok: false, result: 'Исключительная ситуация'});
+								}
+							},
+						);
 					} catch (e) {
-						console.log('error: ', e);
+						this.stopRequest(id);
+						callBack({ok: false, result: 'Исключительная ситуация'});
 					}
 				}, // Запрос
-				callback,
+				callback: callBack,
 			});
 		}
 	}
@@ -167,6 +205,13 @@ class RequestsManager {
 	}
 
 	/**
+	 * Проверяет содержится ли еще в очереди запрос
+	 */
+	chekId(id) {
+		return this.bufferRequest.some(el => el.id === id);
+	}
+
+	/**
 	 * Обновляет токен сессии
 	 */
 	async refreshToken(success, error) {
@@ -174,7 +219,7 @@ class RequestsManager {
 		if (time !== '' && +time < Date.now()) {
 			this.isWait = true;
 			const refreshToken = await getItem('refreshToken');
-			console.log('Refresh');
+			console.log('Refresh token');
 			Requests.refreshToken({token: refreshToken}, (t, r, tim) => {
 				if (tim === '') {
 					error && error();
@@ -210,7 +255,7 @@ export default async (method, params, success, error) => {
 
 		console.log(`request.${method}.params: `, params);
 
-		manager.addRequest(30, Requests[method], method, params, async res => {
+		manager.addRequest(Options.timeRequest, Requests[method], method, params, async res => {
 			// Настраивается в зависимости от клиента и типа сообщений
 			console.log(`response.${method}: `, res);
 			if (res.ok) {

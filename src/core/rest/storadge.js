@@ -1,10 +1,17 @@
+/**
+ * @module Rest/Storage
+ * @description хранилищи токенов
+ * @private
+ */
 import {AsyncStorage} from 'react-native';
 
 /**
  * Записывает токен
+ *
  * @param {String} token токен сессии
  * @param {String} refreshToken токен для рефреша
  * @param {String} time время через которое необходимо обновить
+ * @memberof module:Rest/Storage
  */
 export const setToken = async (token, refreshToken, time) => {
 	try {
@@ -18,6 +25,12 @@ export const setToken = async (token, refreshToken, time) => {
 	}
 };
 
+/**
+ *
+ * @param {*} key
+ * @param {*} value
+ * @memberof module:Rest/Storage
+ */
 export const setItem = async (key, value) => {
 	try {
 		await AsyncStorage.setItem(key, value.toString());
@@ -27,6 +40,11 @@ export const setItem = async (key, value) => {
 	}
 };
 
+/**
+ *
+ * @param {*} key
+ * @memberof module:Rest/Storage
+ */
 export const getItem = async key => {
 	try {
 		const value = await AsyncStorage.getItem(key);
@@ -43,6 +61,7 @@ export const getItem = async key => {
 /**
  * Возвращает токен
  * @return {String} token
+ * @memberof module:Rest/Storage
  */
 export const getToken = async () => {
 	try {

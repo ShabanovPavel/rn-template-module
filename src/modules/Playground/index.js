@@ -2,8 +2,7 @@
  * @module Playground
  * @description Модуль рекламы приложения перед запуском
  * */
-import PlaygroundScreen from './main';
-import playgroundReducer from './reducer';
+import Screen from './connect';
 
 export * from './action';
-export {playgroundReducer, PlaygroundScreen};
+export {Screen as PlaygroundScreen};
