@@ -134,6 +134,7 @@ const dismissOverlay = name => {
 };
 
 export {
+	Navigation,
 	registerComponent,
 	pop,
 	push,

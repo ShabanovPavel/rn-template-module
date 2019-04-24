@@ -14,7 +14,7 @@
     "build-android": "cd ./android && ./gradlew app:assembleRelease",
     "build-ios": "react-native run-ios --configuration Release",
     "doc": "jsdoc -p -r ./src/ && jsdoc -r ./src/",
-    "eslint": "yarn add eslint && yarn add prettier && yarn add eslint-config-airbnb && yarn add eslint-config-prettier && yarn add eslint-plugin-import && yarn add eslint-plugin-jsx-a11y && yarn add eslint-plugin-prettier && yarn add eslint-plugin-react"
+    "lint": "yarn add eslint && yarn add prettier && yarn add eslint-config-airbnb && yarn add eslint-config-prettier && yarn add eslint-plugin-import && yarn add eslint-plugin-jsx-a11y && yarn add eslint-plugin-prettier && yarn add eslint-plugin-react"
   },
   "dependencies": {
     "final-form": "^4.11.1",

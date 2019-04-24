@@ -1,15 +1,15 @@
-import {Navigation} from 'react-native-navigation';
-import {registerComponent} from './core/navigation';
+import {registerComponent, showOverlay, Navigation} from './core/navigation';
 import {OnboardingScreen, PlaygroundScreen} from './modules';
 import {AppScreen} from './core/app';
-import {OfflineScreen, FabScreen} from './simple';
+import {Offline, Fab, Splash} from './simple';
 import {settingsDefault, rootLoadApp} from './routes';
 
 /** Инициализация модулей */
 function initModules() {
 	// простые компоненты
-	registerComponent('fab', FabScreen);
-	registerComponent('offline', OfflineScreen);
+	registerComponent('splash', Splash); // Заставка
+	registerComponent('fab', Fab); // фаб меню
+	registerComponent('offline', Offline); // планка оффлайн режима
 	// умные компоненты
 	registerComponent('playground', PlaygroundScreen);
 	registerComponent('onboarding', OnboardingScreen);

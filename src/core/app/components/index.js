@@ -2,7 +2,7 @@ import React from 'react';
 import {AnalyticService} from '../../analytic-service';
 import {traking} from '../../navigation';
 import Styles from './styles';
-import {Text, View, SplashScreen, BindComponent, Button, Spacer, I} from '../../../library';
+import {Text, View, BindComponent, Button, Spacer, I} from '../../../library';
 
 let theme = '';
 export default class Screen extends React.PureComponent {
@@ -19,7 +19,6 @@ export default class Screen extends React.PureComponent {
 		const {props} = this;
 		const {onInit} = props;
 		onInit();
-		SplashScreen();
 	}
 
 	render() {

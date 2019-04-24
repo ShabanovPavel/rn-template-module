@@ -57,22 +57,3 @@ export const getItem = async key => {
 		return '';
 	}
 };
-
-/**
- * Возвращает токен
- * @return {String} token
- * @memberof module:Rest/Storage
- */
-export const getToken = async () => {
-	try {
-		const token = await AsyncStorage.getItem('token');
-
-		if (token !== null) {
-			return token;
-		}
-		return '';
-	} catch (error) {
-		console.log('DO NOT GIVE DATA IN PRIVATE STORAGE');
-		return '';
-	}
-};

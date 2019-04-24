@@ -1,8 +1,13 @@
-import {push, pop} from './core/navigation';
-import {ONBOARDING_CLOSE, PLAYGROUND_CLOSE, PLAYGROUND_OPEN_ONBOARDING} from './modules';
-import {APP_OPEN_PLAYGROUND, APP_OPEN_ONBOARDING, APP_INIT} from './core/app';
+import {push} from './core/navigation';
+import {PLAYGROUND_OPEN_ONBOARDING} from './modules';
+import {APP_OPEN_PLAYGROUND, APP_OPEN_ONBOARDING} from './core/app';
 
-export default function nav(state = {}, action = {}) {
+export default function nav(
+	state = {
+		isLoadPersistStore: false,
+	},
+	action = {},
+) {
 	let nextState;
 	switch (action.type) {
 		//  Playground
@@ -18,10 +23,8 @@ export default function nav(state = {}, action = {}) {
 			push('initApp', 'onboarding');
 			break;
 
-		// App
-		case APP_INIT:
-			// TODO - launch default app
-			break;
+		case 'persist/REHYDRATE':
+			return {...state, isLoadPersistStore: true};
 		default:
 			nextState = state;
 			break;

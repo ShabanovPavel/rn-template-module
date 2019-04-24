@@ -75,8 +75,8 @@ export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, s
 		// console.log('componentDidAppear', self);
 		// Фокусировка экрана
 		onFocusedScreen !== undefined
-			? onFocusedScreen(true)
-			: self.props.onFocusedScreen && self.props.onFocusedScreen(true);
+			? onFocusedScreen({status: true, nameScreen})
+			: self.props.onFocusedScreen && self.props.onFocusedScreen({status: true, nameScreen});
 
 		self.props = {...self.props, ...propsWix};
 	};
@@ -87,8 +87,8 @@ export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, s
 		// Фокусировка экрана
 
 		onFocusedScreen !== undefined
-			? onFocusedScreen(false)
-			: self.props.onFocusedScreen && self.props.onFocusedScreen(false);
+			? onFocusedScreen({status: false, nameScreen})
+			: self.props.onFocusedScreen && self.props.onFocusedScreen({status: false, nameScreen});
 
 		// Прокидывание пропсы
 		propsWix = {};

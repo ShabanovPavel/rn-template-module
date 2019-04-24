@@ -1,15 +1,15 @@
 import React from 'react';
 import {View, Text, Theme} from '../../library';
 
-export const Offline = () => (
+export const Splash = () => (
 	<View
 		style={Theme.createStyles(theme => ({
-			paddingTop: 50,
+			flex: 1,
 			backgroundColor: 'red',
 			alignItems: 'center',
 			justifyContent: 'center',
 		}))}
 	>
-		<Text>Offline </Text>
+		<Text>SplashScreen </Text>
 	</View>
 );

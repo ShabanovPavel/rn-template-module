@@ -1,7 +1,7 @@
 import {NetInfo} from 'react-native';
 import * as Requests from './requests';
 import {getItem, setToken} from './storadge';
-import {Toast} from '../../library';
+import {Toast, Log} from '../../library';
 import Fetch from './fetch';
 import Options from '../../options';
 
@@ -34,7 +34,7 @@ const getTools = async () => ({
 	Fetch,
 });
 
-let isConnected = false; // соединение есть или нет
+let isConnected = true; // соединение есть или нет
 
 /**
  * @class RequestsManager
@@ -88,14 +88,14 @@ class RequestsManager {
 	 * @memberof RequestsManager
 	 */
 	update() {
-		setInterval(() => {
+		setTimeout(() => {
+			NetInfo.isConnected.fetch().then(isNet => {
+				if (isConnected !== isNet) {
+					isConnected = isNet;
+					this.callbackChangeConnectedNet(isNet);
+				}
+			});
 			this.bufferRequest.forEach(item => {
-				NetInfo.isConnected.fetch().then(isNet => {
-					if (isConnected !== isNet) {
-						isConnected = isNet;
-						this.callbackChangeConnectedNet(isNet);
-					}
-				});
 				if (!item.isWorkRequest && isConnected && !this.isWait) {
 					item.method();
 					// this.stopRequest(item.id);
@@ -115,6 +115,7 @@ class RequestsManager {
 				if (!item.isWorkRequest) item.timeWaitWork += 1;
 				// console.log(item);
 			});
+			setTimeout(() => this.update(), 1000);
 		}, 1000);
 	}
 
@@ -164,7 +165,6 @@ class RequestsManager {
 				timeWait, // заданное время ожидания ответа, после которого запрос больше не ожидается и возвращается стандартный ответ
 				method: async () => {
 					try {
-						// console.log('Token: ', await getToken());
 						method(
 							{
 								...params,
@@ -219,7 +219,7 @@ class RequestsManager {
 		if (time !== '' && +time < Date.now()) {
 			this.isWait = true;
 			const refreshToken = await getItem('refreshToken');
-			console.log('Refresh token');
+			Log('Refresh token');
 			Requests.refreshToken({token: refreshToken}, (t, r, tim) => {
 				if (tim === '') {
 					error && error();
@@ -253,11 +253,11 @@ export default async (method, params, success, error) => {
 	if (Requests[method]) {
 		await manager.refreshToken(null, error);
 
-		console.log(`request.${method}.params: `, params);
+		Log(`request.${method}.params: `, params);
 
 		manager.addRequest(Options.timeRequest, Requests[method], method, params, async res => {
 			// Настраивается в зависимости от клиента и типа сообщений
-			console.log(`response.${method}: `, res);
+			Log(`response.${method}: `, res);
 			if (res.ok) {
 				success(res.result);
 			} else {
@@ -266,6 +266,6 @@ export default async (method, params, success, error) => {
 			}
 		});
 	} else {
-		console.log(`ERROR: REQUEST ${method} NOT FOUND !!!`);
+		Log(`ERROR: REQUEST ${method} NOT FOUND !!!`);
 	}
 };

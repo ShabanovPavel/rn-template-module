@@ -3,7 +3,7 @@
  * @description логика модуля
  * @private
  * */
-import {PLAYGROUND_CLOSE, PLAYGROUND_OPEN_ONBOARDING} from './action';
+import {PLAYGROUND_OPEN_ONBOARDING} from './action';
 
 /**
  *  Зыкрывает модуль эксперементов

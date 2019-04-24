@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Theme, BindSimple} from '../../library';
 
-export class FabScreen extends React.Component {
+export class Fab extends React.Component {
 	constructor(props) {
 		super(props);
 		BindSimple(this, {});

@@ -13,7 +13,7 @@ const onLinking = url => {
 				return Linking.openURL(url);
 			}
 		})
-		.catch(err => console.log('onLinking error'));
+		.catch(err => console.log('onLinking error:', err));
 };
 
 export const Links = {

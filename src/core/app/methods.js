@@ -6,12 +6,10 @@
 import {APP_INIT, APP_OPEN_ONBOARDING, APP_OPEN_PLAYGROUND, APP_UPDATE_NET_CONNECT} from './action';
 import {Request, ManagerRequest} from '../rest';
 import {showOverlay, dismissOverlay} from '../navigation';
-import {Theme} from '../../library';
+import {Theme, SplashScreen, Log} from '../../library';
 
-/**
- *  Выполняет проверку состояний на запускаемый сценарий приложения
- */
-export const onInit = () => dispatch => {
+/** Запускается сценарий */
+const loadApp = () => dispatch => {
 	// Тема
 	Theme.setTheme();
 	// Поддерживает статус соединения постоянно
@@ -29,19 +27,34 @@ export const onInit = () => dispatch => {
 			});
 		},
 	);
-	dispatch({type: APP_INIT});
+	dispatch({type: APP_INIT}); // Прила инициализирована
+
+	SplashScreen(); // отключаем нативный сплэш
 
 	// Пример запроса
 	Request(
 		'login', // имя метода
 		{}, // параметры
 		res => {
-			console.log('success', res);
+			Log('success', res);
 		},
 		res => {
-			console.log('error', res); // или любая другая логика на отрицательный результат
+			Log('error', res); // или любая другая логика на отрицательный результат
 		},
 	);
+};
+
+/**
+ *  Выполняет ожидание прогрузки состояний хранилища
+ */
+export const onInit = () => (dispatch, getState) => {
+	const startID = setInterval(() => {
+		const {isLoadPersistStore} = getState().nav;
+		if (isLoadPersistStore) {
+			clearInterval(startID);
+			dispatch(loadApp());
+		}
+	}, 500);
 };
 
 /**

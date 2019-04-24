@@ -1,10 +1,12 @@
 export const Response = async (res, callback) => {
 	const json = await res.json();
+	let respon = {};
 	if (json.success) {
-		callback({ok: true, result: json});
+		respon = {ok: true, result: json};
 	} else {
-		callback({ok: false, result: `Code: ${json.statusCode} Des:${json.statusDescription}`});
+		respon = {ok: false, result: `Code: ${json.statusCode} Des:${json.statusDescription}`};
 	}
+	callback(respon);
 };
 
 export const formDataToString = formDataObject => {

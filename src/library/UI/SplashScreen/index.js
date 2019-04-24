@@ -6,16 +6,17 @@ const SplashScreen = () =>
 		ios: () => {
 			SplashScreenMod.close({
 				animationType: SplashScreenMod.animationType.fade,
-				duration: 850,
-				delay: 500,
+				duration: 500,
+				delay: 250,
 			});
 		},
-		android: () =>
+		android: () => {
 			SplashScreenMod.close({
 				animationType: SplashScreenMod.animationType.fade,
-				duration: 850,
-				delay: 500,
-			}),
+				duration: 500,
+				delay: 250,
+			});
+		},
 	})();
 
 export {SplashScreen};

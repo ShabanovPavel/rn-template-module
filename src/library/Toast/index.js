@@ -3,6 +3,9 @@ import SimpleToast from 'react-native-simple-toast';
 
 function Toast() {}
 
+/** Массив запросов */
+const PoolRequest = [];
+
 /**
  * @params buttons, title, message, cancelable
  */
@@ -24,19 +27,28 @@ Toast.showWithGravity = (message, position = 'BOTTOM') => {
 	SimpleToast.showWithGravity(message, SimpleToast.SHORT, SimpleToast[position]);
 };
 
-Toast.requestError = (text = '') => {
+Toast.requestError = (text = '', action = () => {}) => {
 	const message = text === '' ? 'Что-то пошло не так' : text;
-	Toast.alert({
-		title: 'Ошибка',
-		message,
-		buttons: [
-			{
-				text: 'OK',
-				onAction: () => {},
-			},
-		],
-		cancelable: true,
-	});
+	if (!PoolRequest.includes(message)) {
+		Toast.alert({
+			title: 'Ошибка',
+			message,
+			buttons: [
+				{
+					text: 'OK',
+					onAction: () => {
+						action();
+						const index = PoolRequest.indexOf(message);
+						setTimeout(() => {
+							PoolRequest.splice(index, 1);
+						}, 3 * 1000);
+					},
+				},
+			],
+			cancelable: true,
+		});
+		PoolRequest.push(message);
+	}
 };
 
 Toast.requestWarning = (text = '') => {
