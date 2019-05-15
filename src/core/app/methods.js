@@ -7,6 +7,7 @@ import {APP_INIT, APP_OPEN_ONBOARDING, APP_OPEN_PLAYGROUND, APP_UPDATE_NET_CONNE
 import {Request, ManagerRequest} from '../rest';
 import {showOverlay, dismissOverlay} from '../navigation';
 import {Theme, SplashScreen, Log} from '../../library';
+import Looper from '../looper';
 
 /** Запускается сценарий */
 const loadApp = () => dispatch => {
@@ -42,19 +43,30 @@ const loadApp = () => dispatch => {
 			Log('error', res); // или любая другая логика на отрицательный результат
 		},
 	);
+
+	const formDataToString = formDataObject => {
+		this.formDataString = '';
+		Object.keys(formDataObject).forEach(key => {
+			if (formDataObject[key] !== null)
+				this.formDataString += `&${key}=${encodeURIComponent(formDataObject[key])}`;
+		});
+		return this.formDataString.slice(1);
+	};
+	const amount = null;
+	console.log(formDataToString({f: 3, amount}));
 };
 
 /**
  *  Выполняет ожидание прогрузки состояний хранилища
  */
 export const onInit = () => (dispatch, getState) => {
-	const startID = setInterval(() => {
+	Looper.start('WaitPersist', () => {
 		const {isLoadPersistStore} = getState().nav;
 		if (isLoadPersistStore) {
-			clearInterval(startID);
+			Looper.stop('WaitPersist');
 			dispatch(loadApp());
 		}
-	}, 500);
+	});
 };
 
 /**
@@ -65,7 +77,7 @@ export const onOpenOnboarding = () => dispatch => {
 };
 
 /**
- * Открывает модуль эксперементовы
+ * Открывает модуль эксперементов
  */
 export const onOpenPlayground = () => dispatch => {
 	dispatch({type: APP_OPEN_PLAYGROUND});

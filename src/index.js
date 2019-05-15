@@ -1,13 +1,12 @@
 import {registerComponent, showOverlay, Navigation} from './core/navigation';
 import {OnboardingScreen, PlaygroundScreen} from './modules';
 import {AppScreen} from './core/app';
-import {Offline, Fab, Splash} from './simple';
+import {Offline, Fab} from './simple';
 import {settingsDefault, rootLoadApp} from './routes';
 
 /** Инициализация модулей */
 function initModules() {
 	// простые компоненты
-	registerComponent('splash', Splash); // Заставка
 	registerComponent('fab', Fab); // фаб меню
 	registerComponent('offline', Offline); // планка оффлайн режима
 	// умные компоненты

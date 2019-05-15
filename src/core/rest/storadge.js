@@ -26,9 +26,9 @@ export const setToken = async (token, refreshToken, time) => {
 };
 
 /**
- *
- * @param {*} key
- * @param {*} value
+ * Созраняет информацию
+ * @param {String} key ключ
+ * @param {*} value значение
  * @memberof module:Rest/Storage
  */
 export const setItem = async (key, value) => {
@@ -41,8 +41,8 @@ export const setItem = async (key, value) => {
 };
 
 /**
- *
- * @param {*} key
+ * Вытаскивает информацию из хранилища
+ * @param {String} key ключ
  * @memberof module:Rest/Storage
  */
 export const getItem = async key => {

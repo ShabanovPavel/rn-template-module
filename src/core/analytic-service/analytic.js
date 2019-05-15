@@ -32,7 +32,6 @@ export default class AnalyticService {
 		if (this.lastNameScreen !== nameScreen) {
 			this.arrayScreen.push(nameScreen);
 			this.lastNameScreen = nameScreen;
-			// console.log(this.arrayScreen);
 		}
 	}
 

@@ -12,7 +12,8 @@ export const Response = async (res, callback) => {
 export const formDataToString = formDataObject => {
 	this.formDataString = '';
 	Object.keys(formDataObject).forEach(key => {
-		this.formDataString += `&${key}=${encodeURIComponent(formDataObject[key])}`;
+		if (formDataObject[key] !== null || formDataObject[key] !== undefined)
+			this.formDataString += `&${key}=${encodeURIComponent(formDataObject[key])}`;
 	});
 	return this.formDataString.slice(1);
 };

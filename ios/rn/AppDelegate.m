@@ -9,8 +9,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "RCTSplashScreen.h" //import interface
-
+#import "RNSplashScreen.h"
 #import <ReactNativeNavigation/ReactNativeNavigation.h>
 
 @implementation AppDelegate
@@ -28,7 +27,7 @@
 #endif
   
   [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
-  
+  [RNSplashScreen show];
   
   return YES;
 }

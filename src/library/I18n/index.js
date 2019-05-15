@@ -17,7 +17,7 @@ I.text = (text = 'default') => getText(text);
 
 I.printNotFound = () => {
 	// какой либо запрос или просто вывод
-	console.log(db);
+	console.log('Not found localization', db);
 };
 
 export {I};

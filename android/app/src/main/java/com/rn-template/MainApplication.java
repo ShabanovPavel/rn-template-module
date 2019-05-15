@@ -1,7 +1,6 @@
 package com.rn;
 
 import com.reactcommunity.rnlanguages.RNLanguagesPackage;
-import com.reactnativecomponent.splashscreen.RCTSplashScreenPackage;
 import com.imagepicker.ImagePickerPackage; 
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -9,6 +8,8 @@ import com.facebook.react.ReactPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
+
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +38,8 @@ public class MainApplication extends NavigationApplication {
         return Arrays.<ReactPackage>asList(
             // eg. new VectorIconsPackage()
             new RNLanguagesPackage(),
-            new ImagePickerPackage(), 
-            new RCTSplashScreenPackage()
+            new ImagePickerPackage(),
+            new SplashScreenReactPackage()
         );
     }
   

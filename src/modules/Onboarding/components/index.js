@@ -22,9 +22,11 @@ export default class Screen extends React.PureComponent {
 
 	render() {
 		const {styles, props, onBack} = this;
+		const {onBack2} = props;
 		return (
 			<View style={styles.mainContainer}>
 				<Button action={onBack} text='Hello, I am Onboarding' />
+				<Button action={onBack2} text='Back 2 Screen' />
 			</View>
 		);
 	}

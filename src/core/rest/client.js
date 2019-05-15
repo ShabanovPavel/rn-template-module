@@ -58,7 +58,7 @@ class RequestsManager {
 
 	constructor() {
 		this.callbackChangeConnectedNet = () => {};
-		this.bufferRequest = [];
+		this.bufferRequest = {};
 		this.currentNextId = 0;
 		this.isWait = false;
 		this.methodList = [
@@ -80,7 +80,7 @@ class RequestsManager {
 	generationId() {
 		this.currentNextId += 1;
 		if (+this.currentNextId > 9 * 1000) this.currentNextId = 1;
-		return this.currentNextId + this.bufferRequest.length;
+		return this.currentNextId;
 	}
 
 	/**
@@ -88,14 +88,14 @@ class RequestsManager {
 	 * @memberof RequestsManager
 	 */
 	update() {
-		setTimeout(() => {
+		setInterval(() => {
 			NetInfo.isConnected.fetch().then(isNet => {
 				if (isConnected !== isNet) {
 					isConnected = isNet;
 					this.callbackChangeConnectedNet(isNet);
 				}
 			});
-			this.bufferRequest.forEach(item => {
+			Object.values(this.bufferRequest).forEach(item => {
 				if (!item.isWorkRequest && isConnected && !this.isWait) {
 					item.method();
 					// this.stopRequest(item.id);
@@ -115,7 +115,6 @@ class RequestsManager {
 				if (!item.isWorkRequest) item.timeWaitWork += 1;
 				// console.log(item);
 			});
-			setTimeout(() => this.update(), 1000);
 		}, 1000);
 	}
 
@@ -127,7 +126,7 @@ class RequestsManager {
 	 */
 	filterRequest(nameMethod) {
 		if (this.methodList.includes(nameMethod)) {
-			return !this.bufferRequest.some(item => item.name === nameMethod);
+			return !Object.values(this.bufferRequest).some(item => item.name === nameMethod);
 		}
 		return true;
 	}
@@ -156,7 +155,7 @@ class RequestsManager {
 		if (this.filterRequest(name)) {
 			const callBack = callback;
 			const id = this.generationId();
-			this.bufferRequest.push({
+			this.bufferRequest[id] = {
 				id,
 				name, // Имя запроcа
 				isWorkRequest: false,
@@ -189,7 +188,7 @@ class RequestsManager {
 					}
 				}, // Запрос
 				callback: callBack,
-			});
+			};
 		}
 	}
 
@@ -201,14 +200,14 @@ class RequestsManager {
 	 */
 	stopRequest(id) {
 		// console.log('stop id',id)
-		this.bufferRequest = this.bufferRequest.filter(element => element.id !== id);
+		delete this.bufferRequest[id];
 	}
 
 	/**
 	 * Проверяет содержится ли еще в очереди запрос
 	 */
 	chekId(id) {
-		return this.bufferRequest.some(el => el.id === id);
+		return !!this.bufferRequest[id];
 	}
 
 	/**
@@ -259,10 +258,10 @@ export default async (method, params, success, error) => {
 			// Настраивается в зависимости от клиента и типа сообщений
 			Log(`response.${method}: `, res);
 			if (res.ok) {
-				success(res.result);
+				success && success(res.result);
 			} else {
-				error(res.result);
 				Toast.requestError(res.result);
+				error && error(res.result);
 			}
 		});
 	} else {

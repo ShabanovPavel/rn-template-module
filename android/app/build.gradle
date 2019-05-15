@@ -163,8 +163,8 @@ configurations.all {
 
 
 dependencies {
+    implementation project(':react-native-splash-screen')
     implementation project(':react-native-image-picker')
-    implementation project(':react-native-smart-splash-screen')
     implementation project(':react-native-languages')
 
 

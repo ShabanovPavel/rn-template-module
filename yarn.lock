@@ -5040,10 +5040,10 @@ react-native-languages@^3.0.2:
   resolved "https://registry.yarnpkg.com/react-native-languages/-/react-native-languages-3.0.2.tgz#c2c4c5050974fe4b50f7372051ca1f9824c1c778"
   integrity sha512-LGsTfixFM6hXDhcFJI6mrtrNBsGPSvXT9RtZQ0tlqmGFKmMyZW6eQgJ7kLw8lISD2FIGl4jJwY06EAJpbMsNxg==
 
-react-native-navigation@^2.17.0:
-  version "2.17.0"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.17.0.tgz#c9b9f98c7511adde02b0c1ca732bee94dc7c57fc"
-  integrity sha512-atZzyBnltJmWWvr+eURq58Vc1YtDq0ol1lwJ9sjae1S56Z6T8FqpfthYwmkzjBv6+PDlLj2q6Udeg8opFVLVpA==
+react-native-navigation@^2.18.5:
+  version "2.18.5"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.18.5.tgz#e4e89f2aa2b03b9569803e1a61a28a6683c3800a"
+  integrity sha512-NMOTHlfbL02Y1yK/IR44gNrwqs6lqrFEcPk/KG0JHbpD3xvltE946p1DZMWcxBOvjaccaHs5M3u1ywait5rdPA==
   dependencies:
     hoist-non-react-statics "3.x.x"
     lodash "4.17.x"
@@ -5056,10 +5056,10 @@ react-native-simple-toast@^0.0.8:
   resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.0.8.tgz#513f4add8d30e4c5109e536bfc6ea5825fea5d83"
   integrity sha512-qfhHsAtZuMV7llF74WjAHCjAQhfyDDRVrE9nmczCZSHZ5JRZ3XkqnZ8IyNnNUQMsGQodyV+0QEf5uPiWBICnUA==
 
-react-native-smart-splash-screen@^2.3.5:
-  version "2.3.5"
-  resolved "https://registry.yarnpkg.com/react-native-smart-splash-screen/-/react-native-smart-splash-screen-2.3.5.tgz#68a1e45bfd708678aa12e65f2ba997ac5c1292a0"
-  integrity sha512-6Sl9UKzYIQu1Yl5SgsQdV4E8hUr1xz3UN1fmuqxHs82KRS9VkXaxkFJG1AIcFQGkKc4W1jQnU/RlP5PO8vezVg==
+react-native-splash-screen@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.2.0.tgz#d47ec8557b1ba988ee3ea98d01463081b60fff45"
+  integrity sha512-Ls9qiNZzW/OLFoI25wfjjAcrf2DZ975hn2vr6U9gyuxi2nooVbzQeFoQS5vQcbCt9QX5NY8ASEEAtlLdIa6KVg==
 
 react-native@0.58.5:
   version "0.58.5"

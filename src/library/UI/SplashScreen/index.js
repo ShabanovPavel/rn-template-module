@@ -1,21 +1,13 @@
 import {Platform} from 'react-native';
-import SplashScreenMod from 'react-native-smart-splash-screen';
+import SplashScreenMod from 'react-native-splash-screen';
 
 const SplashScreen = () =>
 	Platform.select({
 		ios: () => {
-			SplashScreenMod.close({
-				animationType: SplashScreenMod.animationType.fade,
-				duration: 500,
-				delay: 250,
-			});
+			SplashScreenMod.hide();
 		},
 		android: () => {
-			SplashScreenMod.close({
-				animationType: SplashScreenMod.animationType.fade,
-				duration: 500,
-				delay: 250,
-			});
+			SplashScreenMod.hide();
 		},
 	})();
 

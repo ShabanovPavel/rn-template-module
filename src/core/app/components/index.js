@@ -5,6 +5,7 @@ import Styles from './styles';
 import {Text, View, BindComponent, Button, Spacer, I} from '../../../library';
 
 let theme = '';
+
 export default class Screen extends React.PureComponent {
 	constructor(props) {
 		super(props);
@@ -12,7 +13,7 @@ export default class Screen extends React.PureComponent {
 			styles: Styles,
 			statusBar: 'hide',
 		});
-		traking({analytic: AnalyticService});
+		traking(props.componentId, {analytic: AnalyticService});
 	}
 
 	componentDidMount() {

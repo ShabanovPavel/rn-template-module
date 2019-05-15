@@ -10,6 +10,8 @@ PODS:
     - React/Core (= 0.58.5)
   - react-native-image-picker (0.28.0):
     - React
+  - react-native-splash-screen (3.2.0):
+    - React
   - React/Core (0.58.5):
     - yoga (= 0.58.5.React)
   - React/CxxBridge (0.58.5):
@@ -62,7 +64,7 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - ReactNativeNavigation (2.17.0):
+  - ReactNativeNavigation (2.18.5):
     - React
   - RNLanguages (3.0.2):
     - React
@@ -73,6 +75,7 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
@@ -108,6 +111,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-splash-screen:
+    :path: "../node_modules/react-native-splash-screen"
   ReactNativeNavigation:
     :path: "../node_modules/react-native-navigation"
   RNLanguages:
@@ -122,10 +127,11 @@ SPEC CHECKSUMS:
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: 6cd5e6fcc3b6a52d2fb27a638f622139da710dff
   react-native-image-picker: e6e06d4315e3c85bad17e4b2002cd29f11d202c8
-  ReactNativeNavigation: f40739b34c4e5f67fa4a3e6556a47c14c3a65866
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
+  ReactNativeNavigation: 76542352a90b32cc339cadd8a8b020e9c8f3c757
   RNLanguages: 962e562af0d34ab1958d89bcfdb64fafc37c513e
   yoga: 0e0009ffb2544aeead64a1209f3d488d3849947b
 
-PODFILE CHECKSUM: f3bc0589f182f103b53fa65c5a88bb4b9001c143
+PODFILE CHECKSUM: 6f1c423a445cdfa219fde069fe971d3fd1f30bcc
 
 COCOAPODS: 1.6.0

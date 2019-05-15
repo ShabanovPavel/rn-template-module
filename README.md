@@ -54,8 +54,13 @@ Dummy pattern React Native + Redux
         - Отступ  
         - Сплэшскрин  
 
+5. **Добавлено в деве**
 
-5. **Необходимо добавить**   
+    new SplashScreen
+    update navigation
+    update client
+    
+6. **Необходимо добавить**   
 
     fabric  
     fastlane  

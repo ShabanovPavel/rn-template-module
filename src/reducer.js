@@ -1,5 +1,5 @@
-import {push} from './core/navigation';
-import {PLAYGROUND_OPEN_ONBOARDING} from './modules';
+import {push, popTo} from './core/navigation';
+import {PLAYGROUND_OPEN_ONBOARDING, ONBOARDING_BACK_2} from './modules';
 import {APP_OPEN_PLAYGROUND, APP_OPEN_ONBOARDING} from './core/app';
 
 export default function nav(
@@ -21,6 +21,9 @@ export default function nav(
 		// Onboarding
 		case APP_OPEN_ONBOARDING:
 			push('initApp', 'onboarding');
+			break;
+		case ONBOARDING_BACK_2:
+			popTo(2);
 			break;
 
 		case 'persist/REHYDRATE':

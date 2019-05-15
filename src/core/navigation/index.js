@@ -7,6 +7,8 @@ import configureStore from '../../store';
 const {store} = configureStore();
 
 let lastNameScreen = '';
+let stack = []; // для стэк навигации (орентировочный маршрут)
+
 /**
  * Переход вперед по стек навигации
  * @param {String} currentID имя компонента с которого делается переход
@@ -16,6 +18,7 @@ let lastNameScreen = '';
 const push = (currentID, nameScreen, options) => {
 	if (lastNameScreen !== nameScreen) {
 		lastNameScreen = nameScreen;
+		stack.push(nameScreen);
 		Navigation.push(currentID, {
 			component: {
 				id: nameScreen,
@@ -29,10 +32,12 @@ const push = (currentID, nameScreen, options) => {
 /**
  * Переход назад по стек навигаци
  * @param {String} currentID имя компонента с которого производится переход
+ * @param {Object} options настройки перехода см(док wix/react-native-navigation)
  */
-const pop = currentID => {
+const pop = (currentID, options) => {
 	lastNameScreen = '';
-	Navigation.pop(currentID);
+	stack.pop();
+	Navigation.pop(currentID, options);
 };
 
 /**
@@ -41,7 +46,27 @@ const pop = currentID => {
  */
 const popToRoot = currentID => {
 	lastNameScreen = '';
+	stack = [];
 	Navigation.popToRoot(currentID);
+};
+
+/**
+ * Переход назад по стек навигаци к определенному экрану
+ * @param {String|Number} currentID имя компонента до которого вернуться или количество компонентов назад
+ * @param {Object} options настройки перехода см(док wix/react-native-navigation)
+ */
+const popTo = (currentID = 1, options) => {
+	if (typeof currentID === 'number') {
+		for (let i = 0; i < currentID; i += 1) {
+			if (stack.length > 1) stack.pop();
+		}
+		const l = stack.length - 1;
+		lastNameScreen = stack[l];
+		Navigation.popTo(lastNameScreen, options);
+	} else {
+		lastNameScreen = currentID;
+		Navigation.popTo(currentID, options);
+	}
 };
 
 /**
@@ -100,10 +125,12 @@ function registerComponent(name, component) {
 
 /**
  * Отслеживает последовательность открытия экранов пользователем
+ * @param {String} root имя корня навигации
  * @param {Object} service сервисы для регистрации и отправки какой0либо информации
  */
-const traking = service => {
+const traking = (root, service) => {
 	const {analytic} = service;
+	stack.push(root);
 	Navigation.events().registerComponentDidAppearListener(({componentId, componentName}) => {
 		analytic.pushScreen(componentName);
 		lastNameScreen = analytic.getLastItem();
@@ -133,10 +160,17 @@ const dismissOverlay = name => {
 	Navigation.dismissOverlay(name);
 };
 
+/**
+ * Обернуть метод в функцию генератор собятия
+ * @param {Function} action функция которую необходимо обернуть
+ */
+const storeDispatch = action => store.dispatch(action);
+
 export {
 	Navigation,
 	registerComponent,
 	pop,
+	popTo,
 	push,
 	setRoot,
 	bindComponent,
@@ -148,4 +182,5 @@ export {
 	traking,
 	showOverlay,
 	dismissOverlay,
+	storeDispatch,
 };

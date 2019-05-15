@@ -24,7 +24,7 @@ export default class Looper {
 	}
 
 	run() {
-		setTimeout(() => {
+		setInterval(() => {
 			Object.values(this.buff).forEach(el => {
 				if (el.wait > 0) {
 					el.wait -= 1;
@@ -33,8 +33,6 @@ export default class Looper {
 					el.wait = el.interval;
 				}
 			});
-
-			setTimeout(() => this.update(), 1000);
 		}, 1000);
 	}
 }

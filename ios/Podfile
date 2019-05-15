@@ -22,7 +22,7 @@ target 'rn' do
     'RCTPushNotification',
     'RCTCameraRoll',
     'RCTBlob',
-    'RCTGeolocation',
+    'RCTGeolocation', 
     ]
     pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
     pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
@@ -35,6 +35,8 @@ target 'rn' do
   pod 'ReactNativeNavigation', :path => '../node_modules/react-native-navigation'
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
 end
 

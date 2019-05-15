@@ -2,12 +2,12 @@ package com.rn;
 
 
 import android.os.Bundle;
+import com.facebook.react.ReactActivity;
+import org.devio.rn.splashscreen.SplashScreen;
 import android.widget.ImageView;
 
 import com.imagepicker.permissions.OnImagePickerPermissionsCallback; // <- add this import
 import com.facebook.react.modules.core.PermissionListener; // <- add this import
-
-import com.reactnativecomponent.splashscreen.RCTSplashScreen;
 import com.reactnativenavigation.NavigationActivity;
 
 
@@ -33,8 +33,8 @@ public class MainActivity extends NavigationActivity implements OnImagePickerPer
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //RCTSplashScreen.openSplashScreen(this);   //open splashscreen
-        RCTSplashScreen.openSplashScreen(this, true, ImageView.ScaleType.CENTER_CROP);   //open splashscreen fullscreen
+        
+        SplashScreen.show(this);
         super.onCreate(savedInstanceState);
     }
 }

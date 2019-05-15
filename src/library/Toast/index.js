@@ -41,42 +41,61 @@ Toast.requestError = (text = '', action = () => {}) => {
 						const index = PoolRequest.indexOf(message);
 						setTimeout(() => {
 							PoolRequest.splice(index, 1);
-						}, 3 * 1000);
+						}, 2 * 1000);
 					},
 				},
 			],
 			cancelable: true,
 		});
 		PoolRequest.push(message);
+		const index = PoolRequest.indexOf(message);
+		setTimeout(() => {
+			PoolRequest.splice(index, 1);
+		}, 2 * 1000);
 	}
 };
 
-Toast.requestWarning = (text = '') => {
+Toast.requestAlert = (text = '', title, action = () => {}) => {
 	const message = text === '' ? 'Что-то пошло не так' : text;
-	Toast.alert({
-		title: 'Предупреждение',
-		message,
-		buttons: [
-			{
-				text: 'OK',
-				onAction: () => {},
-			},
-		],
-		cancelable: true,
-	});
+	if (!PoolRequest.includes(message)) {
+		Toast.alert({
+			title,
+			message,
+			buttons: [
+				{
+					text: 'OK',
+					onAction: () => {
+						action();
+						const index = PoolRequest.indexOf(message);
+						setTimeout(() => {
+							PoolRequest.splice(index, 1);
+						}, 2 * 1000);
+					},
+				},
+			],
+			cancelable: true,
+		});
+		PoolRequest.push(message);
+		const index = PoolRequest.indexOf(message);
+		setTimeout(() => {
+			PoolRequest.splice(index, 1);
+		}, 2 * 1000);
+	}
 };
 
 /**
  * Отображение собщения
  * @param {String} text сообщение
- * @param {Boolean} isShort флаг вывода тоста иначе алерт
+ * @param {String} title заголовок
+ * @param {Function} action функция заголовок
  */
-Toast.show = (text = '', isShort = true) => {
+Toast.show = (text = '', title, action = () => {}) => {
 	const message = text === '' ? 'Что-то пошло не так' : text;
-	if (isShort) {
+
+	if (title === undefined) {
 		Toast.short(message);
 	} else {
-		Toast.requestError(message);
+		Toast.requestAlert(message, title, action);
 	}
 };
 
