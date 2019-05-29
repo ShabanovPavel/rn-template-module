@@ -3,7 +3,13 @@
  * @description логика модуля
  * @private
  */
-import {APP_INIT, APP_OPEN_ONBOARDING, APP_OPEN_PLAYGROUND, APP_UPDATE_NET_CONNECT} from './action';
+import {
+	APP_INIT,
+	APP_OPEN_ONBOARDING,
+	APP_OPEN_PLAYGROUND,
+	APP_UPDATE_NET_CONNECT,
+	APP_OPEN_INDICATORS,
+} from './action';
 import {Request, ManagerRequest} from '../rest';
 import {showOverlay, dismissOverlay} from '../navigation';
 import {Theme, SplashScreen, Log} from '../../library';
@@ -81,4 +87,11 @@ export const onOpenOnboarding = () => dispatch => {
  */
 export const onOpenPlayground = () => dispatch => {
 	dispatch({type: APP_OPEN_PLAYGROUND});
+};
+
+/**
+ *   Открывает модуль индикаторов
+ */
+export const onOpenIndicators = () => dispatch => {
+	dispatch({type: APP_OPEN_INDICATORS});
 };

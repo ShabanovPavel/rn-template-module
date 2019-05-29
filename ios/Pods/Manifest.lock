@@ -64,7 +64,7 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - ReactNativeNavigation (2.18.5):
+  - ReactNativeNavigation (2.21.0):
     - React
   - RNLanguages (3.0.2):
     - React
@@ -128,7 +128,7 @@ SPEC CHECKSUMS:
   React: 6cd5e6fcc3b6a52d2fb27a638f622139da710dff
   react-native-image-picker: e6e06d4315e3c85bad17e4b2002cd29f11d202c8
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  ReactNativeNavigation: 76542352a90b32cc339cadd8a8b020e9c8f3c757
+  ReactNativeNavigation: 6113c2504bfe0735ee91bb768c4b29f8f008b20e
   RNLanguages: 962e562af0d34ab1958d89bcfdb64fafc37c513e
   yoga: 0e0009ffb2544aeead64a1209f3d488d3849947b
 

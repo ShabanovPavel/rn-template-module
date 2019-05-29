@@ -1,6 +1,6 @@
 import {push, popTo} from './core/navigation';
 import {PLAYGROUND_OPEN_ONBOARDING, ONBOARDING_BACK_2} from './modules';
-import {APP_OPEN_PLAYGROUND, APP_OPEN_ONBOARDING} from './core/app';
+import {APP_OPEN_PLAYGROUND, APP_OPEN_ONBOARDING, APP_OPEN_INDICATORS} from './core/app';
 
 export default function nav(
 	state = {
@@ -10,6 +10,11 @@ export default function nav(
 ) {
 	let nextState;
 	switch (action.type) {
+		// Indicators
+		case APP_OPEN_INDICATORS:
+			push('initApp', 'indicators');
+			break;
+
 		//  Playground
 		case APP_OPEN_PLAYGROUND:
 			push('initApp', 'playground');

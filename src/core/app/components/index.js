@@ -24,7 +24,7 @@ export default class Screen extends React.PureComponent {
 
 	render() {
 		const {styles, props} = this;
-		const {onOpenOnboarding, onOpenPlayground} = props;
+		const {onOpenOnboarding, onOpenPlayground, onOpenIndicators} = props;
 		return (
 			<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<Text i18n>Hello, I am initScreen</Text>
@@ -51,6 +51,7 @@ export default class Screen extends React.PureComponent {
 					}}
 					text='PrintNotFountI18n'
 				/>
+				<Button action={onOpenIndicators} text='Indicators' />
 			</View>
 		);
 	}

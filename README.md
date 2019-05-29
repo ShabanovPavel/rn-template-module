@@ -46,19 +46,17 @@ Dummy pattern React Native + Redux
     Логирование  
     Автодок  
     Библиотека примитивов   
-        - Тект  
+        - Текcт  
         - Вьюха  
         - Тоаст/Алерт  
         - Иконка  
         - Кнопка  
         - Отступ  
         - Сплэшскрин  
+        - Индикаторы активности
 
 5. **Добавлено в деве**
 
-    new SplashScreen
-    update navigation
-    update client
     
 6. **Необходимо добавить**   
 
@@ -68,4 +66,6 @@ Dummy pattern React Native + Redux
     push   
     chat  
     fab  
+    refreshToken
+    Indicator and WaveIndicator fix
 

@@ -2,13 +2,17 @@ import {Platform} from 'react-native';
 import SplashScreenMod from 'react-native-splash-screen';
 
 const SplashScreen = () =>
-	Platform.select({
-		ios: () => {
-			SplashScreenMod.hide();
-		},
-		android: () => {
-			SplashScreenMod.hide();
-		},
-	})();
+	setTimeout(
+		() =>
+			Platform.select({
+				ios: () => {
+					SplashScreenMod.hide();
+				},
+				android: () => {
+					SplashScreenMod.hide();
+				},
+			})(),
+		1000,
+	);
 
 export {SplashScreen};

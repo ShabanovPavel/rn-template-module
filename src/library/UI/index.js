@@ -3,4 +3,5 @@ export * from './Text';
 export * from './View';
 export * from './SplashScreen';
 export * from './Button';
-export * from './Icons';
+export * from './Icon';
+export * from './ActivityIndicators';

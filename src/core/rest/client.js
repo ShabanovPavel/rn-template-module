@@ -4,6 +4,7 @@ import {getItem, setToken} from './storadge';
 import {Toast, Log} from '../../library';
 import Fetch from './fetch';
 import Options from '../../options';
+import Looper from '../looper';
 
 let instance;
 
@@ -215,18 +216,28 @@ class RequestsManager {
 	 */
 	async refreshToken(success, error) {
 		const time = await getItem('timeRefresh');
-		if (time !== '' && +time < Date.now()) {
+		if (!this.isWait && time !== '' && +time < Date.now()) {
 			this.isWait = true;
 			const refreshToken = await getItem('refreshToken');
 			Log('Refresh token');
-			Requests.refreshToken({token: refreshToken}, (t, r, tim) => {
+			Requests.refreshToken({token: refreshToken}, (t, r, tim, ex) => {
 				if (tim === '') {
 					error && error();
 				} else {
 					setToken(t, r, tim);
 					success && success();
+					Looper.start(
+						'refreshToken',
+						() => {
+							Looper.stop('refreshToken');
+							this.refreshToken(success, error);
+						},
+						Math.abs(+ex),
+					);
 				}
-				this.isWait = false;
+				setTimeout(() => {
+					this.isWait = false;
+				}, 1000);
 			});
 		} else {
 			success && success();
