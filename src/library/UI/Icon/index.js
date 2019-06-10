@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Image} from 'react-native';
+import VIcon from 'react-native-vector-icons/FontAwesome';
 import IMAGE from './sources';
 import Styles from './styles';
 import {BindSimple} from '../../Component';
@@ -18,10 +19,14 @@ class Icon extends React.Component {
 
 	render() {
 		const {styles, props} = this;
-		const {style, name, color} = props;
+		const {style, name, color, vector} = props;
 
 		const styleIc = [styles.icon, color && {tintColor: color}, style];
-		return <Image style={styleIc} source={IMAGE[name]} resizeMode='contain' fadeDuration={0} />;
+		return vector ? (
+			<VIcon {...props} />
+		) : (
+			<Image style={styleIc} source={IMAGE[name]} resizeMode='contain' fadeDuration={0} />
+		);
 	}
 }
 Icon.propTypes = {

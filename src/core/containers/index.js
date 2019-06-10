@@ -7,8 +7,8 @@ export default (state, method) =>
 			const res = {};
 			Object.keys(method).forEach(
 				el =>
-					(res[el] = () => {
-						dispatch(method[el]());
+					(res[el] = (...params) => {
+						dispatch(method[el](...params));
 					}),
 			);
 			return {...res};

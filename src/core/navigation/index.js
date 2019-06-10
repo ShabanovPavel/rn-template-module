@@ -8,6 +8,8 @@ const {store} = configureStore();
 
 let lastNameScreen = '';
 let stack = []; // для стэк навигации (орентировочный маршрут)
+let isWait = false; // для игнорирования сторонних операций во время совершения операции
+const timeWait = 300; // ms
 
 /**
  * Переход вперед по стек навигации
@@ -35,9 +37,13 @@ const push = (currentID, nameScreen, options) => {
  * @param {Object} options настройки перехода см(док wix/react-native-navigation)
  */
 const pop = (currentID, options) => {
-	lastNameScreen = '';
-	stack.pop();
-	Navigation.pop(currentID, options);
+	if (!isWait) {
+		isWait = true;
+		lastNameScreen = '';
+		stack.pop();
+		Navigation.pop(currentID, options);
+		setTimeout(() => (isWait = false), timeWait);
+	}
 };
 
 /**
@@ -45,9 +51,13 @@ const pop = (currentID, options) => {
  * @param {String} currentID имя текущей сцена
  */
 const popToRoot = currentID => {
-	lastNameScreen = '';
-	stack = [];
-	Navigation.popToRoot(currentID);
+	if (!isWait) {
+		isWait = true;
+		lastNameScreen = '';
+		stack = [];
+		Navigation.popToRoot(currentID);
+		setTimeout(() => (isWait = false), timeWait);
+	}
 };
 
 /**
@@ -56,16 +66,20 @@ const popToRoot = currentID => {
  * @param {Object} options настройки перехода см(док wix/react-native-navigation)
  */
 const popTo = (currentID = 1, options) => {
-	if (typeof currentID === 'number') {
-		for (let i = 0; i < currentID; i += 1) {
-			if (stack.length > 1) stack.pop();
+	if (!isWait) {
+		isWait = true;
+		if (typeof currentID === 'number') {
+			for (let i = 0; i < currentID; i += 1) {
+				if (stack.length > 1) stack.pop();
+			}
+			const l = stack.length - 1;
+			lastNameScreen = stack[l];
+			Navigation.popTo(lastNameScreen, options);
+		} else {
+			lastNameScreen = currentID;
+			Navigation.popTo(currentID, options);
 		}
-		const l = stack.length - 1;
-		lastNameScreen = stack[l];
-		Navigation.popTo(lastNameScreen, options);
-	} else {
-		lastNameScreen = currentID;
-		Navigation.popTo(currentID, options);
+		setTimeout(() => (isWait = false), timeWait);
 	}
 };
 

@@ -57,15 +57,15 @@ Dummy pattern React Native + Redux
 
 5. **Добавлено в деве**
 
-    
+    Навигация, индикаторы, векторные иконки 
 6. **Необходимо добавить**   
 
     fabric  
     fastlane  
     crashlitycs  
+    appCenter
     push   
     chat  
     fab  
     refreshToken
-    Indicator and WaveIndicator fix
 

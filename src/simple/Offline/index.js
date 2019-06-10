@@ -1,15 +1,17 @@
 import React from 'react';
-import {View, Text, Theme} from '../../library';
+import {SafeAreaView, Text, Theme} from '../../library';
 
 export const Offline = () => (
-	<View
+	<SafeAreaView
 		style={Theme.createStyles(theme => ({
-			paddingTop: 50,
+			flex: 0.04,
 			backgroundColor: 'red',
 			alignItems: 'center',
 			justifyContent: 'center',
+			borderBottomLeftRadius: 5,
+			borderBottomRightRadius: 5,
 		}))}
 	>
 		<Text>Offline </Text>
-	</View>
+	</SafeAreaView>
 );

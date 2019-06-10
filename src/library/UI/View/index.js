@@ -1,5 +1,5 @@
 import React from 'react';
-import {View as RNView} from 'react-native';
+import {View as RNView, SafeAreaView as RNSafeAreaView} from 'react-native';
 import Styles from './styles';
 import {BindSimple} from '../../Component';
 
@@ -16,10 +16,14 @@ class View extends React.PureComponent {
 	}
 
 	render() {
-		const {styles, props} = this;
+		const {styles, props, safeArea} = this;
 		const {style} = props;
 
-		return <RNView {...this.props} style={{...styles.view, ...style}} />;
+		return safeArea ? (
+			<RNSafeAreaView {...props} style={{...styles.view, ...style}} />
+		) : (
+			<RNView {...props} style={{...styles.view, ...style}} />
+		);
 	}
 }
 

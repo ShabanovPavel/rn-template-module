@@ -5,4 +5,5 @@ export default {
 	GRAY_TEXT_BAR: '#808080',
 	GRAY_ELEMENT_BAR: '#cccccccc',
 	GRAY_LIGHT: '#8C8C8C',
+	GOLD: '#FFD700',
 };

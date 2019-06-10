@@ -109,11 +109,25 @@ const getNextMoney = money => {
 /**
  * Форматирует дату
  * @param {Date} date дата
+ * @param {String} format *необходимый формат
  * @memberof module:Utils
  */
-const getDate = date => {
-	const dateNow = new Date();
+const getDate = (date, format = null) => {
 	const dateInput = new Date(date);
+	if (format) {
+		return moment(dateInput).format(format);
+	}
+
+	return moment(dateInput).format('DD MMM YYYY');
+};
+
+/**
+ * Возвращает состояние входной даты по отношению к текущему времени
+ * @param {String} date дата которую необходимо разобрать
+ */
+const getDateShort = date => {
+	const dateInput = new Date(date);
+	const dateNow = new Date();
 	const day = dateInput.getDate();
 	const month = dateInput.getMonth();
 	const year = dateInput.getFullYear();
@@ -121,7 +135,33 @@ const getDate = date => {
 	if (dateNow.getFullYear() === year && dateNow.getMonth() === month && dateNow.getDate() === day) {
 		return I.text('Сегодня');
 	}
-	return moment(dateInput).format('DD MMM YYYY');
+	if (
+		dateNow.getFullYear() === year &&
+		dateNow.getMonth() === month &&
+		+dateNow.getDate() - 1 === +day
+	) {
+		return I.text('Вчера');
+	}
+	if (
+		dateNow.getFullYear() === year &&
+		dateNow.getMonth() === month &&
+		+dateNow.getDate() - 7 < +day
+	) {
+		return I.text('На прошлой неделе');
+	}
+	if (dateNow.getFullYear() === year && dateNow.getMonth() === month) {
+		return I.text('В этом месяце');
+	}
+	if (dateNow.getFullYear() === year && +dateNow.getMonth() - 1 === +month) {
+		return I.text('В прошлом месяце');
+	}
+	if (dateNow.getFullYear() === year) {
+		return I.text('В этом году');
+	}
+	if (+dateNow.getFullYear() - 1 === +year) {
+		return I.text('В прошлом году');
+	}
+	return I.text('Ушел в подполье');
 };
 
 /**
@@ -146,4 +186,5 @@ export const Utils = {
 	sleep,
 	rounding,
 	getNextMoney,
+	getDateShort,
 };

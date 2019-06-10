@@ -16,8 +16,8 @@ import {Theme, SplashScreen, Log} from '../../library';
 import Looper from '../looper';
 
 /** Запускается сценарий */
-const loadApp = () => dispatch => {
-	// Тема
+const loadApp = self => dispatch => {
+	// Тема ()/('default') -стандартная , ('black') - темная
 	Theme.setTheme();
 	// Поддерживает статус соединения постоянно
 	ManagerRequest.listenerNetConnected(
@@ -35,6 +35,7 @@ const loadApp = () => dispatch => {
 		},
 	);
 	dispatch({type: APP_INIT}); // Прила инициализирована
+	self.forceUpdate();
 
 	SplashScreen(); // отключаем нативный сплэш
 
@@ -49,28 +50,17 @@ const loadApp = () => dispatch => {
 			Log('error', res); // или любая другая логика на отрицательный результат
 		},
 	);
-
-	const formDataToString = formDataObject => {
-		this.formDataString = '';
-		Object.keys(formDataObject).forEach(key => {
-			if (formDataObject[key] !== null)
-				this.formDataString += `&${key}=${encodeURIComponent(formDataObject[key])}`;
-		});
-		return this.formDataString.slice(1);
-	};
-	const amount = null;
-	console.log(formDataToString({f: 3, amount}));
 };
 
 /**
  *  Выполняет ожидание прогрузки состояний хранилища
  */
-export const onInit = () => (dispatch, getState) => {
+export const onInit = self => (dispatch, getState) => {
 	Looper.start('WaitPersist', () => {
 		const {isLoadPersistStore} = getState().nav;
 		if (isLoadPersistStore) {
 			Looper.stop('WaitPersist');
-			dispatch(loadApp());
+			dispatch(loadApp(self));
 		}
 	});
 };

@@ -8,6 +8,17 @@ import {Theme} from '../Theme';
 const rend = () => null;
 
 let propsWix = {};
+
+/**
+ * 	Расширяет компонент :
+ *  state.isLoadScreen - показывает загрузился ли компонент или нет (полезно для рендеринга высоконагруженных компонентов)
+ * 	onBack - выполняет переход на предыдущий экран
+ *  updateTheme - обновляет тему приложения
+ *  componentDidAppear - вызывается когда компонент получил фокус
+ *  componentDidDisappear - вызывается когда компонент потерял фокус
+ *
+ */
+
 /**
  * @param {Object} self компонент подписи
  * @param {Object} options параметры компонента
@@ -20,6 +31,8 @@ let propsWix = {};
 export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, styles}) => {
 	bindComponent(self);
 	const nameScreen = self.props.componentId;
+	self.state = {...self.state, isLoadScreen: false};
+	// self.isLoadScreen = false;
 
 	const handleBackPress = () => {
 		if (isBack) {
@@ -79,6 +92,7 @@ export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, s
 			: self.props.onFocusedScreen && self.props.onFocusedScreen({status: true, nameScreen});
 
 		self.props = {...self.props, ...propsWix};
+		self.setState({isLoadScreen: true});
 	};
 
 	self.componentDidDisappear = () => {
@@ -125,10 +139,12 @@ export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, s
 	};
 
 	// self.render = () => {
+	// 	console.log(self);
+	// 	self.styles = styles ? Theme.createStyles(styles) : {};
 	// 	return (
 	// 		<>
-	// 			{rend()}
-	// 			{self.__proto__.render.bind(self)()}
+	// 			{/* {rend()} */}
+	// 			{self.state.isLoadScreen ? self.__proto__.render.bind(self)() : null}
 	// 		</>
 	// 	);
 	// };

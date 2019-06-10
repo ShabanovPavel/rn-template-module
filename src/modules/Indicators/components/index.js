@@ -1,21 +1,18 @@
 import React from 'react';
 import Styles from './styles';
 import {
-	Text,
 	View,
 	BindComponent,
 	Button,
 	Log,
 	MaterialIndicator,
 	DotIndicator,
-	Indicator,
 	BallIndicator,
 	PulseIndicator,
 	BarIndicator,
 	PacmanIndicator,
 	ActivityIndicator,
 	SkypeIndicator,
-	WaveIndicator,
 } from '../../../library';
 
 export default class Screen extends React.PureComponent {
@@ -37,21 +34,26 @@ export default class Screen extends React.PureComponent {
 	componentDisappear() {}
 
 	render() {
-		const {styles, props, onBack} = this;
+		const {styles, props, onBack, state} = this;
+		const {isLoadScreen} = state;
+
 		return (
-			<View style={styles.mainContainer}>
+			<View safeArea style={styles.mainContainer}>
 				<Button action={onBack} text='Hello, I am Indicators' />
-				<MaterialIndicator />
-				<DotIndicator count={3} animationDuration={800} />
-				{/* <Indicator /> */}
-				<BallIndicator animationDuration={800} />
-				<PulseIndicator />
-				<BarIndicator count={5} />
-				<PacmanIndicator />
-				<ActivityIndicator />
-				<PulseIndicator />
-				<SkypeIndicator />
-				{/* <WaveIndicator count={2} waveFactor={0.4} waveMode='outline'/> */}
+				{isLoadScreen ? (
+					<>
+						<MaterialIndicator color={styles.indicatorColor} />
+						<DotIndicator color={styles.indicatorColor} count={3} animationDuration={800} />
+						<BallIndicator color={styles.indicatorColor} animationDuration={800} />
+						<PulseIndicator color={styles.indicatorColor} />
+						<BarIndicator color={styles.indicatorColor} count={5} />
+						<PacmanIndicator color={styles.indicatorColor} />
+						<ActivityIndicator color={styles.indicatorColor} />
+						<SkypeIndicator color={styles.indicatorColor} />
+					</>
+				) : (
+					<PacmanIndicator color={styles.indicatorColor} />
+				)}
 			</View>
 		);
 	}

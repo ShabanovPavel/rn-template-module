@@ -2,6 +2,7 @@ import color from './color';
 import view from './view';
 import text from './text';
 import simple from './simple';
+import macro from './macro';
 
 let type;
 let theme = {
@@ -9,6 +10,7 @@ let theme = {
 	simple,
 	text,
 	view,
+	macro,
 };
 
 const setTheme = typeTheme => {
@@ -18,6 +20,7 @@ const setTheme = typeTheme => {
 		simple,
 		text,
 		view,
+		macro,
 	};
 };
 

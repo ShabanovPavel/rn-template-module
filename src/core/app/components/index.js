@@ -2,13 +2,14 @@ import React from 'react';
 import {AnalyticService} from '../../analytic-service';
 import {traking} from '../../navigation';
 import Styles from './styles';
-import {Text, View, BindComponent, Button, Spacer, I} from '../../../library';
+import {Text, View, BindComponent, Button, Spacer, I, Icon} from '../../../library';
 
 let theme = '';
 
 export default class Screen extends React.PureComponent {
 	constructor(props) {
 		super(props);
+		// ...
 		BindComponent(this, {
 			styles: Styles,
 			statusBar: 'hide',
@@ -19,7 +20,7 @@ export default class Screen extends React.PureComponent {
 	componentDidMount() {
 		const {props} = this;
 		const {onInit} = props;
-		onInit();
+		onInit(this);
 	}
 
 	render() {
@@ -27,6 +28,7 @@ export default class Screen extends React.PureComponent {
 		const {onOpenOnboarding, onOpenPlayground, onOpenIndicators} = props;
 		return (
 			<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+				<Icon vector name='star' size={30} color={styles.colorIcon} />
 				<Text i18n>Hello, I am initScreen</Text>
 				<Spacer h={5} />
 				<Button action={onOpenOnboarding} text='Open Onboarding' />

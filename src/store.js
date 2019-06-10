@@ -25,7 +25,7 @@ let enhacers;
 
 // eslint-disable-next-line
 // if (__DEV__ === true) {
-if (Otions.isLogger) {
+if (Otions.isLogger && __DEV__ === true) {
 	enhacers = applyMiddleware(thunk, createLogger({collapsed: true}));
 } else {
 	enhacers = applyMiddleware(thunk);
