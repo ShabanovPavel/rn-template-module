@@ -125,7 +125,7 @@ const getDate = (date, format = null) => {
  * Возвращает состояние входной даты по отношению к текущему времени
  * @param {String} date дата которую необходимо разобрать
  */
-const getDateShort = date => {
+const getDateText = date => {
 	const dateInput = new Date(date);
 	const dateNow = new Date();
 	const day = dateInput.getDate();
@@ -177,7 +177,47 @@ const getFirstKey = obj => {
 	return undefined;
 };
 
+/**
+ * Возвращает ключ в объекте любой вложенности, если ключ не найдет то возврщает undefined
+ *
+ * @param {Object} object объект для поиска
+ * @param {String} key если . есть то ищется путь если их нет то ищется рекурсивно в оюхекто до первого вхождения
+ */
+const getKeyObject = (object, key) => {
+	let search;
+	if (typeof object === 'object') {
+		if (key.toString().split('.').length > 1) {
+			search = object;
+			key
+				.toString()
+				.split('.')
+				.forEach(el => {
+					if (search[el]) {
+						search = search[el];
+					} else {
+						return undefined;
+					}
+				});
+			return search;
+		}
+		for (const el in object) {
+			if (el === key) {
+				return object[el];
+			}
+			search = getKeyObject(object[el], key);
+			if (search) return search;
+		}
+	}
+	return search;
+};
+
+export const validateEmail = email => {
+	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test(String(email).toLowerCase());
+};
+
 export const Utils = {
+	validateEmail,
 	arrayToMap,
 	objectToHash,
 	objectToArray,
@@ -186,5 +226,6 @@ export const Utils = {
 	sleep,
 	rounding,
 	getNextMoney,
-	getDateShort,
+	getDateText,
+	getKeyObject,
 };

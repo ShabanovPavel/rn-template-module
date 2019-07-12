@@ -1,9 +1,10 @@
 export default {
-	BLUE: '#1B2ECC',
-	BLACK: 'rgb(51, 51, 51)',
-	WHITE: 'rgb(255,255,255)',
-	GRAY_TEXT_BAR: '#808080',
-	GRAY_ELEMENT_BAR: '#cccccccc',
-	GRAY_LIGHT: '#8C8C8C',
-	GOLD: '#FFD700',
+	GRAY_BORDER: '#E6EFF4',
+	GRAY_TEXT_INPUT: 'rgba(0,0,0,0.08)',
+	BLUE_BTN_SIMPLE: '#007AFF',
+	PINK: 'rgba(173, 0, 0, 0.08)',
+	BLACK: '#000',
+	WHITE: '#FFF',
+	GRAY_PLACEHOLDER: 'rgb(141,141,141)',
+	GRAY_LIGHT: 'rgb(188,188,188)',
 };

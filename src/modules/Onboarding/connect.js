@@ -1,4 +1,4 @@
-import * as methods from './methods';
+import methods from './methods';
 import component from './components';
 import registerConnect from '../../core/containers';
 import {} from '../../core/selectors';

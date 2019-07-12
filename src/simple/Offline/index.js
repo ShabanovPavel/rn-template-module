@@ -1,5 +1,6 @@
 import React from 'react';
-import {SafeAreaView, Text, Theme} from '../../library';
+import {SafeAreaView} from 'react-native';
+import {Text, Theme} from '../../library';
 
 export const Offline = () => (
 	<SafeAreaView

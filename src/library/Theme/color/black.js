@@ -1,9 +1,5 @@
 export default {
-	BLUE: '#000000',
-	BLACK: 'rgb(200, 200,200)',
-	WHITE: 'rgb(0,0,0)',
-	GRAY_TEXT_BAR: '#808080',
-	GRAY_ELEMENT_BAR: '#cccccccc',
-	TOP_GREEN: '#008C8C',
-	GOLD: '#FFD70078',
+	GRAY_BORDER: '#E6EFF4',
+	GRAY_TEXT_INPUT: 'rgba(0,0,0,0.08)',
+	BLUE_BTN_SIMPLE: '#007AFF',
 };

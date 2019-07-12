@@ -3,7 +3,7 @@
  * @description хранилищи токенов
  * @private
  */
-import {AsyncStorage} from 'react-native';
+import * as Keychain from 'react-native-keychain';
 
 /**
  * Записывает токен
@@ -16,9 +16,18 @@ import {AsyncStorage} from 'react-native';
 export const setToken = async (token, refreshToken, time) => {
 	try {
 		console.log('token', token, 'refreshToken', refreshToken, 'time', time);
-		await AsyncStorage.setItem('token', token.toString());
-		await AsyncStorage.setItem('timeRefresh', time.toString());
-		await AsyncStorage.setItem('refreshToken', refreshToken.toString());
+		await Keychain.setGenericPassword('token', token.toString(), {
+			service: 'token',
+			accessible: Keychain.ACCESSIBLE.ALWAYS,
+		});
+		await Keychain.setGenericPassword('timeRefresh', time.toString(), {
+			service: 'timeRefresh',
+			accessible: Keychain.ACCESSIBLE.ALWAYS,
+		});
+		await Keychain.setGenericPassword('refreshToken', refreshToken.toString(), {
+			service: 'refreshToken',
+			accessible: Keychain.ACCESSIBLE.ALWAYS,
+		});
 	} catch (error) {
 		// Error saving data
 		console.log('DO NOT SAVED PRIVATE STORAGE');
@@ -33,7 +42,10 @@ export const setToken = async (token, refreshToken, time) => {
  */
 export const setItem = async (key, value) => {
 	try {
-		await AsyncStorage.setItem(key, value.toString());
+		await Keychain.setGenericPassword(key, JSON.stringify(value), {
+			service: key,
+			accessible: Keychain.ACCESSIBLE.ALWAYS,
+		});
 	} catch (error) {
 		// Error saving data
 		console.log('DO NOT SAVED PRIVATE STORAGE');
@@ -47,9 +59,9 @@ export const setItem = async (key, value) => {
  */
 export const getItem = async key => {
 	try {
-		const value = await AsyncStorage.getItem(key);
+		const value = await Keychain.getGenericPassword({service: key});
 		if (value !== null) {
-			return value;
+			return JSON.parse(value.password);
 		}
 		return '';
 	} catch (error) {

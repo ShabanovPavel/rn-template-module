@@ -3,6 +3,7 @@
  * @description логика модуля
  * @private
  */
+import Orientation from 'react-native-orientation';
 import {
 	APP_INIT,
 	APP_OPEN_ONBOARDING,
@@ -15,8 +16,12 @@ import {showOverlay, dismissOverlay} from '../navigation';
 import {Theme, SplashScreen, Log} from '../../library';
 import Looper from '../looper';
 
-/** Запускается сценарий */
-const loadApp = self => dispatch => {
+const self = {};
+/**
+ * Запускается сценарий
+ * @param {Object} app_self
+ */
+self.loadApp = app_self => dispatch => {
 	// Тема ()/('default') -стандартная , ('black') - темная
 	Theme.setTheme();
 	// Поддерживает статус соединения постоянно
@@ -35,7 +40,8 @@ const loadApp = self => dispatch => {
 		},
 	);
 	dispatch({type: APP_INIT}); // Прила инициализирована
-	self.forceUpdate();
+	Orientation.lockToPortrait(); // Ориентация приложения зафиксирована
+	app_self.forceUpdate();
 
 	SplashScreen(); // отключаем нативный сплэш
 
@@ -55,12 +61,12 @@ const loadApp = self => dispatch => {
 /**
  *  Выполняет ожидание прогрузки состояний хранилища
  */
-export const onInit = self => (dispatch, getState) => {
+self.onInit = app_self => (dispatch, getState) => {
 	Looper.start('WaitPersist', () => {
 		const {isLoadPersistStore} = getState().nav;
 		if (isLoadPersistStore) {
 			Looper.stop('WaitPersist');
-			dispatch(loadApp(self));
+			dispatch(self.loadApp(app_self));
 		}
 	});
 };
@@ -68,20 +74,22 @@ export const onInit = self => (dispatch, getState) => {
 /**
  * Открывает модуль рекламы
  */
-export const onOpenOnboarding = () => dispatch => {
+self.onOpenOnboarding = () => dispatch => {
 	dispatch({type: APP_OPEN_ONBOARDING});
 };
 
 /**
  * Открывает модуль эксперементов
  */
-export const onOpenPlayground = () => dispatch => {
+self.onOpenPlayground = () => dispatch => {
 	dispatch({type: APP_OPEN_PLAYGROUND});
 };
 
 /**
  *   Открывает модуль индикаторов
  */
-export const onOpenIndicators = () => dispatch => {
+self.onOpenIndicators = () => dispatch => {
 	dispatch({type: APP_OPEN_INDICATORS});
 };
+
+export default self;

@@ -5,9 +5,12 @@
  * */
 import {PLAYGROUND_OPEN_ONBOARDING} from './action';
 
+const self = {};
 /**
  *  Зыкрывает модуль эксперементов
  */
-export const onOpenOnboarding = () => dispatch => {
+self.onOpenOnboarding = () => dispatch => {
 	dispatch({type: PLAYGROUND_OPEN_ONBOARDING});
 };
+
+export default self;

@@ -19,6 +19,7 @@ const persistConfig = {
 	key: 'root',
 	stateReconciler: autoMergeLevel2,
 	whitelist: ['app'],
+	timeout: null,
 };
 
 let enhacers;

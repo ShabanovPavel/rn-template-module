@@ -1,83 +1,112 @@
 PODS:
   - boost-for-react-native (1.63.0)
+  - BVLinearGradient (2.5.4):
+    - React
   - DoubleConversion (1.1.6)
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
     - glog
   - glog (0.3.5)
-  - React (0.58.5):
-    - React/Core (= 0.58.5)
+  - React (0.59.9):
+    - React/Core (= 0.59.9)
+  - react-native-fast-image (6.0.3):
+    - React
+    - SDWebImage (~> 5.0)
   - react-native-image-picker (0.28.0):
+    - React
+  - react-native-netinfo (3.2.1):
+    - React
+  - react-native-orientation (3.1.3):
     - React
   - react-native-splash-screen (3.2.0):
     - React
-  - React/Core (0.58.5):
-    - yoga (= 0.58.5.React)
-  - React/CxxBridge (0.58.5):
+  - react-native-webview (5.12.0):
+    - React
+  - React/Core (0.59.9):
+    - yoga (= 0.59.9.React)
+  - React/CxxBridge (0.59.9):
     - Folly (= 2018.10.22.00)
     - React/Core
     - React/cxxreact
     - React/jsiexecutor
-  - React/cxxreact (0.58.5):
+  - React/cxxreact (0.59.9):
     - boost-for-react-native (= 1.63.0)
+    - DoubleConversion
     - Folly (= 2018.10.22.00)
+    - glog
     - React/jsinspector
-  - React/DevSupport (0.58.5):
+  - React/DevSupport (0.59.9):
     - React/Core
     - React/RCTWebSocket
-  - React/fishhook (0.58.5)
-  - React/jsi (0.58.5):
+  - React/fishhook (0.59.9)
+  - React/jsi (0.59.9):
+    - DoubleConversion
     - Folly (= 2018.10.22.00)
-  - React/jsiexecutor (0.58.5):
+    - glog
+  - React/jsiexecutor (0.59.9):
+    - DoubleConversion
     - Folly (= 2018.10.22.00)
+    - glog
     - React/cxxreact
     - React/jsi
-  - React/jsinspector (0.58.5)
-  - React/RCTActionSheet (0.58.5):
+  - React/jsinspector (0.59.9)
+  - React/RCTActionSheet (0.59.9):
     - React/Core
-  - React/RCTAnimation (0.58.5):
+  - React/RCTAnimation (0.59.9):
     - React/Core
-  - React/RCTBlob (0.58.5):
+  - React/RCTBlob (0.59.9):
     - React/Core
-  - React/RCTCameraRoll (0.58.5):
+  - React/RCTCameraRoll (0.59.9):
     - React/Core
     - React/RCTImage
-  - React/RCTGeolocation (0.58.5):
+  - React/RCTGeolocation (0.59.9):
     - React/Core
-  - React/RCTImage (0.58.5):
+  - React/RCTImage (0.59.9):
     - React/Core
     - React/RCTNetwork
-  - React/RCTLinkingIOS (0.58.5):
+  - React/RCTLinkingIOS (0.59.9):
     - React/Core
-  - React/RCTNetwork (0.58.5):
+  - React/RCTNetwork (0.59.9):
     - React/Core
-  - React/RCTPushNotification (0.58.5):
+  - React/RCTPushNotification (0.59.9):
     - React/Core
-  - React/RCTSettings (0.58.5):
+  - React/RCTSettings (0.59.9):
     - React/Core
-  - React/RCTText (0.58.5):
+  - React/RCTText (0.59.9):
     - React/Core
-  - React/RCTVibration (0.58.5):
+  - React/RCTVibration (0.59.9):
     - React/Core
-  - React/RCTWebSocket (0.58.5):
+  - React/RCTWebSocket (0.59.9):
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - ReactNativeNavigation (2.21.0):
+  - ReactNativeNavigation (2.22.1):
+    - React
+  - RNCAsyncStorage (1.5.0):
+    - React
+  - RNKeychain (3.1.3):
     - React
   - RNLanguages (3.0.2):
     - React
   - RNVectorIcons (6.4.2):
     - React
-  - yoga (0.58.5.React)
+  - SDWebImage (5.0.6):
+    - SDWebImage/Core (= 5.0.6)
+  - SDWebImage/Core (5.0.6)
+  - yoga (0.59.9.React)
 
 DEPENDENCIES:
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - react-native-fast-image (from `../node_modules/react-native-fast-image`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+  - react-native-orientation (from `../node_modules/react-native-orientation`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
@@ -95,6 +124,8 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNLanguages (from `../node_modules/react-native-languages`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -102,8 +133,11 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - boost-for-react-native
+    - SDWebImage
 
 EXTERNAL SOURCES:
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   Folly:
@@ -112,12 +146,24 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-fast-image:
+    :path: "../node_modules/react-native-fast-image"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
+  react-native-orientation:
+    :path: "../node_modules/react-native-orientation"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   ReactNativeNavigation:
     :path: "../node_modules/react-native-navigation"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   RNLanguages:
     :path: "../node_modules/react-native-languages"
   RNVectorIcons:
@@ -127,17 +173,25 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  BVLinearGradient: 8cbc5155c978f2e43098818c91d206d07aae6d30
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
-  React: 6cd5e6fcc3b6a52d2fb27a638f622139da710dff
+  React: a86b92f00edbe1873a63e4a212c29b7a7ad5224f
+  react-native-fast-image: 3390cc968d598f0c6b5c710df138f4b653a87231
   react-native-image-picker: e6e06d4315e3c85bad17e4b2002cd29f11d202c8
+  react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
+  react-native-orientation: f1caf84d65f1a4fd4511a18f2b924e634ad7a628
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  ReactNativeNavigation: 6113c2504bfe0735ee91bb768c4b29f8f008b20e
+  react-native-webview: 8b2761a9bf84bbbbe7f90f49743b9b74c7cb11e7
+  ReactNativeNavigation: 96bf015ed484a8e247d96154430190a1a07bfd6c
+  RNCAsyncStorage: 9436928b444c5f5361960a7eea051a697c244b68
+  RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNLanguages: 962e562af0d34ab1958d89bcfdb64fafc37c513e
   RNVectorIcons: 6607bd3a30291d0edb56f9bbe7ae411ee2b928b0
-  yoga: 0e0009ffb2544aeead64a1209f3d488d3849947b
+  SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
+  yoga: 03ff42a6f223fb88deeaed60249020d80c3091ee
 
-PODFILE CHECKSUM: a24327b141e567ac31f7fb4c4d69eccc76f1afd4
+PODFILE CHECKSUM: 69d78f82e86394ef14167bd73caa6100fc3d96fd
 
 COCOAPODS: 1.6.0

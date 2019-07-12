@@ -1,8 +1,8 @@
 import Options from '../../options';
 
-const Log = (...text) => {
+const Log = (...params) => {
 	if (Options.isLog && __DEV__ === true) {
-		console.log(...text);
+		console.log(...params);
 	}
 };
 

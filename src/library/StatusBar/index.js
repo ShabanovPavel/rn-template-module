@@ -19,31 +19,37 @@ InitflowStatusBar.setStyle = ({backgroundColor, barStyle, animated, hidden, tran
 	})();
 };
 
-InitflowStatusBar.setDarkTranslucent = () => {
+InitflowStatusBar.setDarkTranslucent = params => {
+	const {translucent, colorBackStatusBar} = params || {};
+	const trans = translucent === undefined ? true : translucent;
 	InitflowStatusBar.setStyle({
-		backgroundColor: 'rgba(255,255,255,0)',
+		backgroundColor: colorBackStatusBar || 'rgba(255,255,255,0)',
 		barStyle: 'dark-content',
-		translucent: true,
+		translucent: trans,
 		hidden: false,
 		animated: false,
 	});
 };
 
-InitflowStatusBar.setLigthTranslucent = () => {
+InitflowStatusBar.setLigthTranslucent = params => {
+	const {translucent, colorBackStatusBar} = params || {};
+	const trans = translucent === undefined ? true : translucent;
 	InitflowStatusBar.setStyle({
-		backgroundColor: 'rgba(255,255,255,0)',
+		backgroundColor: colorBackStatusBar || 'rgba(255,255,255,0)',
 		barStyle: 'light-content',
-		translucent: true,
+		translucent: trans,
 		hidden: false,
 		animated: false,
 	});
 };
 
-InitflowStatusBar.hide = () => {
+InitflowStatusBar.hide = params => {
+	const {translucent, colorBackStatusBar} = params || {};
+	const trans = translucent === undefined ? true : translucent;
 	InitflowStatusBar.setStyle({
-		backgroundColor: 'rgba(255,255,255,0)',
+		backgroundColor: colorBackStatusBar || 'rgba(255,255,255,0)',
 		barStyle: 'light-content',
-		translucent: true,
+		translucent: trans,
 		hidden: true,
 		animated: false,
 	});

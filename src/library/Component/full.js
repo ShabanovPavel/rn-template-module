@@ -4,14 +4,20 @@ import {Text, View} from '../UI';
 import {BackHandler} from '../BackHandler';
 import {StatusBar} from '../StatusBar';
 import {Theme} from '../Theme';
+import {Utils} from '../Utils';
 
 const rend = () => null;
 
-let propsWix = {};
+let propsWix = {
+	_private: {},
+};
 
 /**
  * 	Расширяет компонент :
  *  state.isLoadScreen - показывает загрузился ли компонент или нет (полезно для рендеринга высоконагруженных компонентов)
+ *
+ *  propsWix - глобальная пропса для передаи данных между экранами минуя редакс
+ *  setPropsWix - обновляет глобальную проспсу на подобии setState только с возможностью отчистки (1 уровень вложенности)
  * 	onBack - выполняет переход на предыдущий экран
  *  updateTheme - обновляет тему приложения
  *  componentDidAppear - вызывается когда компонент получил фокус
@@ -25,14 +31,12 @@ let propsWix = {};
  * @param {Boolean} options.isBack флаг который указывает возможно ли осуществление обработки кнопки бек
  * @param {String} options.statusBar ('light','dark','hide') указывает использовать светлый статус бар или же оставить темный статус бар  или вообще срыть
  * @param {Function} options.onFocusedScreen функция обработки фокусировки на экран (возвращает true or false в зависимости от фокусировки)
- * @param {Object} options.propsScreen  пропса которую необходимо прокинуть в открывающийся экран (по умолчанию прокидывается все пропса)
  * @param {Function} options.styles функция возвращаюзаяя стиль компонента
  */
-export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, styles}) => {
+export default (self, {isBack = true, statusBar, colorBackStatusBar, onFocusedScreen, styles}) => {
 	bindComponent(self);
 	const nameScreen = self.props.componentId;
 	self.state = {...self.state, isLoadScreen: false};
-	// self.isLoadScreen = false;
 
 	const handleBackPress = () => {
 		if (isBack) {
@@ -43,21 +47,33 @@ export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, s
 	};
 
 	const setStatusBar = () => {
-		if (!statusBar) {
-			statusBar = propsWix.statusBar;
+		let status = statusBar;
+		if (!status) {
+			status = Utils.getKeyObject(propsWix, 'statusBar');
+		} else {
+			propsWix = {...propsWix, _private: {...propsWix._private, statusBar}};
 		}
-		switch (statusBar) {
+		switch (status) {
 			case 'light':
-				StatusBar.setLigthTranslucent();
+				StatusBar.setLigthTranslucent({colorBackStatusBar});
 				break;
 			case 'dark':
-				StatusBar.setDarkTranslucent();
+				StatusBar.setDarkTranslucent({colorBackStatusBar});
+				break;
+			case 'dark-translucent':
+				StatusBar.setDarkTranslucent({translucent: false, colorBackStatusBar});
+				break;
+			case 'light-translucent':
+				StatusBar.setLigthTranslucent({translucent: false, colorBackStatusBar});
+				break;
+			case 'hide-translucent':
+				StatusBar.hide({translucent: false, colorBackStatusBar});
 				break;
 			case 'hide':
-				StatusBar.hide();
+				StatusBar.hide({colorBackStatusBar});
 				break;
 			default:
-				StatusBar.setDarkTranslucent();
+				StatusBar.setDarkTranslucent({colorBackStatusBar});
 				break;
 		}
 	};
@@ -66,6 +82,18 @@ export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, s
 		mergeOptions(nameScreen, {
 			popGesture: isBack,
 		});
+	};
+
+	const loadPropsWix = () => {
+		self.propsWix = propsWix;
+		self.forceUpdate(); // Опасный код
+	};
+
+	self.setPropsWix = (props, isClear = false) => {
+		if (isClear) propsWix = {_private: {...propsWix._private}};
+		propsWix = {...propsWix, ...props};
+		self.propsWix = propsWix;
+		self.forceUpdate(); // Опасный код
 	};
 
 	self.onBack = function() {
@@ -79,52 +107,48 @@ export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, s
 	};
 
 	self.componentDidAppear = () => {
+		loadPropsWix();
 		setStatusBar();
 		iosSwipeBack();
-		self.__proto__.componentDidAppear && self.__proto__.componentDidAppear.bind(self)();
 
-		// Логика при установки фокуса на экрана
-
-		// console.log('componentDidAppear', self);
 		// Фокусировка экрана
 		onFocusedScreen !== undefined
 			? onFocusedScreen({status: true, nameScreen})
 			: self.props.onFocusedScreen && self.props.onFocusedScreen({status: true, nameScreen});
-
-		self.props = {...self.props, ...propsWix};
 		self.setState({isLoadScreen: true});
+
+		self.__proto__.componentDidAppear && self.__proto__.componentDidAppear.bind(self)();
+		// console.log('componentDidAppear');
 	};
 
 	self.componentDidDisappear = () => {
-		self.__proto__.componentDidDisappear && self.__proto__.componentDidDisappear.bind(self)();
 		// Логика при снятии фокуса с экрана
 		// Фокусировка экрана
-
 		onFocusedScreen !== undefined
 			? onFocusedScreen({status: false, nameScreen})
 			: self.props.onFocusedScreen && self.props.onFocusedScreen({status: false, nameScreen});
 
-		// Прокидывание пропсы
-		propsWix = {};
-		propsWix = {
-			...propsWix,
-			statusBar: statusBar ? undefined : statusBar,
-			...(propsScreen || self.props),
-		};
+		self.__proto__.componentDidDisappear && self.__proto__.componentDidDisappear.bind(self)();
+		// console.log('componentDidDisappear');
 	};
 
 	self.componentDidMount = () => {
+		// Логика при монтировании
+
+		BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+		// StatusBar.setDarkTranslucent();
+
 		self.__proto__.componentDidMount && self.__proto__.componentDidMount.bind(self)();
 		// console.log('componentDidMount');
-		// Логика при монтировании
-		BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-		StatusBar.setDarkTranslucent();
 	};
 
 	self.componentWillUnmount = () => {
-		self.__proto__.componentWillUnmount && self.__proto__.componentWillUnmount.bind(self)();
 		// Логика при размонтровании
+
 		BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+
+		self.__proto__.componentWillUnmount && self.__proto__.componentWillUnmount.bind(self)();
+		// console.log('componentWillUnmount');
 	};
 
 	self.componentWillUpdate = () => {
@@ -133,8 +157,9 @@ export default (self, {isBack = true, statusBar, onFocusedScreen, propsScreen, s
 	};
 
 	self.componentWillMount = () => {
-		self.__proto__.componentWillMount && self.__proto__.componentWillMount.bind(self)();
 		self.styles = styles ? Theme.createStyles(styles) : {};
+
+		self.__proto__.componentWillMount && self.__proto__.componentWillMount.bind(self)();
 		// console.log('componentWillMount');
 	};
 

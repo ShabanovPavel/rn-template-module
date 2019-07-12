@@ -1,14 +1,24 @@
-package com.rn;
+package com.rn_template;
 
+
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactcommunity.rnlanguages.RNLanguagesPackage;
 import com.imagepicker.ImagePickerPackage; 
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 
+
+
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+
+import com.reactnativecommunity.webview.RNCWebViewPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
-
+import com.github.yamill.orientation.OrientationPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.oblador.keychain.KeychainPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import java.util.Arrays;
@@ -38,7 +48,14 @@ public class MainApplication extends NavigationApplication {
         return Arrays.<ReactPackage>asList(
             new RNLanguagesPackage(),
             new ImagePickerPackage(),
-            new SplashScreenReactPackage()
+            new SplashScreenReactPackage(),
+            new FastImageViewPackage(),
+            new NetInfoPackage(),
+            new LinearGradientPackage(),
+            new KeychainPackage(),
+            new RNCWebViewPackage(),
+            new AsyncStoragePackage(),
+            new OrientationPackage()
         );
     }
   

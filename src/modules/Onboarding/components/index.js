@@ -21,12 +21,19 @@ export default class Screen extends React.PureComponent {
 	componentDisappear() {}
 
 	render() {
-		const {styles, props, onBack} = this;
+		const {styles, props, onBack, propsWix, setPropsWix} = this;
 		const {onBack2} = props;
 		return (
 			<View style={styles.mainContainer}>
-				<Button action={onBack} text='Hello, I am Onboarding' />
-				<Button action={onBack2} text='Back 2 Screen' />
+				<Button onAction={onBack} text='Hello, I am Onboarding' />
+				<Button onAction={onBack2} text='Back 2 Screen' />
+				<Button
+					onAction={() => {
+						setPropsWix({Onboarding: 'visible'}, true);
+						Log(propsWix);
+					}}
+					text='PropsWix'
+				/>
 			</View>
 		);
 	}

@@ -1,48 +1,49 @@
 /** @module Navigation */
-
+import {Platform} from 'react-native';
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
 import configureStore from '../../store';
+import {Toast, BackHandler} from '../../library';
 
 const {store} = configureStore();
 
 let lastNameScreen = '';
 let stack = []; // для стэк навигации (орентировочный маршрут)
 let isWait = false; // для игнорирования сторонних операций во время совершения операции
-const timeWait = 300; // ms
-
-/**
- * Переход вперед по стек навигации
- * @param {String} currentID имя компонента с которого делается переход
- * @param {String} nameScreen имя компонента на который делается переход
- * @param {Object} options настройки перехода см(док wix/react-native-navigation)
- */
-const push = (currentID, nameScreen, options) => {
-	if (lastNameScreen !== nameScreen) {
-		lastNameScreen = nameScreen;
-		stack.push(nameScreen);
-		Navigation.push(currentID, {
-			component: {
-				id: nameScreen,
-				name: nameScreen,
-			},
-			options,
-		});
-	}
-};
+let isSwipe = true;
+let amountPopToBack = 1;
+let screenEventListener;
+const timeWait = 1000; // ms
 
 /**
  * Переход назад по стек навигаци
  * @param {String} currentID имя компонента с которого производится переход
  * @param {Object} options настройки перехода см(док wix/react-native-navigation)
  */
-const pop = (currentID, options) => {
+const pop = (currentID, options = {}) => {
 	if (!isWait) {
+		isSwipe = false;
 		isWait = true;
-		lastNameScreen = '';
-		stack.pop();
-		Navigation.pop(currentID, options);
-		setTimeout(() => (isWait = false), timeWait);
+		lastNameScreen = stack[stack.length - 1];
+		if (stack.length > 2) {
+			stack.pop();
+			stack.pop();
+			amountPopToBack = 3;
+			Navigation.pop(currentID, options);
+		} else if (amountPopToBack === 0) {
+			stack = [];
+			lastNameScreen = '';
+			amountPopToBack = 1;
+			screenEventListener && screenEventListener.remove();
+			BackHandler.exitApp();
+		} else {
+			Toast.show('Повторите для выхода из приложения');
+			amountPopToBack -= 1;
+		}
+		setTimeout(() => {
+			isWait = false;
+			isSwipe = true;
+		}, timeWait);
 	}
 };
 
@@ -52,11 +53,15 @@ const pop = (currentID, options) => {
  */
 const popToRoot = currentID => {
 	if (!isWait) {
+		isSwipe = false;
 		isWait = true;
 		lastNameScreen = '';
 		stack = [];
 		Navigation.popToRoot(currentID);
-		setTimeout(() => (isWait = false), timeWait);
+		setTimeout(() => {
+			isWait = false;
+			isSwipe = true;
+		}, timeWait);
 	}
 };
 
@@ -65,9 +70,10 @@ const popToRoot = currentID => {
  * @param {String|Number} currentID имя компонента до которого вернуться или количество компонентов назад
  * @param {Object} options настройки перехода см(док wix/react-native-navigation)
  */
-const popTo = (currentID = 1, options) => {
+const popTo = (currentID = 1, options = {}) => {
 	if (!isWait) {
 		isWait = true;
+		isSwipe = false;
 		if (typeof currentID === 'number') {
 			for (let i = 0; i < currentID; i += 1) {
 				if (stack.length > 1) stack.pop();
@@ -76,10 +82,45 @@ const popTo = (currentID = 1, options) => {
 			lastNameScreen = stack[l];
 			Navigation.popTo(lastNameScreen, options);
 		} else {
-			lastNameScreen = currentID;
+			lastNameScreen = stack[stack.length - 1];
+			for (let i = stack.length - 1; i > 0; i -= 1) {
+				if (stack[i] === currentID) break;
+				stack.pop();
+			}
+			stack.pop();
 			Navigation.popTo(currentID, options);
 		}
-		setTimeout(() => (isWait = false), timeWait);
+		setTimeout(() => {
+			isWait = false;
+			isSwipe = true;
+		}, timeWait);
+	}
+};
+
+/**
+ * Переход вперед по стек навигации
+ * @param {String} currentID имя компонента с которого делается переход
+ * @param {String} nameScreen имя компонента на который делается переход
+ * @param {Object} options настройки перехода см(док wix/react-native-navigation)
+ */
+const push = (currentID, nameScreen, options) => {
+	if (lastNameScreen !== nameScreen) {
+		if (stack.includes(nameScreen)) {
+			popTo(nameScreen, {});
+		} else {
+			lastNameScreen = stack[stack.length - 1];
+			isSwipe = false;
+			Navigation.push(currentID, {
+				component: {
+					id: nameScreen,
+					name: nameScreen,
+				},
+				options: options || {},
+			});
+			setTimeout(() => {
+				isSwipe = true;
+			}, timeWait);
+		}
 	}
 };
 
@@ -91,12 +132,16 @@ const popTo = (currentID = 1, options) => {
  * @param {Object} options почие настройки (см wix/react-native-navigation)
  */
 const navigateTab = (screenID, nameScreen, options) => {
+	isSwipe = false;
 	Navigation.mergeOptions(screenID, {
 		bottomTabs: {
 			currentTabId: nameScreen,
 			...options,
 		},
 	});
+	setTimeout(() => {
+		isSwipe = true;
+	}, timeWait);
 };
 
 /**
@@ -105,6 +150,7 @@ const navigateTab = (screenID, nameScreen, options) => {
  */
 const setRoot = root => {
 	Navigation.setRoot(root);
+	for (let i = 0; i < stack.length - 1; i += 1) stack.pop();
 };
 
 /**
@@ -144,11 +190,20 @@ function registerComponent(name, component) {
  */
 const traking = (root, service) => {
 	const {analytic} = service;
-	stack.push(root);
-	Navigation.events().registerComponentDidAppearListener(({componentId, componentName}) => {
-		analytic.pushScreen(componentName);
-		lastNameScreen = analytic.getLastItem();
-	});
+
+	screenEventListener = Navigation.events().registerComponentDidAppearListener(
+		({componentId, componentName}) => {
+			analytic.pushScreen(componentName);
+			// console.log('open', componentName);
+			// console.log('last', lastNameScreen);
+			if (Platform.OS === 'ios' && isSwipe && stack.length > 2) {
+				stack.pop();
+			} else if (stack[stack.length - 1] !== componentName) stack.push(componentName);
+			// console.log(stack, isSwipe);
+
+			lastNameScreen = analytic.getLastItem();
+		},
+	);
 };
 
 /**
@@ -180,7 +235,13 @@ const dismissOverlay = name => {
  */
 const storeDispatch = action => store.dispatch(action);
 
+/** Регистрирует компонент в стеке */
+const setStack = name => {
+	stack.push(name);
+};
+
 export {
+	setStack,
 	Navigation,
 	registerComponent,
 	pop,

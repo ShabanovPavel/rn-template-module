@@ -24,8 +24,8 @@ export default class Screen extends React.PureComponent {
 		const {onOpenOnboarding} = props;
 		return (
 			<View style={styles.mainContainer}>
-				<Button action={onBack} text='Hello, I am Playground' />
-				<Button action={onOpenOnboarding} text='Open Onboarding' />
+				<Button onAction={onBack} text='Hello, I am Playground' />
+				<Button onAction={onOpenOnboarding} text='Open Onboarding' />
 			</View>
 		);
 	}

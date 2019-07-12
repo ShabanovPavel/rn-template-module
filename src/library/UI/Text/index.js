@@ -21,7 +21,7 @@ class Text extends React.PureComponent {
 		const {style, children, i18n} = props;
 		return i18n ? (
 			<RNText {...this.props} style={{...styles.text, ...style}}>
-				{I.text(children)}
+				{I.text(children || '')}
 			</RNText>
 		) : (
 			<RNText {...this.props} style={{...styles.text, ...style}} />

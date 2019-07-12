@@ -6,6 +6,10 @@ import {ONBOARDING_BACK_2} from './action';
  * @private
  */
 
-export const onBack2 = () => dispatch => {
+const self = {};
+
+self.onBack2 = () => dispatch => {
 	dispatch({type: ONBOARDING_BACK_2});
 };
+
+export default self;

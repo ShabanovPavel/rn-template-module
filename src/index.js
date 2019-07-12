@@ -1,4 +1,4 @@
-import {registerComponent, showOverlay, Navigation} from './core/navigation';
+import {registerComponent, Navigation} from './core/navigation';
 import {OnboardingScreen, PlaygroundScreen, IndicatorsScreen} from './modules';
 import {AppScreen} from './core/app';
 import {Offline, Fab} from './simple';

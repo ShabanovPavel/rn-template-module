@@ -1,4 +1,4 @@
-import {NetInfo} from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import * as Requests from './requests';
 import {getItem, setToken} from './storadge';
 import {Toast, Log} from '../../library';
@@ -27,6 +27,9 @@ const getTokens = async () => ({
 	token: await getItem('token'),
 });
 
+/** Стераем токены */
+const logout = async () => await setToken('', '', '');
+
 /**
  * Инструменты для запросов
  * @memberof class:RequestsManager
@@ -36,6 +39,7 @@ const getTools = async () => ({
 });
 
 let isConnected = true; // соединение есть или нет
+let typeConected;
 
 /**
  * @class RequestsManager
@@ -90,7 +94,9 @@ class RequestsManager {
 	 */
 	update() {
 		setInterval(() => {
-			NetInfo.isConnected.fetch().then(isNet => {
+			NetInfo.fetch().then(state => {
+				const isNet = state.isConnected;
+				typeConected = state.type;
 				if (isConnected !== isNet) {
 					isConnected = isNet;
 					this.callbackChangeConnectedNet(isNet);
@@ -254,18 +260,26 @@ class RequestsManager {
 			}
 		};
 	}
+
+	logoutClient() {
+		logout();
+	}
+
+	async getTokens() {
+		return await getTokens();
+	}
 }
 
 const manager = RequestsManager.instance();
 
 export {manager};
-export default async (method, params, success, error) => {
+export default async (method, params, success, error, time) => {
 	if (Requests[method]) {
 		await manager.refreshToken(null, error);
 
 		Log(`request.${method}.params: `, params);
 
-		manager.addRequest(Options.timeRequest, Requests[method], method, params, async res => {
+		manager.addRequest(time || Options.timeRequest, Requests[method], method, params, async res => {
 			// Настраивается в зависимости от клиента и типа сообщений
 			Log(`response.${method}: `, res);
 			if (res.ok) {
