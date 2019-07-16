@@ -6,8 +6,8 @@
 
 /** Приложение инициализируется */
 export const APP_INIT = 'App/Init';
-/** Отрывает модуль регистрации */
-export const APP_OPEN_LOGIN = 'App/OpenLogin';
+/** Отрывает модуль основного приложения */
+export const APP_OPEN_MAIN = 'App/OpenMain';
 /** Открывает модуль рекламы приложения */
 export const APP_OPEN_ONBOARDING = 'App/OpenOnboarding';
 /** Открывает модуль ээксперементов! */

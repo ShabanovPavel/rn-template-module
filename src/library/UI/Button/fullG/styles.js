@@ -26,7 +26,16 @@ export default theme => ({
 	},
 	textBtnFull: {
 		fontSize: 17,
-		fontWeight: '700', // semibold
-		color: 'white',
+		fontWeight: theme.simple.fontWeight.semibold,
+		color: theme.color.WHITE,
+	},
+	absolute: {
+		position: 'absolute',
+		top: 8,
+		left: 0,
+		right: 0,
+		height: 52,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });

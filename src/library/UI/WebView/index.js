@@ -18,9 +18,19 @@ class WebView extends React.PureComponent {
 
 	render() {
 		const {styles, props} = this;
-		const {source, style, ...other} = props;
+		const {source, style, reference, ...other} = props;
 		const sty = {...style, ...styles.web};
-		return <Web source={source} style={sty} {...other} />;
+		return (
+			<Web
+				ref={ref => {
+					reference && reference(ref);
+					this.web = ref;
+				}}
+				source={source}
+				style={sty}
+				{...other}
+			/>
+		);
 	}
 }
 

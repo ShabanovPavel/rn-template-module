@@ -60,12 +60,5 @@ Dummy pattern React Native + Redux
     
 6. **Необходимо добавить**   
 
-    fabric  
-    fastlane  
-    crashlitycs  
-    appCenter
-    push   
-    chat  
-    fab  
-    refreshToken
+   
 

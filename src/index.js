@@ -1,5 +1,5 @@
 import {registerComponent, Navigation} from './core/navigation';
-import {OnboardingScreen, PlaygroundScreen, IndicatorsScreen} from './modules';
+import {OnboardingScreen, PlaygroundScreen, IndicatorsScreen, MainScreen} from './modules';
 import {AppScreen} from './core/app';
 import {Offline, Fab} from './simple';
 import {settingsDefault, rootLoadApp} from './routes';
@@ -10,6 +10,7 @@ function initModules() {
 	registerComponent('fab', Fab); // фаб меню
 	registerComponent('offline', Offline); // планка оффлайн режима
 	// умные компоненты
+	registerComponent('main', MainScreen);
 	registerComponent('indicators', IndicatorsScreen);
 	registerComponent('playground', PlaygroundScreen);
 	registerComponent('onboarding', OnboardingScreen);

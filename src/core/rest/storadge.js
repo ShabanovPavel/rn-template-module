@@ -6,35 +6,6 @@
 import * as Keychain from 'react-native-keychain';
 
 /**
- * Записывает токен
- *
- * @param {String} token токен сессии
- * @param {String} refreshToken токен для рефреша
- * @param {String} time время через которое необходимо обновить
- * @memberof module:Rest/Storage
- */
-export const setToken = async (token, refreshToken, time) => {
-	try {
-		console.log('token', token, 'refreshToken', refreshToken, 'time', time);
-		await Keychain.setGenericPassword('token', token.toString(), {
-			service: 'token',
-			accessible: Keychain.ACCESSIBLE.ALWAYS,
-		});
-		await Keychain.setGenericPassword('timeRefresh', time.toString(), {
-			service: 'timeRefresh',
-			accessible: Keychain.ACCESSIBLE.ALWAYS,
-		});
-		await Keychain.setGenericPassword('refreshToken', refreshToken.toString(), {
-			service: 'refreshToken',
-			accessible: Keychain.ACCESSIBLE.ALWAYS,
-		});
-	} catch (error) {
-		// Error saving data
-		console.log('DO NOT SAVED PRIVATE STORAGE');
-	}
-};
-
-/**
  * Созраняет информацию
  * @param {String} key ключ
  * @param {*} value значение
@@ -48,7 +19,7 @@ export const setItem = async (key, value) => {
 		});
 	} catch (error) {
 		// Error saving data
-		console.log('DO NOT SAVED PRIVATE STORAGE');
+		console.log(`DO NOT SAVED PRIVATE STORAGE ${key}`);
 	}
 };
 
@@ -65,7 +36,7 @@ export const getItem = async key => {
 		}
 		return '';
 	} catch (error) {
-		console.log('DO NOT GIVE DATA IN PRIVATE STORAGE');
+		console.log(`DO NOT GIVE DATA IN PRIVATE STORAGE ${key}`);
 		return '';
 	}
 };

@@ -25,16 +25,11 @@ const persistConfig = {
 let enhacers;
 
 // eslint-disable-next-line
-// if (__DEV__ === true) {
 if (Otions.isLogger && __DEV__ === true) {
 	enhacers = applyMiddleware(thunk, createLogger({collapsed: true}));
 } else {
 	enhacers = applyMiddleware(thunk);
 }
-// } else {
-// 	enhacers = applyMiddleware(thunk);
-// }
-
 export default function configureStore() {
 	const store = createStore(persistReducer(persistConfig, rootReducer), undefined, enhacers);
 	const persistor = persistStore(store);

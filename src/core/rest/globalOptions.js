@@ -17,3 +17,5 @@ export const formDataToString = formDataObject => {
 	});
 	return this.formDataString.slice(1);
 };
+
+export const PORTAL = 'https://..';

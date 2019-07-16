@@ -7,4 +7,6 @@ export default {
 	WHITE: '#FFF',
 	GRAY_PLACEHOLDER: 'rgb(141,141,141)',
 	GRAY_LIGHT: 'rgb(188,188,188)',
+	BLUE: '#007AFF',
+	GOLD: '#FFD700',
 };

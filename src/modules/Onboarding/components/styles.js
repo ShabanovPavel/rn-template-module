@@ -4,4 +4,5 @@ export default theme => ({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	colorBtn: theme.color.BLUE_BTN_SIMPLE,
 });

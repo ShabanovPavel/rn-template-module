@@ -1,13 +1,12 @@
 import NetInfo from '@react-native-community/netinfo';
 import * as Requests from './requests';
-import {getItem, setToken} from './storadge';
+import {getItem, setItem} from './storadge';
 import {Toast, Log} from '../../library';
-import Fetch from './fetch';
 import Options from '../../options';
-import Looper from '../looper';
 
 let instance;
 
+const TIME_REFRESH = 5000;
 const FAILD_RESPONSE = {
 	ok: false,
 	error: 'Timeout wait error',
@@ -19,24 +18,28 @@ const FAILD_RESPONSE_NET = {
 	result: 'Проверьте соединения с сетью',
 };
 
+const FAILD_REFRESH = {
+	ok: false,
+	error: 'Timeout wait error',
+	result: 'Не удалось обновить сессию',
+};
+
 /**
  * Токены для запросов
  * @memberof class:RequestsManager
  */
 const getTokens = async () => ({
 	token: await getItem('token'),
+	token_type: await getItem('token_type'),
 });
 
 /** Стераем токены */
-const logout = async () => await setToken('', '', '');
-
-/**
- * Инструменты для запросов
- * @memberof class:RequestsManager
- */
-const getTools = async () => ({
-	Fetch,
-});
+const logout = async () => {
+	await setItem('token_info', {});
+	await setItem('token', '');
+	await setItem('token_type', '');
+	await setItem('token_time', '');
+};
 
 let isConnected = true; // соединение есть или нет
 let typeConected;
@@ -56,7 +59,7 @@ class RequestsManager {
 	static instance() {
 		if (!instance) {
 			instance = new RequestsManager();
-			console.log('Init ManagerRequest, methods:', Requests);
+			Log('Init ManagerRequest, methods:', Requests);
 		}
 		return instance;
 	}
@@ -175,7 +178,6 @@ class RequestsManager {
 							{
 								...params,
 								...(await getTokens()),
-								...(await getTools()),
 							},
 							res => {
 								try {
@@ -220,33 +222,22 @@ class RequestsManager {
 	/**
 	 * Обновляет токен сессии
 	 */
-	async refreshToken(success, error) {
-		const time = await getItem('timeRefresh');
-		if (!this.isWait && time !== '' && +time < Date.now()) {
+	async refreshToken(isDouble = false) {
+		const time = await getItem('token_time');
+		if ((isDouble || !this.isWait) && time !== '' && +time < Date.now()) {
 			this.isWait = true;
-			const refreshToken = await getItem('refreshToken');
-			Log('Refresh token');
-			Requests.refreshToken({token: refreshToken}, (t, r, tim, ex) => {
-				if (tim === '') {
-					error && error();
+			Log('Refresh');
+			Requests.refreshToken({...(await getItem('token_info'))}, params => {
+				Log('Refresh_params', params);
+				if (params.ok) {
+					setTimeout(() => {
+						this.isWait = false;
+					}, 1000);
 				} else {
-					setToken(t, r, tim);
-					success && success();
-					Looper.start(
-						'refreshToken',
-						() => {
-							Looper.stop('refreshToken');
-							this.refreshToken(success, error);
-						},
-						Math.abs(+ex),
-					);
+					setTimeout(() => this.refreshToken(true), TIME_REFRESH);
+					Toast.show(FAILD_REFRESH.result);
 				}
-				setTimeout(() => {
-					this.isWait = false;
-				}, 1000);
 			});
-		} else {
-			success && success();
 		}
 	}
 
@@ -285,7 +276,7 @@ export default async (method, params, success, error, time) => {
 			if (res.ok) {
 				success && success(res.result);
 			} else {
-				Toast.requestError(res.result);
+				Toast.show(res.result);
 				error && error(res.result);
 			}
 		});

@@ -49,3 +49,25 @@ export const rootLoadApp = {
 		},
 	},
 };
+
+export const rootMainApp = {
+	root: {
+		stack: {
+			id: 'appStack',
+			children: [
+				{
+					component: {
+						id: 'main',
+						name: 'main',
+					},
+				},
+			],
+			options: {
+				topBar: {
+					visible: false,
+					height: 0,
+				},
+			},
+		},
+	},
+};

@@ -1,6 +1,4 @@
-import {} from '../globalOptions';
-
-const PORTAL = 'https://...';
+import {PORTAL} from '../globalOptions';
 
 export const requestTest = async (params, callback) => {
 	console.log('request.other.requestTest: ', params);

@@ -4,7 +4,7 @@
  * @private
  */
 import {APP_UPDATE_NET_CONNECT} from '../app';
-
+// eslint-disable-next-line
 export function app(
 	state = {
 		isOffline: false,

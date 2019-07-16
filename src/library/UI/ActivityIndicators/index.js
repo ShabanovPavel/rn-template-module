@@ -8,6 +8,7 @@ import PulseIndicator from './pulse-indicator';
 import SkypeIndicator from './skype-indicator';
 import ActivityIndicators from './ui-activity-indicator';
 import BlockIndicator from './block-indicator';
+import HorizontalIndicator from './horizontal-indicator';
 
 class ActivityIndicator extends React.Component {
 	constructor(props) {
@@ -16,7 +17,7 @@ class ActivityIndicator extends React.Component {
 
 	render() {
 		const {props} = this;
-		const {ball, dot, bar, material, pacman, pulse, skype, block, ...other} = props;
+		const {ball, dot, bar, material, pacman, pulse, skype, block, horizontal, ...other} = props;
 
 		if (ball) {
 			return <BallIndicator {...other} />;
@@ -41,6 +42,9 @@ class ActivityIndicator extends React.Component {
 		}
 		if (block) {
 			return <BlockIndicator {...other} />;
+		}
+		if (horizontal) {
+			return <HorizontalIndicator {...other} />;
 		}
 
 		return <ActivityIndicators {...other} />;

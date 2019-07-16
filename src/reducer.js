@@ -1,6 +1,12 @@
-import {push, popTo} from './core/navigation';
-import {PLAYGROUND_OPEN_ONBOARDING, ONBOARDING_BACK_2} from './modules';
-import {APP_OPEN_PLAYGROUND, APP_OPEN_ONBOARDING, APP_OPEN_INDICATORS} from './core/app';
+import {push, setRoot} from './core/navigation';
+import {
+	PLAYGROUND_OPEN_ONBOARDING,
+	MAIN_OPEN_ONBOARDING,
+	MAIN_OPEN_PLAYGROUND,
+	MAIN_OPEN_INDICATORS,
+} from './modules';
+import {APP_INIT} from './core/app';
+import {rootMainApp} from './routes';
 
 export default function nav(
 	state = {
@@ -11,24 +17,25 @@ export default function nav(
 	let nextState;
 	switch (action.type) {
 		// Indicators
-		case APP_OPEN_INDICATORS:
-			push('initApp', 'indicators');
+		case MAIN_OPEN_INDICATORS:
+			push('appStack', 'indicators');
 			break;
 
 		//  Playground
-		case APP_OPEN_PLAYGROUND:
-			push('initApp', 'playground');
+		case MAIN_OPEN_PLAYGROUND:
+			push('appStack', 'playground');
 			break;
 		case PLAYGROUND_OPEN_ONBOARDING:
-			push('initApp', 'onboarding');
+			push('appStack', 'onboarding');
 			break;
 
 		// Onboarding
-		case APP_OPEN_ONBOARDING:
-			push('initApp', 'onboarding');
+		case MAIN_OPEN_ONBOARDING:
+			push('appStack', 'onboarding');
 			break;
-		case ONBOARDING_BACK_2:
-			popTo(2);
+
+		case APP_INIT:
+			setRoot(rootMainApp);
 			break;
 
 		case 'persist/REHYDRATE':

@@ -64,15 +64,9 @@ class FullG extends React.Component {
 				>
 					<LinearGradient colors={['#6C04CD', '#8D02F2']} style={{flex: 1}}>
 						<View style={styles.inButtonContainer}>
-							{isLoadBar ? (
-								activityIndicator ? (
-									activityIndicator()
-								) : (
-									<ActivityIndicator size='large' color='white' />
-								)
-							) : (
+							{!isLoadBar && (
 								<>
-									{icon && <Icon name={icon} style={styles.icon} style={iconStyle} />}
+									{icon && <Icon name={icon} style={{...styles.icon, ...iconStyle}} />}
 									<Text style={styles.textBtnFull} i18n ellipsizeMode='tail' numberOfLines={1}>
 										{text}
 									</Text>
@@ -81,6 +75,15 @@ class FullG extends React.Component {
 						</View>
 					</LinearGradient>
 				</TouchableOpacity>
+				{isLoadBar && (
+					<View style={styles.absolute}>
+						{activityIndicator ? (
+							activityIndicator()
+						) : (
+							<ActivityIndicator size='large' color='white' />
+						)}
+					</View>
+				)}
 			</View>
 		);
 	}

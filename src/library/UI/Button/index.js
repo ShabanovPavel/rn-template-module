@@ -21,7 +21,8 @@ import {FullG} from './fullG';
  * @param {Object} style стили
  * @param {Boolean} isLoadBar нужен ли индикатор загрузки
  * @param {Boolean} enable активна кнопка или нет
- * @param {Number} activeOpacity прозрачность кнопки
+ * @param {Number} activeOpacity прозрачность кнопки 
+ * @param {Boolean} keyDismiss нужно ли скрывать клаву при нажатии
  */
 class Button extends React.PureComponent {
 	constructor(props) {
@@ -29,10 +30,12 @@ class Button extends React.PureComponent {
 	}
 
 	handleOnAction = () => {		
-		const {onAction} = this.props;
+		const {onAction, keyDismiss} = this.props;
 
-		Keyboard.dismiss()
-		requestAnimationFrame(onAction)
+		if(keyDismiss){
+			requestAnimationFrame(Keyboard.dismiss)
+		}
+		onAction()
 	}
 
 	render() {
@@ -53,7 +56,7 @@ class Button extends React.PureComponent {
 			return <Around {...other} onAction={this.handleOnAction} activeOpacity={activeOpacity} />;
 		}
 
-		return <TouchableOpacity activeOpacity={activeOpacity} {...other} onPress={this.handleOnAction} />;
+		return <TouchableOpacity activeOpacity={activeOpacity} {...other} onPress={onAction} />;
 	}
 }
 
@@ -64,6 +67,7 @@ Button.propTypes = {
 	full: PropTypes.bool,
 	around: PropTypes.bool,
 	activeOpacity: PropTypes.number,
+	keyDismiss: PropTypes.bool
 };
 
 Button.defaultProps = {
@@ -73,6 +77,7 @@ Button.defaultProps = {
 	full: false,
 	around: false,
 	activeOpacity: 0.7,
+	keyDismiss: true,
 };
 
 export {Button};

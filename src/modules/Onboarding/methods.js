@@ -1,4 +1,4 @@
-import {ONBOARDING_BACK_2} from './action';
+import {} from './action';
 
 /**
  * @module Onboarding/Methods
@@ -7,9 +7,5 @@ import {ONBOARDING_BACK_2} from './action';
  */
 
 const self = {};
-
-self.onBack2 = () => dispatch => {
-	dispatch({type: ONBOARDING_BACK_2});
-};
 
 export default self;

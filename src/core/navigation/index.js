@@ -10,7 +10,7 @@ const {store} = configureStore();
 let lastNameScreen = '';
 let stack = []; // для стэк навигации (орентировочный маршрут)
 let isWait = false; // для игнорирования сторонних операций во время совершения операции
-let isSwipe = true;
+let isSwipebl = true;
 let amountPopToBack = 1;
 let screenEventListener;
 const timeWait = 1000; // ms
@@ -22,7 +22,7 @@ const timeWait = 1000; // ms
  */
 const pop = (currentID, options = {}) => {
 	if (!isWait) {
-		isSwipe = false;
+		isSwipebl = false;
 		isWait = true;
 		lastNameScreen = stack[stack.length - 1];
 		if (stack.length > 2) {
@@ -36,13 +36,13 @@ const pop = (currentID, options = {}) => {
 			amountPopToBack = 1;
 			screenEventListener && screenEventListener.remove();
 			BackHandler.exitApp();
-		} else {
+		} else if (Platform.OS !== 'ios') {
 			Toast.show('Повторите для выхода из приложения');
 			amountPopToBack -= 1;
 		}
 		setTimeout(() => {
 			isWait = false;
-			isSwipe = true;
+			isSwipebl = true;
 		}, timeWait);
 	}
 };
@@ -53,14 +53,14 @@ const pop = (currentID, options = {}) => {
  */
 const popToRoot = currentID => {
 	if (!isWait) {
-		isSwipe = false;
+		isSwipebl = false;
 		isWait = true;
 		lastNameScreen = '';
 		stack = [];
 		Navigation.popToRoot(currentID);
 		setTimeout(() => {
 			isWait = false;
-			isSwipe = true;
+			isSwipebl = true;
 		}, timeWait);
 	}
 };
@@ -73,7 +73,7 @@ const popToRoot = currentID => {
 const popTo = (currentID = 1, options = {}) => {
 	if (!isWait) {
 		isWait = true;
-		isSwipe = false;
+		isSwipebl = false;
 		if (typeof currentID === 'number') {
 			for (let i = 0; i < currentID; i += 1) {
 				if (stack.length > 1) stack.pop();
@@ -92,7 +92,7 @@ const popTo = (currentID = 1, options = {}) => {
 		}
 		setTimeout(() => {
 			isWait = false;
-			isSwipe = true;
+			isSwipebl = true;
 		}, timeWait);
 	}
 };
@@ -109,7 +109,7 @@ const push = (currentID, nameScreen, options) => {
 			popTo(nameScreen, {});
 		} else {
 			lastNameScreen = stack[stack.length - 1];
-			isSwipe = false;
+			isSwipebl = false;
 			Navigation.push(currentID, {
 				component: {
 					id: nameScreen,
@@ -118,7 +118,7 @@ const push = (currentID, nameScreen, options) => {
 				options: options || {},
 			});
 			setTimeout(() => {
-				isSwipe = true;
+				isSwipebl = true;
 			}, timeWait);
 		}
 	}
@@ -132,7 +132,7 @@ const push = (currentID, nameScreen, options) => {
  * @param {Object} options почие настройки (см wix/react-native-navigation)
  */
 const navigateTab = (screenID, nameScreen, options) => {
-	isSwipe = false;
+	isSwipebl = false;
 	Navigation.mergeOptions(screenID, {
 		bottomTabs: {
 			currentTabId: nameScreen,
@@ -140,7 +140,7 @@ const navigateTab = (screenID, nameScreen, options) => {
 		},
 	});
 	setTimeout(() => {
-		isSwipe = true;
+		isSwipebl = true;
 	}, timeWait);
 };
 
@@ -150,6 +150,7 @@ const navigateTab = (screenID, nameScreen, options) => {
  */
 const setRoot = root => {
 	Navigation.setRoot(root);
+	isSwipebl = false;
 	for (let i = 0; i < stack.length - 1; i += 1) stack.pop();
 };
 
@@ -190,16 +191,16 @@ function registerComponent(name, component) {
  */
 const traking = (root, service) => {
 	const {analytic} = service;
-
 	screenEventListener = Navigation.events().registerComponentDidAppearListener(
 		({componentId, componentName}) => {
 			analytic.pushScreen(componentName);
 			// console.log('open', componentName);
 			// console.log('last', lastNameScreen);
-			if (Platform.OS === 'ios' && isSwipe && stack.length > 2) {
+			// console.log(stack, isSwipebl);
+			if (Platform.OS === 'ios' && isSwipebl && stack.length > 2) {
 				stack.pop();
 			} else if (stack[stack.length - 1] !== componentName) stack.push(componentName);
-			// console.log(stack, isSwipe);
+			console.log(stack, isSwipebl);
 
 			lastNameScreen = analytic.getLastItem();
 		},

@@ -71,25 +71,4 @@ self.onInit = app_self => (dispatch, getState) => {
 	});
 };
 
-/**
- * Открывает модуль рекламы
- */
-self.onOpenOnboarding = () => dispatch => {
-	dispatch({type: APP_OPEN_ONBOARDING});
-};
-
-/**
- * Открывает модуль эксперементов
- */
-self.onOpenPlayground = () => dispatch => {
-	dispatch({type: APP_OPEN_PLAYGROUND});
-};
-
-/**
- *   Открывает модуль индикаторов
- */
-self.onOpenIndicators = () => dispatch => {
-	dispatch({type: APP_OPEN_INDICATORS});
-};
-
 export default self;

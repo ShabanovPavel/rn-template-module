@@ -211,6 +211,11 @@ const getKeyObject = (object, key) => {
 	return search;
 };
 
+/**
+ * Валидирует E-mail адрес
+ * @param {String} email почта
+ * @return {Boolean} совпадает ли или нет
+ */
 export const validateEmail = email => {
 	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	return re.test(String(email).toLowerCase());

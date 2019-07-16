@@ -27,7 +27,7 @@ class InstaInput extends React.Component {
 	render() {
 		// console.log('InstaInput', this.props);
 		const {styles, props, state} = this;
-		const {style, styleView, meta = {}, secureTextEntry} = props;
+		const {style, styleView, meta = {}, secureTextEntry, reference} = props;
 		const {isSecureTextEntry} = state;
 
 		const {error, submitFailed} = meta; // для final-form
@@ -37,8 +37,6 @@ class InstaInput extends React.Component {
 			styleRes = {...styleRes, ...styles.error};
 		}
 
-		// console.log('error', error,'submitFailed', submitFailed )
-
 		return (
 			<Button style={styleRes} onAction={this.handleFocus} activeOpacity={1}>
 				<TextInput
@@ -46,7 +44,10 @@ class InstaInput extends React.Component {
 					style={{...styles.input, ...style}}
 					placeholderTextColor={styles.textInputColor}
 					secureTextEntry={isSecureTextEntry}
-					reference={ref => this.textInput = ref}
+					reference={ref => {
+						reference && reference(ref);
+						this.textInput = ref
+					}}
 				/>
 				{secureTextEntry && (
 					<Button style={styles.secureTextEntryView} onAction={this.handleChangeSecure}>

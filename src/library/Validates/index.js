@@ -5,11 +5,20 @@ const minLength = min => value =>
 
 const compare = otherValue => value => (otherValue === value ? undefined : 'not compare');
 const moreThan = otherValue => value => (Number(value) > otherValue ? undefined : 'not more than');
-const fromTo = (min, max) => value => (Number(value) > min && Number(value)<=max ? undefined : 'not more than');
+const fromTo = (min, max) => value =>
+	Number(value) > min && Number(value) <= max ? undefined : 'not more than';
 
 const validateEmail = email => {
 	const re = /\S+@\S+\.\S+/;
 	if (re.test(email)) {
+		return undefined;
+	}
+	return 'notEmail';
+};
+
+const validateEmailTop = email => {
+	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if (re.test(String(email).toLowerCase())) {
 		return undefined;
 	}
 	return 'notEmail';
@@ -29,5 +38,15 @@ const hardPas = pas => {
 	return 'need have hard';
 };
 
-const Validates = {required, isTrue, minLength, validateEmail, hardPas, compare, moreThan,fromTo};
+const Validates = {
+	required,
+	isTrue,
+	minLength,
+	validateEmail,
+	hardPas,
+	compare,
+	moreThan,
+	fromTo,
+	validateEmailTop,
+};
 export {Validates};
