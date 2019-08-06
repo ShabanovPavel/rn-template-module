@@ -1,6 +1,8 @@
 export const settingsDefault = {
 	layout: {
-		backgroundColor: 'rgb(255,255,255,0)',
+		direction: 'ltr', // Supported directions are: 'rtl', 'ltr'
+		backgroundColor: 'rgb(255,255,255,255)',
+		orientation: ['portrait'],
 	},
 	statusBar: {
 		backgroundColor: 'rgba(255,255,255,0)',
@@ -25,6 +27,10 @@ export const settingsDefault = {
 		backgroundColor: 'white',
 		drawBehind: true,
 		translucent: true,
+	},
+	overlay: {
+		interceptTouchOutside: false,
+		handleKeyboardEvents: true,
 	},
 };
 

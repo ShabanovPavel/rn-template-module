@@ -1,5 +1,6 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import RadialGradient from 'react-native-radial-gradient';
 // https://github.com/react-native-community/react-native-linear-gradient
 
 /**
@@ -8,7 +9,12 @@ import LinearGradient from 'react-native-linear-gradient';
  */
 class InitflowLinearGradient extends React.PureComponent {
 	render() {
-		return <LinearGradient {...this.props} />;
+		const {radial, ...other} = this.props;
+
+		if (radial) {
+			return <RadialGradient {...other} />;
+		}
+		return <LinearGradient {...other} />;
 	}
 }
 

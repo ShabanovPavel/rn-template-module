@@ -17,6 +17,37 @@ import styles from './styles';
  * @param {Function} onRefresh функция загрузки
  */
 class InitflowScrollView extends React.PureComponent {
+	// подгружаем новые события по мере приближения к концу видимого списка
+	handleOnUploadNext = event => {
+		// console.log('handleOnUploadNext', event.nativeEvent, this.props);
+		const {onUploadNext} = this.props;
+
+		const {nativeEvent} = event;
+		const {contentOffset, contentSize, layoutMeasurement} = nativeEvent;
+		const currentY = contentOffset.y;
+		const {height} = contentSize;
+		const visibleHeight = layoutMeasurement.height;
+		const currentOffset = nativeEvent.contentOffset.y;
+
+		try {
+			const isDown = currentOffset > (this.offset || 0);
+			this.offset = currentOffset;
+			if (isDown && currentY > height - 2 * visibleHeight) {
+				onUploadNext();
+			}
+		} catch (err) {
+			console.log('handleOnUploadNext err:', err);
+		}
+	};
+
+	onScroll = event => {
+		// console.log('onScroll', event.nativeEvent);
+		const {onScroll, onUploadNext} = this.props;
+
+		if (onScroll) onScroll(event);
+		if (onUploadNext) this.handleOnUploadNext(event);
+	};
+
 	render() {
 		const {
 			style,
@@ -45,14 +76,17 @@ class InitflowScrollView extends React.PureComponent {
 					}}
 					refreshing={refreshing}
 					onRefresh={onRefresh}
+					onScroll={this.onScroll}
+					scrollEventThrottle={0}
 				/>
 			);
 		}
 		return (
 			<KeyboardAwareScrollView
 				resetScrollToCoords={{x: 0, y: 0}}
-				extraScrollHeight={60}
+				// extraScrollHeight={60}
 				keyboardOpeningTime={0}
+				scrollEventThrottle={0}
 				showsVerticalScrollIndicator={false}
 				showsHorizontalScrollIndicator={false}
 				// keyboardDismissMode='on-drag'
@@ -75,6 +109,9 @@ InitflowScrollView.propTypes = {
 	horizontal: PropTypes.bool,
 	refreshing: PropTypes.bool,
 	onRefresh: PropTypes.func,
+	onScroll: PropTypes.func,
+	onUploadNext: PropTypes.func,
+	reference: PropTypes.func,
 };
 
 InitflowScrollView.defaultProps = {
@@ -84,6 +121,9 @@ InitflowScrollView.defaultProps = {
 	horizontal: false,
 	refreshing: false,
 	onRefresh: undefined,
+	onScroll: undefined,
+	onUploadNext: undefined,
+	reference: undefined,
 };
 
 export {InitflowScrollView as ScrollView};

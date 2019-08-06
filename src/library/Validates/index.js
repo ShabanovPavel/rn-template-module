@@ -26,16 +26,35 @@ const validateEmailTop = email => {
 
 // проверка пароля на сложность
 const hardPas = pas => {
-	const regex = /[^\w\s]/gi;
-	// КОСТЫЛЬ:
-	// не всегда заходит в первый if при значении true, за то заходит во второй
-	if (!!pas && pas.length >= 8 && pas.search(/\d/) !== -1 && regex.test(pas) === true) {
-		return undefined;
-	}
-	if (!!pas && pas.length >= 8 && pas.search(/\d/) !== -1 && regex.test(pas) === true) {
+	// 	(?=.*[0-9]) - строка содержит хотя бы одно число;
+	// (?=.*[!@#$%^&*]) - строка содержит хотя бы один спецсимвол;
+	// (?=.*[a-z]) - строка содержит хотя бы одну латинскую букву в нижнем регистре;
+	// (?=.*[A-Z]) - строка содержит хотя бы одну латинскую букву в верхнем регистре;
+	// [0-9a-zA-Z!@#$%^&*]{6,} - строка состоит не менее, чем из 6 вышеупомянутых символов.
+
+	const reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g;
+	if (!!pas && reg.test(pas)) {
 		return undefined;
 	}
 	return 'need have hard';
+};
+
+const related = (arg = []) => value => {
+	let res;
+	if (value) {
+		res = undefined;
+		return res;
+	}
+
+	for (let i = 0; i < arg.length; i += 1) {
+		if (arg[i]) {
+			res = undefined;
+			return res;
+		}
+	}
+	// return 'need any values';
+	res = 'need any values';
+	return res;
 };
 
 const Validates = {
@@ -48,5 +67,6 @@ const Validates = {
 	moreThan,
 	fromTo,
 	validateEmailTop,
+	related,
 };
 export {Validates};

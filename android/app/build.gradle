@@ -164,7 +164,14 @@ configurations.all {
 
 
 dependencies {
-    implementation project(':react-native-orientation')
+    implementation project(':@react-native-community_netinfo')
+    implementation project(':@react-native-community_blur')
+    implementation project(':@react-native-community_async-storage')
+    implementation project(':react-native-radial-gradient')
+    implementation project(':react-native-gesture-handler')
+    implementation project(':react-native-reanimated')
+    implementation project(':react-native-touch-id')
+    implementation project(':react-native-community-blur')
     implementation project(':react-native-keychain')
     implementation project(':react-native-community-async-storage')
     implementation project(':react-native-webview')

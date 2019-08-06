@@ -10,7 +10,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
-#import "Orientation.h"
 #import <ReactNativeNavigation/ReactNativeNavigation.h>
 
 @implementation AppDelegate
@@ -31,14 +30,6 @@
   [RNSplashScreen show];
   
   return YES;
-}
-
-- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-  while ([[UIDevice currentDevice] isGeneratingDeviceOrientationNotifications]) {
-    [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
-  }
-  
-  return [Orientation getOrientation];
 }
 
 @end

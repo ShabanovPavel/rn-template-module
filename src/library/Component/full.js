@@ -33,7 +33,8 @@ let propsWix = {
  * @param {Function} options.onFocusedScreen функция обработки фокусировки на экран (возвращает true or false в зависимости от фокусировки)
  * @param {Function} options.styles функция возвращаюзаяя стиль компонента
  */
-export default (self, {isBack = true, statusBar, colorBackStatusBar, onFocusedScreen, styles}) => {
+export default (self, options = {}) => {
+	const {isBack = true, statusBar, colorBackStatusBar, onFocusedScreen, styles} = options;
 	bindComponent(self);
 	const nameScreen = self.props.componentId;
 	self.state = {...self.state, isLoadScreen: false};
@@ -89,8 +90,19 @@ export default (self, {isBack = true, statusBar, colorBackStatusBar, onFocusedSc
 		self.forceUpdate(); // Опасный код
 	};
 
+	/** мерджит стили в один объект */
+	self.compose = (...array) => {
+		let r = {};
+		array.forEach(element => {
+			r = {...r, ...element};
+		});
+		return r;
+	};
+
+	/** Настанавливает пропсу доступную на экранах */
 	self.setPropsWix = (props, isClear = false) => {
 		if (isClear) propsWix = {_private: {...propsWix._private}};
+
 		propsWix = {...propsWix, ...props};
 		self.propsWix = propsWix;
 		self.forceUpdate(); // Опасный код
@@ -100,6 +112,7 @@ export default (self, {isBack = true, statusBar, colorBackStatusBar, onFocusedSc
 		pop(nameScreen);
 	};
 
+	/** Обновляет тему прилы */
 	self.updateTheme = theme => {
 		Theme.setTheme(theme);
 		self.forceUpdate();
@@ -110,12 +123,14 @@ export default (self, {isBack = true, statusBar, colorBackStatusBar, onFocusedSc
 		loadPropsWix();
 		setStatusBar();
 		iosSwipeBack();
-
 		// Фокусировка экрана
 		onFocusedScreen !== undefined
 			? onFocusedScreen({status: true, nameScreen})
 			: self.props.onFocusedScreen && self.props.onFocusedScreen({status: true, nameScreen});
-		self.setState({isLoadScreen: true});
+
+		this.timerLoading = setTimeout(() => {
+			self.setState({isLoadScreen: true});
+		}, 500);
 
 		self.__proto__.componentDidAppear && self.__proto__.componentDidAppear.bind(self)();
 		// console.log('componentDidAppear');
@@ -134,7 +149,7 @@ export default (self, {isBack = true, statusBar, colorBackStatusBar, onFocusedSc
 
 	self.componentDidMount = () => {
 		// Логика при монтировании
-
+		loadPropsWix();
 		BackHandler.addEventListener('hardwareBackPress', handleBackPress);
 		// StatusBar.setDarkTranslucent();
 
@@ -146,6 +161,7 @@ export default (self, {isBack = true, statusBar, colorBackStatusBar, onFocusedSc
 		// Логика при размонтровании
 
 		BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+		clearTimeout(this.timerLoading);
 
 		self.__proto__.componentWillUnmount && self.__proto__.componentWillUnmount.bind(self)();
 		// console.log('componentWillUnmount');

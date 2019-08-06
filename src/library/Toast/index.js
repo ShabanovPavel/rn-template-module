@@ -60,6 +60,9 @@ Toast.requestAlert = (text = '', title, action) => {
  * @param {String} text сообщение
  * @param {String} title заголовок
  * @param {Function} action функции заголовок
+ * @param {Function} action.action функция
+ * @param {Function} action.text название кнопки
+ *
  */
 Toast.show = (text = '', title, ...action) => {
 	const message = text === '' ? I.text('Что-то пошло не так') : I.text(JSON.stringify(text));

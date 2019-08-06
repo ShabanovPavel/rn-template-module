@@ -8,6 +8,7 @@ export default {
 		medium: '500',
 		semibold: '600',
 		bold: '700',
+		black: '900',
 	},
 	opacity: {
 		normal: 0.3,

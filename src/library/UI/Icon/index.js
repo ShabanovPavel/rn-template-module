@@ -37,7 +37,7 @@ Icon.propTypes = {
 
 Icon.defaultProps = {
 	style: {},
-	color: 'white',
+	color: undefined,
 };
 
 export {Icon, IMAGE as IconSources};

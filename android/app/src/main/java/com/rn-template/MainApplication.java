@@ -1,25 +1,24 @@
 package com.rn_template;
 
 
-import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactcommunity.rnlanguages.RNLanguagesPackage;
 import com.imagepicker.ImagePickerPackage; 
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 
-
-
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-
+import com.rnfingerprint.FingerprintAuthPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
-import com.reactnativenavigation.NavigationApplication;
-import com.reactnativenavigation.react.NavigationReactNativeHost;
-import com.reactnativenavigation.react.ReactGateway;
 import com.github.yamill.orientation.OrientationPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.oblador.keychain.KeychainPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+
+import com.reactnativenavigation.NavigationApplication;
+import com.reactnativenavigation.react.NavigationReactNativeHost;
+import com.reactnativenavigation.react.ReactGateway;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,7 +54,8 @@ public class MainApplication extends NavigationApplication {
             new KeychainPackage(),
             new RNCWebViewPackage(),
             new AsyncStoragePackage(),
-            new OrientationPackage()
+            new OrientationPackage(),
+            new FingerprintAuthPackage()
         );
     }
   

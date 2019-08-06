@@ -32,53 +32,51 @@ class ImageView extends React.Component {
 	}
 
 	render() {
-		const {styles, props} = this;
-		const {style, name, uri, resizeMode, isFast, isReq, headers, priority, cache, text} = props;
-		const styleImg = [styles.image, style];
+		const {styles, props, compose} = this;
+		const {
+			style,
+			name,
+			uri,
+			resizeMode,
+			isFast,
+			headers,
+			priority,
+			cache,
+			text,
+			isActive,
+			fadeDuration,
+		} = props;
+		const styleImg = compose(
+			styles.image,
+			style,
+		);
 
 		if (isFast) {
-			if (isReq) {
-				return (
-					<FastImage
-						style={styleImg}
-						source={{
-							uri: uri || undefined,
-							headers: headers || {},
-							priority: FastImage.priority[priority] || FastImage.priority.normal,
-							cache: FastImage.cache[cache] || FastImage.cache.immutable,
-						}}
-						resizeMode={FastImage.resizeMode[resizeMode]}
-					/>
-				); // TODO
-			}
 			if (uri) {
 				return text ? (
-					<View style={[styleImg, styles.reserveView]}>
+					<View
+						style={compose(
+							styleImg,
+							styles.reserveView,
+						)}
+					>
 						{text && text.length >= 1 ? (
 							<Text style={styles.text}>{text.toUpperCase()[0]}</Text>
 						) : null}
 
 						<FastImage
 							style={[styleImg, {position: 'absolute', top: 0, left: 0}]}
-							source={{
-								uri: uri || undefined,
-								headers: headers || {},
-								priority: FastImage.priority[priority] || FastImage.priority.normal,
-								cache: FastImage.cache[cache] || FastImage.cache.immutable,
-							}}
+							source={uri}
 							resizeMode={FastImage.resizeMode[resizeMode]}
+							fadeDuration={fadeDuration}
 						/>
 					</View>
 				) : (
 					<FastImage
 						style={styleImg}
-						source={{
-							uri: uri || undefined,
-							headers: headers || {},
-							priority: FastImage.priority[priority] || FastImage.priority.normal,
-							cache: FastImage.cache[cache] || FastImage.cache.immutable,
-						}}
+						source={uri}
 						resizeMode={FastImage.resizeMode[resizeMode]}
+						fadeDuration={fadeDuration}
 					/>
 				);
 			}
@@ -88,18 +86,31 @@ class ImageView extends React.Component {
 						style={styleImg}
 						source={IMAGE[name]}
 						resizeMode={FastImage.resizeMode[resizeMode]}
+						fadeDuration={fadeDuration}
 					/>
 				);
 			}
 			return (
-				<View style={[styleImg, styles.reserveView]}>
+				<View
+					style={compose(
+						styleImg,
+						styles.reserveView,
+					)}
+				>
 					{text && text.length >= 1 ? (
 						<Text style={styles.text}>{text && text.toUpperCase()[0]}</Text>
 					) : null}
 				</View>
 			);
 		}
-		return <RNImage style={styleImg} source={uri || IMAGE[name]} resizeMode={resizeMode} />;
+		return (
+			<RNImage
+				style={styleImg}
+				source={uri || IMAGE[name]}
+				resizeMode={resizeMode}
+				fadeDuration={fadeDuration}
+			/>
+		);
 	}
 }
 
@@ -111,6 +122,7 @@ ImageView.propTypes = {
 	isFast: PropTypes.bool,
 	isReq: PropTypes.bool,
 	text: PropTypes.string,
+	fadeDuration: PropTypes.number,
 };
 
 ImageView.defaultProps = {
@@ -120,6 +132,7 @@ ImageView.defaultProps = {
 	resizeMode: 'contain',
 	isFast: true,
 	text: undefined,
+	fadeDuration: 3000,
 };
 
 export {ImageView as Image, IMAGE as ImageSources};

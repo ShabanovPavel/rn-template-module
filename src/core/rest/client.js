@@ -266,7 +266,7 @@ const manager = RequestsManager.instance();
 export {manager};
 export default async (method, params, success, error, time) => {
 	if (Requests[method]) {
-		await manager.refreshToken(null, error);
+		await manager.refreshToken();
 
 		Log(`request.${method}.params: `, params);
 

@@ -3,7 +3,7 @@
  * @description логика модуля
  * @private
  */
-import Orientation from 'react-native-orientation';
+import {AppState} from 'react-native';
 import {
 	APP_INIT,
 	APP_OPEN_ONBOARDING,
@@ -22,25 +22,8 @@ const self = {};
  * @param {Object} app_self
  */
 self.loadApp = app_self => dispatch => {
-	// Тема ()/('default') -стандартная , ('black') - темная
-	Theme.setTheme();
-	// Поддерживает статус соединения постоянно
-	ManagerRequest.listenerNetConnected(
-		() => {
-			dispatch({type: APP_UPDATE_NET_CONNECT, isConnected: true});
-			dismissOverlay('offline');
-		},
-		() => {
-			dispatch({type: APP_UPDATE_NET_CONNECT, isConnected: false});
-			showOverlay('offline', {
-				overlay: {
-					interceptTouchOutside: false,
-				},
-			});
-		},
-	);
 	dispatch({type: APP_INIT}); // Прила инициализирована
-	Orientation.lockToPortrait(); // Ориентация приложения зафиксирована
+
 	app_self.forceUpdate();
 
 	SplashScreen(); // отключаем нативный сплэш
@@ -62,6 +45,29 @@ self.loadApp = app_self => dispatch => {
  *  Выполняет ожидание прогрузки состояний хранилища
  */
 self.onInit = app_self => (dispatch, getState) => {
+	// Тема ()/('default') -стандартная , ('black') - темная
+	Theme.setTheme();
+	// Поддерживает статус соединения постоянно
+	ManagerRequest.listenerNetConnected(
+		() => {
+			dispatch({type: APP_UPDATE_NET_CONNECT, isConnected: true});
+			dismissOverlay('offline');
+		},
+		() => {
+			dispatch({type: APP_UPDATE_NET_CONNECT, isConnected: false});
+			showOverlay('offline');
+		},
+	);
+
+	AppState.addEventListener('change', state => {
+		if (state === 'inactive' || state === 'background') {
+			dismissOverlay('blurOverlay');
+			showOverlay('blurOverlay');
+		} else {
+			dismissOverlay('blurOverlay');
+		}
+	});
+
 	Looper.start('WaitPersist', () => {
 		const {isLoadPersistStore} = getState().nav;
 		if (isLoadPersistStore) {

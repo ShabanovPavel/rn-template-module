@@ -27,6 +27,14 @@ export default class Screen extends React.PureComponent {
 			<View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<Image name='WAIT_CONFIRM' style={styles.imageGif} resizeMode='cover' />
 				<Icon vector name='star' size={30} color={styles.colorIcon} />
+				<Image
+					isFast
+					// name='BANNER'
+					uri={{
+						uri:
+							'https://avatars.mds.yandex.net/get-pdb/224945/f358b199-97c2-45f4-a565-433a62935ec6/s375',
+					}}
+				/>
 				<Text i18n>Hello, I am initScreen</Text>
 				<Spacer h={5} />
 				<Button full onAction={onOpenOnboarding} text='Open Onboarding' color={styles.colorBtn} />

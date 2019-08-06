@@ -14,6 +14,7 @@ let isSwipebl = true;
 let amountPopToBack = 1;
 let screenEventListener;
 const timeWait = 1000; // ms
+let constans; // константы
 
 /**
  * Переход назад по стек навигаци
@@ -184,6 +185,11 @@ function registerComponent(name, component) {
 	Navigation.registerComponentWithRedux(name, () => component, Provider, store);
 }
 
+/** Получает  константы от навигации родной */
+const initConstans = async () => {
+	constans = await Navigation.constants();
+};
+
 /**
  * Отслеживает последовательность открытия экранов пользователем
  * @param {String} root имя корня навигации
@@ -191,6 +197,7 @@ function registerComponent(name, component) {
  */
 const traking = (root, service) => {
 	const {analytic} = service;
+
 	screenEventListener = Navigation.events().registerComponentDidAppearListener(
 		({componentId, componentName}) => {
 			analytic.pushScreen(componentName);
@@ -200,9 +207,11 @@ const traking = (root, service) => {
 			if (Platform.OS === 'ios' && isSwipebl && stack.length > 2) {
 				stack.pop();
 			} else if (stack[stack.length - 1] !== componentName) stack.push(componentName);
-			console.log(stack, isSwipebl);
+			// console.log(stack, isSwipebl);
 
 			lastNameScreen = analytic.getLastItem();
+
+			initConstans();
 		},
 	);
 };
@@ -259,4 +268,5 @@ export {
 	showOverlay,
 	dismissOverlay,
 	storeDispatch,
+	constans,
 };

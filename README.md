@@ -56,9 +56,10 @@ Dummy pattern React Native + Redux
         - Индикаторы активности
 
 5. **Добавлено в деве**
+    touchID, blur (ios only), constans Navigation, tab Navigator, scaleView, Couter, slider,FlatList,DatePicker,CalendarStrip,GestureRecognizer,Header,Picker,SwipeUpDown
 
     
 6. **Необходимо добавить**   
-
+     умный экспорт 
    
 

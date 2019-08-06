@@ -53,7 +53,16 @@ target 'rn' do
 
   pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
 
-  pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
+
+  pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+
+
+  pod 'TouchID', :path => '../node_modules/react-native-touch-id'
+
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
 
 end
 

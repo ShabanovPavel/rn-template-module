@@ -4,4 +4,5 @@ export default theme => ({
 		color: theme.color.BLACK,
 		letterSpacing: 0.32,
 	},
+	screen: theme.simple.sizeScreen,
 });

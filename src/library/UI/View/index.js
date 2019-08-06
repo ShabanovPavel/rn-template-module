@@ -5,6 +5,7 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 } from 'react-native';
+import LateView from './Late';
 import Styles from './styles';
 import {BindSimple} from '../../Component';
 
@@ -22,7 +23,7 @@ class View extends React.PureComponent {
 
 	render() {
 		const {styles, props} = this;
-		const {style, pressDismissKeyboard, safeArea} = props;
+		const {style, pressDismissKeyboard, safeArea, screen, late} = props;
 
 		if (pressDismissKeyboard) {
 			return (
@@ -34,6 +35,12 @@ class View extends React.PureComponent {
 
 		if (safeArea) {
 			return <RNSafeAreaView {...props} style={{...styles.view, ...style}} />;
+		}
+		if (screen) {
+			return <RNSafeAreaView {...props} style={{...styles.view, ...style}} />;
+		}
+		if (late) {
+			return <LateView {...props} style={{...styles.view, ...style}} />;
 		}
 		return <RNView {...props} style={{...styles.view, ...style}} />;
 	}

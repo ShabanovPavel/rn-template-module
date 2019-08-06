@@ -57,6 +57,7 @@ class InitflowTextInput extends React.Component {
 					reference && reference(ref);
 					this.textInput = ref;
 				}}
+				placeholderTextColor={'rgb(185, 199, 218)'}
 				autoFocus={false}
 			>
 				{mask ? TextMask.getMaskedValue(str, mask) : str}
