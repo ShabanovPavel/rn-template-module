@@ -1,133 +1,121 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { View, Animated, I18nManager } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Animated, I18nManager} from 'react-native';
 
 import Indicator from '../indicator';
 import styles from './styles';
 
 export default class PacmanIndicator extends PureComponent {
-  static defaultProps = {
-    animationDuration: 600,
+	constructor(props) {
+		super(props);
 
-    color: 'rgb(0, 0, 0)',
-    size: 48,
-  };
+		this.renderComponent = this.renderComponent.bind(this);
+	}
 
-  static propTypes = {
-    ...Indicator.propTypes,
+	renderBlock({index, count, progress}) {
+		const {size, color: backgroundColor} = this.props;
 
-    color: PropTypes.string,
-    size: PropTypes.number,
-  };
+		const style = {
+			position: 'absolute',
+			top: size / 2 - size / 16,
+			left: size / 2 + size / 16 + ((index - 2) * size) / 4,
+			width: size / 8,
+			height: size / 8,
+			borderRadius: size / 16,
+			backgroundColor,
+			transform: [
+				{
+					translateX: progress.interpolate({
+						inputRange: [0, 1],
+						outputRange: [0, size / (I18nManager.isRTL ? 4 : -4)],
+					}),
+				},
+				{
+					scale:
+						count === index + 1
+							? progress.interpolate({
+									inputRange: [0, 0.67, 1],
+									outputRange: [0, 1, 1],
+							  })
+							: 1,
+				},
+			],
+		};
 
-  constructor(props) {
-    super(props);
+		if (count === index + 1) {
+			style.opacity = progress.interpolate({
+				inputRange: [0, 0.67, 1],
+				outputRange: [0, 1, 1],
+			});
+		}
 
-    this.renderComponent = this.renderComponent.bind(this);
-  }
+		return <Animated.View style={style} key={index} />;
+	}
 
-  renderBlock({ index, count, progress }) {
-    let { size, color: backgroundColor } = this.props;
+	renderComponent({index, count, progress}) {
+		const {size, color: backgroundColor} = this.props;
 
-    let style = {
-      position: 'absolute',
-      top: size / 2 - size / 16,
-      left: size / 2 + size / 16 + (index - 2) * size / 4,
-      width: size / 8,
-      height: size / 8,
-      borderRadius: size / 16,
-      backgroundColor,
-      transform: [{
-        translateX: progress.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, size / (I18nManager.isRTL? 4 : -4)],
-        }),
-      }, {
-        scale: count === index + 1?
-          progress.interpolate({
-            inputRange: [0, 0.67, 1],
-            outputRange: [0, 1, 1],
-          }):
-          1,
-      }],
-    };
+		if (index > 1) {
+			return this.renderBlock({index, count, progress});
+		}
 
-    if (count === index + 1) {
-      style.opacity = progress.interpolate({
-        inputRange: [0, 0.67, 1],
-        outputRange: [0, 1, 1],
-      });
-    }
+		const pacmanStyle = {
+			position: 'absolute',
 
-    return (
-      <Animated.View style={style} key={index} />
-    );
-  }
+			top: size / 4,
+			left: 0,
+			width: size / 2,
+			height: size / 2,
 
-  renderComponent({ index, count, progress }) {
-    let { size, color: backgroundColor } = this.props;
+			transform: [
+				{
+					rotate: progress.interpolate({
+						inputRange: [0, 0.67, 1],
+						outputRange:
+							index ^ I18nManager.isRTL ? ['0deg', '45deg', '0deg'] : ['0deg', '-45deg', '0deg'],
+					}),
+				},
+			],
+		};
 
-    if (index > 1) {
-      return this.renderBlock({ index, count, progress });
-    }
+		const containerStyle = {
+			width: size / 2,
+			height: size / 4,
+			overflow: 'hidden',
+		};
 
-    let pacmanStyle = {
-      position: 'absolute',
+		const style = {
+			width: size / 2,
+			height: size / 2,
+			borderRadius: size / 4,
+			backgroundColor,
+		};
 
-      top: size / 4,
-      left: 0,
-      width: size / 2,
-      height: size / 2,
+		if (index) {
+			containerStyle.top = size / 4;
+			style.top = -size / 4;
+		}
 
-      transform: [{
-        rotate: progress.interpolate({
-          inputRange: [0, 0.67, 1],
-          outputRange: (index ^ I18nManager.isRTL)?
-            ['0deg',  '45deg', '0deg']:
-            ['0deg', '-45deg', '0deg'],
-        }),
-      }],
-    };
+		return (
+			<Animated.View style={pacmanStyle} key={index}>
+				<View style={containerStyle} collapsable={false}>
+					<Animated.View style={style} />
+				</View>
+			</Animated.View>
+		);
+	}
 
-    let containerStyle = {
-      width: size / 2,
-      height: size / 4,
-      overflow: 'hidden',
-    };
+	render() {
+		const {style, size, ...props} = this.props;
 
-    let style = {
-      width: size / 2,
-      height: size / 2,
-      borderRadius: size / 4,
-      backgroundColor,
-    };
-
-    if (index) {
-      containerStyle.top = size / 4;
-      style.top = -size / 4;
-    }
-
-    return (
-      <Animated.View style={pacmanStyle} key={index}>
-        <View style={containerStyle} collapsable={false}>
-          <Animated.View style={style} />
-        </View>
-      </Animated.View>
-    );
-  }
-
-  render() {
-    let { style, size, ...props } = this.props;
-
-    return (
-      <View style={[styles.container, style]}>
-        <Indicator
-          style={{ width: size * 1.25, height: size }}
-          renderComponent={this.renderComponent}
-          {...props}
-          count={5}
-        />
-      </View>
-    );
-  }
+		return (
+			<View style={[styles.container, style]}>
+				<Indicator
+					style={{width: size * 1.25, height: size}}
+					renderComponent={this.renderComponent}
+					{...props}
+					count={5}
+				/>
+			</View>
+		);
+	}
 }

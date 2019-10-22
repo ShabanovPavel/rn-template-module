@@ -1,5 +1,5 @@
 import {Alert} from 'react-native';
-import SimpleToast from 'react-native-simple-toast';
+import SimpleToast, {DURATION} from 'react-native-easy-toast';
 import {I} from '../I18n';
 
 function Toast() {}
@@ -16,10 +16,6 @@ Toast.alert = (title, message, buttons, options) => {
 
 Toast.short = message => {
 	SimpleToast.show(message, SimpleToast.SHORT);
-};
-
-Toast.showWithGravity = (message, position = 'BOTTOM') => {
-	SimpleToast.showWithGravity(message, SimpleToast.SHORT, SimpleToast[position]);
 };
 
 Toast.requestAlert = (text = '', title, action) => {

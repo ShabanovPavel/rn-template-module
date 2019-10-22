@@ -1,20 +1,12 @@
 import {registerComponent, Navigation} from './core/navigation';
-import {OnboardingScreen, PlaygroundScreen, IndicatorsScreen, MainScreen} from './modules';
-import {AppScreen} from './core/app';
-import {Offline, Fab, BlurOverlay} from './simple';
+import {OfflineScreen, MainScreen} from './modules';
 import {settingsDefault, rootLoadApp} from './routes';
+import {AppScreen} from './core';
 
 /** Инициализация модулей */
 function initModules() {
-	// простые компоненты
-	registerComponent('blurOverlay', BlurOverlay); // Слой размытия для режима в фоне
-	registerComponent('fab', Fab); // фаб меню
-	registerComponent('offline', Offline); // планка оффлайн режима
-	// умные компоненты
 	registerComponent('main', MainScreen);
-	registerComponent('indicators', IndicatorsScreen);
-	registerComponent('playground', PlaygroundScreen);
-	registerComponent('onboarding', OnboardingScreen);
+	registerComponent('offline', OfflineScreen);
 	registerComponent('initApp', AppScreen);
 }
 

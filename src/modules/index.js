@@ -1,4 +1,2 @@
-export * from './Onboarding';
-export * from './Playground';
-export * from './Indicators';
-export * from './Main';
+export * from './main';
+export * from './offline';

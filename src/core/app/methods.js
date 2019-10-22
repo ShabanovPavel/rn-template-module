@@ -3,18 +3,10 @@
  * @description логика модуля
  * @private
  */
-import {AppState} from 'react-native';
-import {
-	APP_INIT,
-	APP_OPEN_ONBOARDING,
-	APP_OPEN_PLAYGROUND,
-	APP_UPDATE_NET_CONNECT,
-	APP_OPEN_INDICATORS,
-} from './action';
+import {APP_INIT, APP_UPDATE_NET_CONNECT} from './action';
 import {Request, ManagerRequest} from '../rest';
 import {showOverlay, dismissOverlay} from '../navigation';
-import {Theme, SplashScreen, Log} from '../../library';
-import Looper from '../looper';
+import {Theme, SplashScreen, Log, Looper} from '../../library';
 
 const self = {};
 /**
@@ -58,15 +50,6 @@ self.onInit = app_self => (dispatch, getState) => {
 			showOverlay('offline');
 		},
 	);
-
-	AppState.addEventListener('change', state => {
-		if (state === 'inactive' || state === 'background') {
-			dismissOverlay('blurOverlay');
-			showOverlay('blurOverlay');
-		} else {
-			dismissOverlay('blurOverlay');
-		}
-	});
 
 	Looper.start('WaitPersist', () => {
 		const {isLoadPersistStore} = getState().nav;

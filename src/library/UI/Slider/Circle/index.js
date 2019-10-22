@@ -44,6 +44,6 @@ export default class Circle extends React.PureComponent {
 			},
 		];
 
-		return <Animated.View style={{...styles.mainView, opacity, transform}}></Animated.View>;
+		return <Animated.View style={{...styles.mainView, opacity, transform}} />;
 	}
 }

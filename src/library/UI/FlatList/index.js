@@ -29,12 +29,4 @@ class InitflowFlatList extends React.PureComponent {
 	}
 }
 
-InitflowFlatList.propTypes = {
-	...FlatList.propTypes,
-};
-
-InitflowFlatList.defaultProps = {
-	...FlatList.defaultProps,
-};
-
 export {InitflowFlatList as FlatList};

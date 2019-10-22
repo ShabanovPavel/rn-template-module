@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import {Modal, TouchableHighlight, View, StyleSheet, Picker as RNPicker} from 'react-native';
-import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-navigation';
 import {Log} from '../../Log';
 
 const {Item} = RNPicker;
 
-export default class Picker extends Component {
+const Props = {
+	data: String,
+	label: String,
+	onValueChange: Function,
+	renderRow: Function,
+};
+
+export default class Picker extends Component<Props> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -43,24 +49,20 @@ export default class Picker extends Component {
 					backgroundColor: 'transparent',
 					flex: 1,
 					position: 'absolute',
-				}}
-			>
+				}}>
 				<Modal
-					animationType='fade'
+					animationType="fade"
 					transparent
 					visible={modalVisible}
 					onRequestClose={() => {
 						this.setModalVisible(false);
-					}}
-				>
+					}}>
 					<TouchableHighlight
 						style={styles.container}
 						onPress={() => this.setModalVisible(false)}
-						underlayColor='#333333cc'
-					>
+						underlayColor="#333333cc">
 						<SafeAreaView
-							style={{backgroundColor: 'white', height: 200, width: '100%', alignItems: 'center'}}
-						>
+							style={{backgroundColor: 'white', height: 200, width: '100%', alignItems: 'center'}}>
 							<View
 								style={{
 									backgroundColor: 'white',
@@ -68,8 +70,7 @@ export default class Picker extends Component {
 									width: '100%',
 									alignItems: 'center',
 									flexDirection: 'row',
-								}}
-							>
+								}}>
 								<RNPicker
 									selectedValue={select.value}
 									onValueChange={(itemValue, itemIndex) => {
@@ -78,8 +79,7 @@ export default class Picker extends Component {
 										this.setState({select: itemValue});
 										this.props.onValueChange(data[itemIndex], itemIndex);
 									}}
-									style={{height: 200, paddingHorizontal: 20, flex: 1}}
-								>
+									style={{height: 200, paddingHorizontal: 20, flex: 1}}>
 									{data.map(item => {
 										Log('item', item);
 										return (
@@ -100,13 +100,6 @@ export default class Picker extends Component {
 		);
 	}
 }
-
-Picker.propTypes = {
-	data: PropTypes.array.isRequired,
-	label: PropTypes.string.isRequired,
-	onValueChange: PropTypes.func,
-	renderRow: PropTypes.func,
-};
 
 const styles = StyleSheet.create({
 	container: {

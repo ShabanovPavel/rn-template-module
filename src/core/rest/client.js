@@ -2,7 +2,7 @@ import NetInfo from '@react-native-community/netinfo';
 import * as Requests from './requests';
 import {getItem, setItem} from './storadge';
 import {Toast, Log} from '../../library';
-import Options from '../../options';
+import Options from '../../config';
 
 let instance;
 
@@ -264,6 +264,7 @@ class RequestsManager {
 const manager = RequestsManager.instance();
 
 export {manager};
+/** Основной мето регистрации запроса */
 export default async (method, params, success, error, time) => {
 	if (Requests[method]) {
 		await manager.refreshToken();
@@ -276,7 +277,7 @@ export default async (method, params, success, error, time) => {
 			if (res.ok) {
 				success && success(res.result);
 			} else {
-				Toast.show(res.result);
+				Options.boolean.isLog && Toast.show(res.result);
 				error && error(res.result);
 			}
 		});

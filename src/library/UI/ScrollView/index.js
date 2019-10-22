@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {ScrollView, RefreshControl} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
@@ -100,30 +99,5 @@ class InitflowScrollView extends React.PureComponent {
 		);
 	}
 }
-
-InitflowScrollView.propTypes = {
-	...ScrollView.propTypes,
-	style: PropTypes.any,
-	contentContainerStyle: PropTypes.any,
-	keyboardScrolling: PropTypes.bool,
-	horizontal: PropTypes.bool,
-	refreshing: PropTypes.bool,
-	onRefresh: PropTypes.func,
-	onScroll: PropTypes.func,
-	onUploadNext: PropTypes.func,
-	reference: PropTypes.func,
-};
-
-InitflowScrollView.defaultProps = {
-	style: undefined,
-	keyboardScrolling: false,
-	contentContainerStyle: undefined,
-	horizontal: false,
-	refreshing: false,
-	onRefresh: undefined,
-	onScroll: undefined,
-	onUploadNext: undefined,
-	reference: undefined,
-};
 
 export {InitflowScrollView as ScrollView};

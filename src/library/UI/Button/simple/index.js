@@ -1,6 +1,5 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
 import {TouchableOpacity, ActivityIndicator} from 'react-native';
 import {Icon} from '../../Icon';
 import {Text} from '../../Text';

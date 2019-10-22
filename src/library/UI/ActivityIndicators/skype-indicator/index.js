@@ -1,90 +1,69 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { View, Animated, Easing } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Animated, Easing} from 'react-native';
 
 import Indicator from '../indicator';
 import styles from './styles';
 
 export default class SkypeIndicator extends PureComponent {
-  static defaultProps = {
-    animationDuration: 1600,
+	constructor(props) {
+		super(props);
 
-    color: 'rgb(0, 0, 0)',
-    count: 5,
-    size: 40,
+		this.renderComponent = this.renderComponent.bind(this);
+	}
 
-    minScale: 0.2,
-    maxScale: 1.0,
-  };
+	renderComponent({index, count, progress}) {
+		const {size, minScale, maxScale, color: backgroundColor, animationDuration} = this.props;
+		const frames = (60 * animationDuration) / 1000;
+		const offset = index / (count - 1);
+		const easing = Easing.bezier(0.5, offset, 0.5, 1.0);
 
-  static propTypes = {
-    ...Indicator.propTypes,
+		const inputRange = Array.from(new Array(frames), (undefined, index) => index / (frames - 1));
 
-    color: PropTypes.string,
-    size: PropTypes.number,
+		const outputRange = Array.from(
+			new Array(frames),
+			(undefined, index) => `${easing(index / (frames - 1)) * 360}deg`,
+		);
 
-    minScale: PropTypes.number,
-    maxScale: PropTypes.number,
-  };
+		const layerStyle = {
+			transform: [
+				{
+					rotate: progress.interpolate({inputRange, outputRange}),
+				},
+			],
+		};
 
-  constructor(props) {
-    super(props);
+		const ballStyle = {
+			width: size / 5,
+			height: size / 5,
+			borderRadius: size / 10,
+			backgroundColor,
+			transform: [
+				{
+					scale: progress.interpolate({
+						inputRange: [0, 1],
+						outputRange: [
+							maxScale - (maxScale - minScale) * offset,
+							minScale + (maxScale - minScale) * offset,
+						],
+					}),
+				},
+			],
+		};
 
-    this.renderComponent = this.renderComponent.bind(this);
-  }
+		return (
+			<Animated.View style={[styles.layer, layerStyle]} {...{key: index}}>
+				<Animated.View style={ballStyle} />
+			</Animated.View>
+		);
+	}
 
-  renderComponent({ index, count, progress }) {
-    let { size, minScale, maxScale, color: backgroundColor, animationDuration } = this.props;
-    let frames = 60 * animationDuration / 1000;
-    let offset = index / (count - 1);
-    let easing = Easing.bezier(0.5, offset, 0.5, 1.0);
+	render() {
+		const {style, size: width, size: height, ...props} = this.props;
 
-    let inputRange = Array
-      .from(new Array(frames), (undefined, index) => index / (frames - 1));
-
-    let outputRange = Array
-      .from(new Array(frames), (undefined, index) => easing(index / (frames - 1)) * 360 + 'deg');
-
-    let layerStyle = {
-      transform: [{
-        rotate: progress.interpolate({ inputRange, outputRange }),
-      }],
-    };
-
-    let ballStyle = {
-      width: size / 5,
-      height: size / 5,
-      borderRadius: size / 10,
-      backgroundColor,
-      transform: [{
-        scale: progress.interpolate({
-          inputRange: [0, 1],
-          outputRange: [
-            maxScale - (maxScale - minScale) * offset,
-            minScale + (maxScale - minScale) * offset,
-          ],
-        }),
-      }],
-    };
-
-    return (
-      <Animated.View style={[styles.layer, layerStyle]} {...{ key: index }}>
-        <Animated.View style={ballStyle} />
-      </Animated.View>
-    );
-  }
-
-  render() {
-    let { style, size: width, size: height, ...props } = this.props;
-
-    return (
-      <View style={[styles.container, style]}>
-        <Indicator
-          style={{ width, height }}
-          renderComponent={this.renderComponent}
-          {...props}
-        />
-      </View>
-    );
-  }
+		return (
+			<View style={[styles.container, style]}>
+				<Indicator style={{width, height}} renderComponent={this.renderComponent} {...props} />
+			</View>
+		);
+	}
 }

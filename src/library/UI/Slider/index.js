@@ -30,13 +30,12 @@ class Slider extends React.PureComponent {
 					horizontal
 					bounces={false}
 					snapToInterval={styles.size.width}
-					snapToAlignment='start'
-					decelerationRate='fast'
+					snapToAlignment="start"
+					decelerationRate="fast"
 					onScroll={Animated.event([{nativeEvent: {contentOffset: {x: this.animatedValue}}}], {
 						useNativeDriver: true,
 					})}
-					showsHorizontalScrollIndicator={false}
-				>
+					showsHorizontalScrollIndicator={false}>
 					{(data || []).map((item, index) => (
 						<View style={styles.item} key={keyExtractor ? keyExtractor(item, index) : item.id}>
 							{Screen && Screen(item)}
@@ -54,8 +53,7 @@ class Slider extends React.PureComponent {
 								alignItems: 'center',
 								justifyContent: 'center',
 								flexDirection: 'row',
-							}}
-						>
+							}}>
 							{data.map((item, index) => (
 								<Circle
 									index={index}

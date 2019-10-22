@@ -1,6 +1,6 @@
 /**
  * @module Main
- * @description Главный экран
+ * @description Модуль главной рабочей области
  * */
 import Screen from './connect';
 

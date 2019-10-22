@@ -1,4 +1,6 @@
-/** @format */
+/**
+ * @format
+ */
 
 import App from './src';
 

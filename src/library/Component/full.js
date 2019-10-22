@@ -1,12 +1,9 @@
 import React from 'react';
+import {BackHandler} from 'react-native';
 import {pop, bindComponent, mergeOptions} from '../../core/navigation';
-import {Text, View} from '../UI';
-import {BackHandler} from '../BackHandler';
 import {StatusBar} from '../StatusBar';
 import {Theme} from '../Theme';
 import {Utils} from '../Utils';
-
-const rend = () => null;
 
 let propsWix = {
 	_private: {},
@@ -56,25 +53,35 @@ export default (self, options = {}) => {
 		}
 		switch (status) {
 			case 'light':
-				StatusBar.setLigthTranslucent({colorBackStatusBar});
+				StatusBar.setStatus({nameScreen, hide: false, colorBackStatusBar});
 				break;
 			case 'dark':
-				StatusBar.setDarkTranslucent({colorBackStatusBar});
+				StatusBar.setStatus({nameScreen, hide: false, colorBackStatusBar});
 				break;
 			case 'dark-translucent':
-				StatusBar.setDarkTranslucent({translucent: false, colorBackStatusBar});
+				StatusBar.setStatus({
+					nameScreen,
+					hide: false,
+					translucent: false,
+					colorBackStatusBar,
+				});
 				break;
 			case 'light-translucent':
-				StatusBar.setLigthTranslucent({translucent: false, colorBackStatusBar});
+				StatusBar.setStatus({
+					nameScreen,
+					hide: false,
+					translucent: false,
+					colorBackStatusBar,
+				});
 				break;
 			case 'hide-translucent':
-				StatusBar.hide({translucent: false, colorBackStatusBar});
+				StatusBar.setStatus({nameScreen, hide: true, translucent: false, colorBackStatusBar});
 				break;
 			case 'hide':
-				StatusBar.hide({colorBackStatusBar});
+				StatusBar.setStatus({nameScreen, hide: true, colorBackStatusBar});
 				break;
 			default:
-				StatusBar.setDarkTranslucent({colorBackStatusBar});
+				StatusBar.setStatus({nameScreen, hide: false, colorBackStatusBar});
 				break;
 		}
 	};
@@ -178,15 +185,4 @@ export default (self, options = {}) => {
 		self.__proto__.componentWillMount && self.__proto__.componentWillMount.bind(self)();
 		// console.log('componentWillMount');
 	};
-
-	// self.render = () => {
-	// 	console.log(self);
-	// 	self.styles = styles ? Theme.createStyles(styles) : {};
-	// 	return (
-	// 		<>
-	// 			{/* {rend()} */}
-	// 			{self.state.isLoadScreen ? self.__proto__.render.bind(self)() : null}
-	// 		</>
-	// 	);
-	// };
 };

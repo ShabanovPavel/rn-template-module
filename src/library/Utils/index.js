@@ -1,5 +1,6 @@
 /** @module Utils */
 import moment from 'moment';
+import numeral from 'numeral';
 import 'moment/locale/ru';
 import {I} from '../I18n';
 
@@ -33,13 +34,14 @@ const objectToHash = object => {
  * @memberof module:Utils
  */
 const arrayToMap = (array, key, initial = {}) => {
-	if (array.length > 0)
+	if (array.length > 0) {
 		return array.reduce((prev, item) => {
 			const o = prev;
 			const i = item[key];
 			o[i] = item;
 			return o;
 		}, initial);
+	}
 	return {};
 };
 
@@ -248,16 +250,6 @@ function isDate(data) {
 	return false;
 }
 
-/**
- * Валидирует E-mail адрес
- * @param {String} email почта
- * @return {Boolean} совпадает ли или нет
- */
-export const validateEmail = email => {
-	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	return re.test(String(email).toLowerCase());
-};
-
 const objectIdTime = {};
 /**
  * Выполняет функцю лишь раз последний вызов в временной интервал
@@ -303,7 +295,6 @@ const mergeObject = (target, ...sources) => {
 };
 
 export const Utils = {
-	validateEmail,
 	arrayToMap,
 	objectToHash,
 	objectToArray,

@@ -65,19 +65,17 @@ export default class BlockIndicator extends PureComponent {
 			toValue,
 			duration: 300,
 		}).start();
-    };
-    
-    rendIndicator = () => {
-        const {indicators,color} =this.props;
-       	if(indicators)
-           return (indicators?indicators():null);
-       
-        return (<ActivityIndicator size='large' color={color||'black'}{...this.props} animating />)
-    }
-    
+	};
+
+	rendIndicator = () => {
+		const {indicators, color} = this.props;
+		if (indicators) return indicators ? indicators() : null;
+
+		return <ActivityIndicator size="large" color={color || 'black'} {...this.props} animating />;
+	};
 
 	render() {
-		const {style, isTopAnimating = false, isAbsolut,color,} = this.props;
+		const {style, isTopAnimating = false, isAbsolut, color} = this.props;
 		const {isShow} = this.state;
 
 		const scale = {
@@ -104,21 +102,16 @@ export default class BlockIndicator extends PureComponent {
 			  })
 			: 0;
 
-			if (isShow) {
-				return (
-					<View style={styles.main}>
-						<Animated.View style={[styles.background, opacity]} />
-						<Animated.View style={[{marginTop, zIndex: -1}, style]}>
-							<Animated.View style={[scale]}>
-                            {this.rendIndicator()}
-							</Animated.View>
-						</Animated.View>
-					</View>
-				);
-			}
-			return null;
-		
-	
+		if (isShow) {
+			return (
+				<View style={styles.main}>
+					<Animated.View style={[styles.background, opacity]} />
+					<Animated.View style={[{marginTop, zIndex: -1}, style]}>
+						<Animated.View style={[scale]}>{this.rendIndicator()}</Animated.View>
+					</Animated.View>
+				</View>
+			);
+		}
+		return null;
 	}
 }
-

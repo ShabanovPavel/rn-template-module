@@ -1,7 +1,7 @@
-import Options from '../../options';
+import Config from '../../config';
 
 const Log = (...params) => {
-	if (Options.isLog && __DEV__ === true) {
+	if (Config.boolean.isLog) {
 		console.log(...params);
 	}
 };

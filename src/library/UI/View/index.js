@@ -6,6 +6,7 @@ import {
 	Keyboard,
 } from 'react-native';
 import LateView from './Late';
+import WaveView from './Wave';
 import Styles from './styles';
 import {BindSimple} from '../../Component';
 
@@ -23,26 +24,29 @@ class View extends React.PureComponent {
 
 	render() {
 		const {styles, props} = this;
-		const {style, pressDismissKeyboard, safeArea, screen, late} = props;
+		const {style, pressDismissKeyboard, safeArea, screen, wave, late, ...other} = props;
 
 		if (pressDismissKeyboard) {
 			return (
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-					<RNView {...props} style={{...styles.view, ...style}} />
+					<RNView {...other} style={{...styles.view, ...style}} />
 				</TouchableWithoutFeedback>
 			);
 		}
 
 		if (safeArea) {
-			return <RNSafeAreaView {...props} style={{...styles.view, ...style}} />;
+			return <RNSafeAreaView {...other} style={{...styles.view, ...style}} />;
 		}
 		if (screen) {
-			return <RNSafeAreaView {...props} style={{...styles.view, ...style}} />;
+			return <RNSafeAreaView {...other} style={{...styles.view, ...style}} />;
 		}
 		if (late) {
-			return <LateView {...props} style={{...styles.view, ...style}} />;
+			return <LateView {...other} style={{...styles.view, ...style}} />;
 		}
-		return <RNView {...props} style={{...styles.view, ...style}} />;
+		if (wave) {
+			return <WaveView {...other} style={[styles.view, style]} />;
+		}
+		return <RNView {...other} style={{...styles.view, ...style}} />;
 	}
 }
 

@@ -3,11 +3,11 @@ import {createLogger} from 'redux-logger';
 import {persistStore, persistReducer} from 'redux-persist';
 import thunk from 'redux-thunk';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-import storage from 'redux-persist/lib/storage';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {app} from './core/reducers';
 import nav from './reducer';
-import Otions from './options';
+import Otions from './config';
 
 const rootReducer = combineReducers({
 	app,
@@ -15,11 +15,11 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-	storage,
 	key: 'root',
 	stateReconciler: autoMergeLevel2,
 	whitelist: ['app'],
 	timeout: null,
+	storage: AsyncStorage,
 };
 
 let enhacers;

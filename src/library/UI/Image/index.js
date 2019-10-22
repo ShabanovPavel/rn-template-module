@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
 import {Image as RNImage} from 'react-native';
 import {View} from '../View';
@@ -58,8 +57,7 @@ class ImageView extends React.Component {
 						style={compose(
 							styleImg,
 							styles.reserveView,
-						)}
-					>
+						)}>
 						{text && text.length >= 1 ? (
 							<Text style={styles.text}>{text.toUpperCase()[0]}</Text>
 						) : null}
@@ -95,8 +93,7 @@ class ImageView extends React.Component {
 					style={compose(
 						styleImg,
 						styles.reserveView,
-					)}
-				>
+					)}>
 					{text && text.length >= 1 ? (
 						<Text style={styles.text}>{text && text.toUpperCase()[0]}</Text>
 					) : null}
@@ -113,26 +110,5 @@ class ImageView extends React.Component {
 		);
 	}
 }
-
-ImageView.propTypes = {
-	name: PropTypes.string,
-	style: PropTypes.any,
-	uri: PropTypes.oneOfType([PropTypes.shape({uri: PropTypes.string}), PropTypes.number]),
-	resizeMode: PropTypes.oneOf(['cover', 'contain', 'stretch', 'repeat', 'center']),
-	isFast: PropTypes.bool,
-	isReq: PropTypes.bool,
-	text: PropTypes.string,
-	fadeDuration: PropTypes.number,
-};
-
-ImageView.defaultProps = {
-	name: undefined,
-	style: {},
-	uri: undefined,
-	resizeMode: 'contain',
-	isFast: true,
-	text: undefined,
-	fadeDuration: 3000,
-};
 
 export {ImageView as Image, IMAGE as ImageSources};

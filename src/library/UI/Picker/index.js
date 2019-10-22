@@ -94,14 +94,12 @@ class InitflowPicker extends React.Component {
 						styles.mainView,
 						style,
 					)}
-					onAction={this.handleOnOpen}
-				>
+					onAction={this.handleOnOpen}>
 					<Text
 						style={compose(
 							styles.text,
 							textStyle,
-						)}
-					>
+						)}>
 						{select && select.value && toUpperCase
 							? select.value.toUpperCase()
 							: (select && select.value) || ''}
@@ -126,8 +124,7 @@ class InitflowPicker extends React.Component {
 						selectedValue={select}
 						renderRow={row => (
 							<View
-								style={{backgroundColor: '#fff', padding: 8, justifyContent: 'center', height: 40}}
-							>
+								style={{backgroundColor: '#fff', padding: 8, justifyContent: 'center', height: 40}}>
 								<Text style={styles.rowStyle}>{row.value}</Text>
 							</View>
 						)}
@@ -141,8 +138,7 @@ class InitflowPicker extends React.Component {
 						selectedValue={select}
 						renderRow={row => (
 							<View
-								style={{backgroundColor: '#fff', padding: 8, justifyContent: 'center', height: 40}}
-							>
+								style={{backgroundColor: '#fff', padding: 8, justifyContent: 'center', height: 40}}>
 								<Text style={styles.rowStyle}>{row.value}</Text>
 							</View>
 						)}

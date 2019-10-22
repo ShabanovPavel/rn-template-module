@@ -4,8 +4,5 @@
  * @private
  */
 
-export const MAIN_OPEN_INDICATORS = 'Main/OpenIndicators';
-
-export const MAIN_OPEN_ONBOARDING = 'Main/OpenOnboarding';
-
-export const MAIN_OPEN_PLAYGROUND = 'Main/OpenPlayground';
+/** Тестовый экшин */
+export const MAIN_TEST = 'Main/MAIN_TEST';

@@ -6,7 +6,7 @@ import {Log} from '../Log';
  * @param {String} url  ссылка для открытия
  */
 const onLinking = url => {
-	console.log('onLinking', url);
+	Log('onLinking', url);
 
 	Linking.canOpenURL(url)
 		.then(supported => {

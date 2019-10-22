@@ -1,9 +1,8 @@
 /** @module Navigation */
-import {Platform} from 'react-native';
 import {Navigation} from 'react-native-navigation';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 import configureStore from '../../store';
-import {Toast, BackHandler} from '../../library';
 
 const {store} = configureStore();
 
@@ -11,8 +10,8 @@ let lastNameScreen = '';
 let stack = []; // для стэк навигации (орентировочный маршрут)
 let isWait = false; // для игнорирования сторонних операций во время совершения операции
 let isSwipebl = true;
-let amountPopToBack = 1;
 let screenEventListener;
+let screenEventListenerDidDisappear;
 const timeWait = 1000; // ms
 let constans; // константы
 
@@ -29,17 +28,7 @@ const pop = (currentID, options = {}) => {
 		if (stack.length > 2) {
 			stack.pop();
 			stack.pop();
-			amountPopToBack = 3;
 			Navigation.pop(currentID, options);
-		} else if (amountPopToBack === 0) {
-			stack = [];
-			lastNameScreen = '';
-			amountPopToBack = 1;
-			screenEventListener && screenEventListener.remove();
-			BackHandler.exitApp();
-		} else if (Platform.OS !== 'ios') {
-			Toast.show('Повторите для выхода из приложения');
-			amountPopToBack -= 1;
 		}
 		setTimeout(() => {
 			isWait = false;
@@ -182,7 +171,12 @@ const bindComponent = self => {
  * @param {Object} component компонент
  */
 function registerComponent(name, component) {
-	Navigation.registerComponentWithRedux(name, () => component, Provider, store);
+	Navigation.registerComponentWithRedux(
+		name,
+		() => gestureHandlerRootHOC(component),
+		Provider,
+		store,
+	);
 }
 
 /** Получает  константы от навигации родной */
@@ -196,26 +190,29 @@ const initConstans = async () => {
  * @param {Object} service сервисы для регистрации и отправки какой0либо информации
  */
 const traking = (root, service) => {
-	const {analytic} = service;
-
 	screenEventListener = Navigation.events().registerComponentDidAppearListener(
 		({componentId, componentName}) => {
-			analytic.pushScreen(componentName);
-			// console.log('open', componentName);
-			// console.log('last', lastNameScreen);
-			// console.log(stack, isSwipebl);
-			if (Platform.OS === 'ios' && isSwipebl && stack.length > 2) {
-				stack.pop();
-			} else if (stack[stack.length - 1] !== componentName) stack.push(componentName);
-			// console.log(stack, isSwipebl);
-
-			lastNameScreen = analytic.getLastItem();
-
-			initConstans();
+			// analytic.pushScreen(componentName);
+			// // console.log('open', componentName);
+			// // console.log('last', lastNameScreen);
+			// // console.log(stack, isSwipebl);
+			// if (Platform.OS === 'ios' && isSwipebl && stack.length > 2) {
+			// 	stack.pop();
+			// } else if (stack[stack.length - 1] !== componentName) stack.push(componentName);
+			// // console.log(stack, isSwipebl);
+			// lastNameScreen = analytic.getLastItem();
+			// initConstans();
 		},
+	);
+	screenEventListenerDidDisappear = Navigation.events().registerComponentDidDisappearListener(
+		({componentId, componentName}) => {},
 	);
 };
 
+const deleteTraking = () => {
+	screenEventListener.remove();
+	screenEventListenerDidDisappear.remove();
+};
 /**
  * Показывает компонент как наложение
  * @param {String} name имя/ид  компонента
@@ -265,8 +262,10 @@ export {
 	mergeOptions,
 	setLastNameScreen,
 	traking,
+	deleteTraking,
 	showOverlay,
 	dismissOverlay,
 	storeDispatch,
 	constans,
+	initConstans,
 };

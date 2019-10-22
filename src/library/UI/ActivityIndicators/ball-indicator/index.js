@@ -1,86 +1,68 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { View, Animated } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Animated} from 'react-native';
 
 import Indicator from '../indicator';
 import styles from './styles';
 
 export default class BallIndicator extends PureComponent {
-  static defaultProps = {
-    color: 'rgb(0, 0, 0)',
-    count: 8,
-    size: 40,
-  };
+	constructor(props) {
+		super(props);
 
-  static propTypes = {
-    ...Indicator.propTypes,
+		this.renderComponent = this.renderComponent.bind(this);
+	}
 
-    color: PropTypes.string,
-    size: PropTypes.number,
-  };
+	renderComponent({index, count, progress}) {
+		const {size, color: backgroundColor} = this.props;
+		const angle = (index * 360) / count;
 
-  constructor(props) {
-    super(props);
+		const layerStyle = {
+			transform: [
+				{
+					rotate: `${angle}deg`,
+				},
+			],
+		};
 
-    this.renderComponent = this.renderComponent.bind(this);
-  }
+		const inputRange = Array.from(new Array(count + 1), (undefined, index) => index / count);
 
-  renderComponent({ index, count, progress }) {
-    let { size, color: backgroundColor } = this.props;
-    let angle = index * 360 / count;
+		const outputRange = Array.from(
+			new Array(count),
+			(undefined, index) => 1.2 - (0.5 * index) / (count - 1),
+		);
 
-    let layerStyle = {
-      transform: [{
-        rotate: angle + 'deg',
-      }],
-    };
+		for (let j = 0; j < index; j++) {
+			outputRange.unshift(outputRange.pop());
+		}
 
-    let inputRange = Array
-      .from(new Array(count + 1), (undefined, index) =>
-        index / count
-      );
+		outputRange.unshift(...outputRange.slice(-1));
 
-    let outputRange = Array
-      .from(new Array(count), (undefined, index) =>
-        1.2 - 0.5 * index / (count - 1)
-      );
+		const ballStyle = {
+			margin: size / 20,
+			backgroundColor,
+			width: size / 5,
+			height: size / 5,
+			borderRadius: size / 10,
+			transform: [
+				{
+					scale: progress.interpolate({inputRange, outputRange}),
+				},
+			],
+		};
 
-    for (let j = 0; j < index; j++) {
-      outputRange.unshift(outputRange.pop());
-    }
+		return (
+			<Animated.View style={[styles.layer, layerStyle]} {...{key: index}}>
+				<Animated.View style={ballStyle} />
+			</Animated.View>
+		);
+	}
 
-    outputRange.unshift(...outputRange.slice(-1));
+	render() {
+		const {style, size: width, size: height, ...props} = this.props;
 
-    let ballStyle = {
-      margin: size / 20,
-      backgroundColor,
-      width: size / 5,
-      height: size / 5,
-      borderRadius: size / 10,
-      transform: [{
-        scale: progress
-          .interpolate({ inputRange, outputRange }),
-      }],
-    };
-
-    return (
-      <Animated.View style={[styles.layer, layerStyle]} {...{ key: index }}>
-        <Animated.View style={ballStyle} />
-      </Animated.View>
-    );
-  }
-
-  render() {
-    let { style, size: width, size: height, ...props } =this.props;
-
-    return (
-      <View style={[styles.container, style]}>
-        <Indicator
-          style={{ width, height }}
-          renderComponent={this.renderComponent}
-          {...props}
-        />
-      </View>
-    );
-  }
+		return (
+			<View style={[styles.container, style]}>
+				<Indicator style={{width, height}} renderComponent={this.renderComponent} {...props} />
+			</View>
+		);
+	}
 }

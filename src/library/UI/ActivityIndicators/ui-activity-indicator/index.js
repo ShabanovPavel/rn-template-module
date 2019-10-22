@@ -1,83 +1,62 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { View, Animated } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, Animated} from 'react-native';
 
 import Indicator from '../indicator';
 import styles from './styles';
 
 export default class UIActivityIndicator extends PureComponent {
-  static defaultProps = {
-    color: 'rgb(0, 0, 0)',
-    count: 12,
-    size: 40,
-  };
+	constructor(props) {
+		super(props);
 
-  static propTypes = {
-    ...Indicator.propTypes,
+		this.renderComponent = this.renderComponent.bind(this);
+	}
 
-    color: PropTypes.string,
-    size: PropTypes.number,
-  };
+	renderComponent({index, count, progress}) {
+		const {size, color: backgroundColor} = this.props;
+		const angle = (index * 360) / count;
 
-  constructor(props) {
-    super(props);
+		const layerStyle = {
+			transform: [
+				{
+					rotate: `${angle}deg`,
+				},
+			],
+		};
 
-    this.renderComponent = this.renderComponent.bind(this);
-  }
+		const inputRange = Array.from(new Array(count + 1), (undefined, index) => index / count);
 
-  renderComponent({ index, count, progress }) {
-    let { size, color: backgroundColor } = this.props;
-    let angle = index * 360 / count;
+		const outputRange = Array.from(new Array(count), (undefined, index) =>
+			Math.max(1.0 - index * (1 / (count - 1)), 0),
+		);
 
-    let layerStyle = {
-      transform: [{
-        rotate: angle + 'deg',
-      }],
-    };
+		for (let j = 0; j < index; j++) {
+			outputRange.unshift(outputRange.pop());
+		}
 
-    let inputRange = Array
-      .from(new Array(count + 1), (undefined, index) =>
-        index / count
-      );
+		outputRange.unshift(...outputRange.slice(-1));
 
-    let outputRange = Array
-      .from(new Array(count), (undefined, index) =>
-        Math.max(1.0 - index * (1 / (count - 1)), 0)
-      );
+		const barStyle = {
+			width: size / 10,
+			height: size / 4,
+			borderRadius: size / 20,
+			backgroundColor,
+			opacity: progress.interpolate({inputRange, outputRange}),
+		};
 
-    for (let j = 0; j < index; j++) {
-      outputRange.unshift(outputRange.pop());
-    }
+		return (
+			<Animated.View style={[styles.layer, layerStyle]} {...{key: index}}>
+				<Animated.View style={barStyle} />
+			</Animated.View>
+		);
+	}
 
-    outputRange.unshift(...outputRange.slice(-1));
+	render() {
+		const {style, size: width, size: height, ...props} = this.props;
 
-    let barStyle = {
-      width: size / 10,
-      height: size / 4,
-      borderRadius: size / 20,
-      backgroundColor,
-      opacity: progress
-        .interpolate({ inputRange, outputRange }),
-    };
-
-    return (
-      <Animated.View style={[styles.layer, layerStyle]} {...{ key: index }}>
-        <Animated.View style={barStyle} />
-      </Animated.View>
-    );
-  }
-
-  render() {
-    let { style, size: width, size: height, ...props } = this.props;
-
-    return (
-      <View style={[styles.container, style]}>
-        <Indicator
-          style={{ width, height }}
-          renderComponent={this.renderComponent}
-          {...props}
-        />
-      </View>
-    );
-  }
+		return (
+			<View style={[styles.container, style]}>
+				<Indicator style={{width, height}} renderComponent={this.renderComponent} {...props} />
+			</View>
+		);
+	}
 }

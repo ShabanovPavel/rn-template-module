@@ -1,136 +1,105 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { Animated, Easing } from 'react-native';
+import React, {PureComponent} from 'react';
+import {Animated, Easing} from 'react-native';
 import RN from 'react-native/package';
 
-const [major, minor] = RN.version.split('.').map((item) => Number(item));
+const [major, minor] = RN.version.split('.').map(item => Number(item));
 const hasLoopSupport = !major && minor >= 45;
 
 export default class Indicator extends PureComponent {
-  static defaultProps = {
-    animationEasing: Easing.linear,
-    animationDuration: 1200,
+	constructor(props) {
+		super(props);
 
-    animating: true,
-    interaction: true,
+		this.renderComponent = this.renderComponent.bind(this);
+		this.startAnimation = this.startAnimation.bind(this);
+		this.stopAnimation = this.stopAnimation.bind(this);
 
-    count: 1,
-  };
+		this.state = {
+			progress: new Animated.Value(0),
+		};
 
-  static propTypes = {
-    animationEasing: PropTypes.func,
-    animationDuration: PropTypes.number,
+		this.mounted = false;
+	}
 
-    animating: PropTypes.bool,
-    interaction: PropTypes.bool,
+	startAnimation({finished} = {}) {
+		const {progress} = this.state;
+		const {interaction, animationEasing, animationDuration} = this.props;
 
-    renderComponent: PropTypes.func,
-    count: PropTypes.number,
-  };
+		if (!this.mounted || finished === false) {
+			return;
+		}
 
-  constructor(props) {
-    super(props);
+		const animation = Animated.timing(progress, {
+			duration: animationDuration,
+			easing: animationEasing,
+			useNativeDriver: true,
+			isInteraction: interaction,
+			toValue: 1,
+		});
 
-    this.renderComponent = this.renderComponent.bind(this);
-    this.startAnimation = this.startAnimation.bind(this);
-    this.stopAnimation = this.stopAnimation.bind(this);
+		if (hasLoopSupport) {
+			Animated.loop(animation).start();
+		} else {
+			progress.setValue(0);
+			animation.start(this.startAnimation);
+		}
 
-    this.state = {
-      progress: new Animated.Value(0),
-    };
+		this.setState({animation});
+	}
 
-    this.mounted = false;
-  }
+	stopAnimation() {
+		const {animation} = this.state;
 
-  startAnimation({ finished } = {}) {
-    let { progress } = this.state;
-    let {
-      interaction,
-      animationEasing,
-      animationDuration,
-    } = this.props;
+		if (animation == null) {
+			return;
+		}
 
-    if (!this.mounted || false === finished) {
-      return;
-    }
+		animation.stop();
 
-    let animation =
-      Animated.timing(progress, {
-        duration: animationDuration,
-        easing: animationEasing,
-        useNativeDriver: true,
-        isInteraction: interaction,
-        toValue: 1,
-      });
+		this.setState({animation: null});
+	}
 
-    if (hasLoopSupport) {
-      Animated
-        .loop(animation)
-        .start();
-    } else {
-      progress.setValue(0);
-      animation.start(this.startAnimation);
-    }
+	componentDidMount() {
+		const {animating} = this.props;
 
-    this.setState({ animation });
-  }
+		this.mounted = true;
 
-  stopAnimation() {
-    let { animation } = this.state;
+		if (animating) {
+			this.startAnimation();
+		}
+	}
 
-    if (null == animation) {
-      return;
-    }
+	componentWillUnmount() {
+		this.mounted = false;
+	}
 
-    animation.stop();
+	componentWillReceiveProps(props) {
+		const {animating} = this.props;
 
-    this.setState({ animation: null });
-  }
+		if (animating ^ props.animating) {
+			if (animating) {
+				this.stopAnimation();
+			} else {
+				this.startAnimation();
+			}
+		}
+	}
 
-  componentDidMount() {
-    let { animating } = this.props;
+	renderComponent(undefined, index) {
+		const {progress} = this.state;
+		const {renderComponent, count} = this.props;
 
-    this.mounted = true;
+		if (typeof renderComponent === 'function') {
+			return renderComponent({index, count, progress});
+		} else {
+			return null;
+		}
+	}
 
-    if (animating) {
-      this.startAnimation();
-    }
-  }
+	render() {
+		const {count, ...props} = this.props;
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  componentWillReceiveProps(props) {
-    let { animating } = this.props;
-
-    if (animating ^ props.animating) {
-      if (animating) {
-        this.stopAnimation();
-      } else {
-        this.startAnimation();
-      }
-    }
-  }
-
-  renderComponent(undefined, index) {
-    let { progress } = this.state;
-    let { renderComponent, count } = this.props;
-
-    if ('function' === typeof renderComponent) {
-      return renderComponent({ index, count, progress });
-    } else {
-      return null;
-    }
-  }
-
-  render() {
-    let { count, ...props } = this.props;
-
-    return (
-      <Animated.View {...props}>
-        {Array.from(new Array(count), this.renderComponent)}
-      </Animated.View>
-    );
-  }
+		return (
+			<Animated.View {...props}>{Array.from(new Array(count), this.renderComponent)}</Animated.View>
+		);
+	}
 }

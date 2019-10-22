@@ -1,6 +1,5 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
 import {TouchableOpacity, ActivityIndicator} from 'react-native';
 import {Icon} from '../../Icon';
 import {Text} from '../../Text';
@@ -60,8 +59,7 @@ class Around extends React.Component {
 					style={styleAround}
 					onPress={onAction}
 					activeOpacity={OPACITY}
-					disabled={isLoadBar || !enable}
-				>
+					disabled={isLoadBar || !enable}>
 					<View style={styles.inButtonContainer}>
 						{isLoadBar ? (
 							activityIndicator ? (
@@ -83,33 +81,5 @@ class Around extends React.Component {
 		);
 	}
 }
-
-Around.propTypes = {
-	onAction: PropTypes.func,
-	text: PropTypes.string,
-	type: PropTypes.string,
-	color: PropTypes.string,
-	disabledColor: PropTypes.string,
-	icon: PropTypes.string,
-	iconStyle: PropTypes.any,
-	enable: PropTypes.bool,
-	isLoadBar: PropTypes.bool,
-	style: PropTypes.any,
-	activeOpacity: PropTypes.number,
-};
-
-Around.defaultProps = {
-	onAction: () => {},
-	text: undefined,
-	type: undefined,
-	color: undefined,
-	disabledColor: undefined,
-	icon: undefined,
-	iconStyle: {},
-	enable: true,
-	isLoadBar: false,
-	style: {},
-	activeOpacity: 0.7,
-};
 
 export {Around};

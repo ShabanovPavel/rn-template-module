@@ -1,8 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native';
-import {Button} from '../Button';
-import {Icon} from '../Icon';
 import {Text} from '../Text';
 import {View} from '../View';
 
@@ -38,8 +35,7 @@ class Header extends React.PureComponent {
 						...styles.rowView,
 						...(topSpace && styles.topSpace),
 						...style,
-					}}
-				>
+					}}>
 					{leftItem ? (
 						<View style={styles.item}>{leftItem}</View>
 					) : rightItem ? (
@@ -51,8 +47,7 @@ class Header extends React.PureComponent {
 								style={{
 									...styles.horizontalTitle,
 									...(color && {color}),
-								}}
-							>
+								}}>
 								{title}
 							</Text>
 						</View>
@@ -70,27 +65,5 @@ class Header extends React.PureComponent {
 		);
 	}
 }
-
-Header.propTypes = {
-	leftItem: PropTypes.node,
-	rightItem: PropTypes.node,
-	title: PropTypes.string,
-	color: PropTypes.string,
-	style: PropTypes.any,
-	topSpace: PropTypes.bool,
-};
-
-Header.defaultProps = {
-	// элемнт управления расположенный в левой части Руader
-	leftItem: undefined,
-	// элемнт управления расположенный в правой части Руader
-	rightItem: undefined,
-	// заголовок
-	title: undefined,
-	// цвет содержимого
-	color: undefined,
-	style: undefined,
-	topSpace: false,
-};
 
 export {Header};

@@ -1,23 +1,42 @@
-import React from 'react';
-import {Text} from 'react-native';
 import i18n from './i18n';
 
-const db = {};
-const getText = key => {
-	const text = i18n.t(key, {language: i18n.currentLocale()});
-	if (i18n.t(key, {language: i18n.currentLocale()}).includes('[missing')) {
-		db[i18n.currentLocale()] = {...db[i18n.currentLocale()], [key]: key};
-		return key;
+let isInstance;
+/**
+ * Выполняет перевод и отслеживание не переведнных данных
+ *
+ * @class ILocalization
+ */
+class ILocalization {
+	constructor() {
+		this.db = {};
 	}
-	return text;
-};
-const I = ({style = {}, text = 'default'}) => <Text style={style}>{getText(text)}</Text>;
 
-I.text = (text = 'default') => getText(text);
+	static instanse() {
+		if (!isInstance) {
+			isInstance = new ILocalization();
+		}
 
-I.printNotFound = () => {
-	// какой либо запрос или просто вывод
-	console.log('Not found localization', db);
-};
+		return isInstance;
+	}
 
-export {I};
+	_getText(key) {
+		const text = i18n.t(key, {language: i18n.currentLocale()});
+		if (i18n.t(key, {language: i18n.currentLocale()}).includes('[missing')) {
+			this.db[i18n.currentLocale()] = {...this.db[i18n.currentLocale()], [key]: key};
+			return key;
+		}
+		return text;
+	}
+
+	text(text = 'default') {
+		return this._getText(text);
+	}
+
+	printNotFound() {
+		console.log('Not found localization', this.db);
+	}
+}
+
+const localization = ILocalization.instanse();
+
+export {localization as I};

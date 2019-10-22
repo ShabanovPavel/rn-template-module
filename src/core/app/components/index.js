@@ -1,10 +1,7 @@
 import React from 'react';
-import {AnalyticService} from '../../analytic-service';
-import {traking} from '../../navigation';
 import Styles from './styles';
-import {Text, View, BindComponent, Button, Spacer, I, Icon, Log, Image} from '../../../library';
-
-const theme = '';
+import {BindComponent} from '../../../library';
+import {traking} from '../../navigation';
 
 export default class Screen extends React.PureComponent {
 	constructor(props) {
@@ -14,13 +11,13 @@ export default class Screen extends React.PureComponent {
 			styles: Styles,
 			statusBar: 'hide',
 		});
-		traking(props.componentId, {analytic: AnalyticService});
 	}
 
 	componentDidMount() {
 		const {props} = this;
 		const {onInit} = props;
 		onInit(this);
+		traking('initApp');
 	}
 
 	render() {

@@ -1,6 +1,5 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
 import {TouchableOpacity, ActivityIndicator} from 'react-native';
 import {Icon} from '../../Icon';
 import {Text} from '../../Text';
@@ -60,19 +59,18 @@ class Full extends React.Component {
 					style={styleFull}
 					onPress={onAction}
 					activeOpacity={activeOpacity || OPACITY}
-					disabled={isLoadBar || !enable}
-				>
+					disabled={isLoadBar || !enable}>
 					<View style={styles.inButtonContainer}>
 						{isLoadBar ? (
 							activityIndicator ? (
 								activityIndicator()
 							) : (
-								<ActivityIndicator size='large' color='white' />
+								<ActivityIndicator size="large" color="white" />
 							)
 						) : (
 							<>
 								{icon && <Icon name={icon} style={styles.icon} style={iconStyle} />}
-								<Text style={styles.textBtnFull} i18n ellipsizeMode='tail' numberOfLines={1}>
+								<Text style={styles.textBtnFull} i18n ellipsizeMode="tail" numberOfLines={1}>
 									{text}
 								</Text>
 							</>
@@ -83,31 +81,5 @@ class Full extends React.Component {
 		);
 	}
 }
-
-Full.propTypes = {
-	onAction: PropTypes.func,
-	text: PropTypes.string,
-	color: PropTypes.string,
-	disabledColor: PropTypes.string,
-	icon: PropTypes.string,
-	iconStyle: PropTypes.any,
-	enable: PropTypes.bool,
-	isLoadBar: PropTypes.bool,
-	style: PropTypes.any,
-	activeOpacity: PropTypes.number,
-};
-
-Full.defaultProps = {
-	onAction: () => {},
-	text: undefined,
-	color: undefined,
-	disabledColor: undefined,
-	icon: undefined,
-	iconStyle: {},
-	enable: true,
-	isLoadBar: false,
-	style: {},
-	activeOpacity: 0.7,
-};
 
 export {Full};

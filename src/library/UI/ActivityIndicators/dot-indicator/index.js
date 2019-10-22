@@ -1,75 +1,53 @@
-import PropTypes from 'prop-types';
-import React, { PureComponent } from 'react';
-import { Animated, Easing } from 'react-native';
+import React, {PureComponent} from 'react';
+import {Animated, Easing} from 'react-native';
 
 import Indicator from '../indicator';
 import styles from './styles';
 
 export default class DotIndicator extends PureComponent {
-  static defaultProps = {
-    animationEasing: Easing.inOut(Easing.ease),
+	constructor(props) {
+		super(props);
 
-    color: 'rgb(0, 0, 0)',
-    count: 4,
-    size: 16,
-  };
+		this.renderComponent = this.renderComponent.bind(this);
+	}
 
-  static propTypes = {
-    ...Indicator.propTypes,
+	renderComponent({index, count, progress}) {
+		const {size, color: backgroundColor} = this.props;
 
-    color: PropTypes.string,
-    size: PropTypes.number,
-  };
+		const style = {
+			width: size,
+			height: size,
+			margin: size / 2,
+			borderRadius: size / 2,
+			backgroundColor,
+			transform: [
+				{
+					scale: progress.interpolate({
+						inputRange: [
+							0.0,
+							(index + 0.5) / (count + 1),
+							(index + 1.0) / (count + 1),
+							(index + 1.5) / (count + 1),
+							1.0,
+						],
+						outputRange: [1.0, 1.36, 1.56, 1.06, 1.0],
+					}),
+				},
+			],
+		};
 
-  constructor(props) {
-    super(props);
+		return <Animated.View style={style} {...{key: index}} />;
+	}
 
-    this.renderComponent = this.renderComponent.bind(this);
-  }
+	render() {
+		const {style, ...props} = this.props;
 
-  renderComponent({ index, count, progress }) {
-    let { size, color: backgroundColor } = this.props;
-
-    let style = {
-      width: size,
-      height: size,
-      margin: size / 2,
-      borderRadius: size / 2,
-      backgroundColor,
-      transform: [{
-        scale: progress.interpolate({
-          inputRange: [
-            0.0,
-            (index + 0.5) / (count + 1),
-            (index + 1.0) / (count + 1),
-            (index + 1.5) / (count + 1),
-            1.0,
-          ],
-          outputRange: [
-            1.0,
-            1.36,
-            1.56,
-            1.06,
-            1.0,
-          ],
-        }),
-      }],
-    };
-
-    return (
-      <Animated.View style={style} {...{ key: index }} />
-    );
-  }
-
-  render() {
-    let { style, ...props } = this.props;
-
-    return (
-      <Indicator
-        style={[styles.container, style]}
-        renderComponent={this.renderComponent}
-        {...props}
-      />
-    );
-  }
+		return (
+			<Indicator
+				style={[styles.container, style]}
+				renderComponent={this.renderComponent}
+				{...props}
+			/>
+		);
+	}
 }

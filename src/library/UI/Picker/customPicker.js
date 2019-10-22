@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Modal, Text, TouchableHighlight, View, StyleSheet, ListView, YellowBox} from 'react-native';
-import PropTypes from 'prop-types';
 
 export default class ModalPicker extends Component {
 	constructor(props) {
@@ -35,21 +34,18 @@ export default class ModalPicker extends Component {
 					backgroundColor: 'transparent',
 					flex: 1,
 					position: 'absolute',
-				}}
-			>
+				}}>
 				<Modal
-					animationType='fade'
+					animationType="fade"
 					transparent
 					visible={this.state.modalVisible}
 					onRequestClose={() => {
 						this.setModalVisible(false);
-					}}
-				>
+					}}>
 					<TouchableHighlight
 						style={styles.container}
 						onPress={() => this.setModalVisible(false)}
-						underlayColor='#333333cc'
-					>
+						underlayColor="#333333cc">
 						<View>
 							<ListView
 								dataSource={this.state.dataSource}
@@ -57,12 +53,11 @@ export default class ModalPicker extends Component {
 								renderRow={(rowData, sectionID, rowID, higlightRow) => {
 									return (
 										<TouchableHighlight
-											underlayColor='transparent'
+											underlayColor="transparent"
 											onPress={() => {
 												this.setModalVisible(false);
 												this.props.onValueChange(rowData, rowID);
-											}}
-										>
+											}}>
 											{this.props.renderRow ? (
 												this.props.renderRow(rowData, rowID)
 											) : (
@@ -79,13 +74,6 @@ export default class ModalPicker extends Component {
 		);
 	}
 }
-
-ModalPicker.propTypes = {
-	data: PropTypes.array.isRequired,
-	label: PropTypes.string.isRequired,
-	onValueChange: PropTypes.func,
-	renderRow: PropTypes.func,
-};
 
 const styles = StyleSheet.create({
 	container: {
