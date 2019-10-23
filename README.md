@@ -22,8 +22,8 @@ version 0.61.2
 3. **Функционал**  
     
     yarn app:reboot - чистит проект и подтягивает заново зависимости  
-    yarn app:doc - генерация документации 
-    yarn app:update - повышение версии реакта 
+    yarn app:doc - генерация документации  
+    yarn app:update - повышение версии реакта  
     yarn android - запуск на android  
     yarn ios - запуск на ios  
     yarn ios5 - запуск iphone5  
