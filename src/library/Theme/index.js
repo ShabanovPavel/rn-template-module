@@ -24,7 +24,7 @@ const setTheme = typeTheme => {
 	};
 };
 
-export const createStyles = creator => creator(theme);
+const createStyles = creator => creator(theme);
 
 export const Theme = {
 	setTheme,

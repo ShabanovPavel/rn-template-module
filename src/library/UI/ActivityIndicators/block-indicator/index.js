@@ -23,7 +23,7 @@ export default class BlockIndicator extends PureComponent {
 		}
 	}
 
-	componentWillUpdate(nextProps) {
+	componentDidUpdate(nextProps) {
 		const {animating} = this.props;
 		const nextAnimating = nextProps.animating;
 

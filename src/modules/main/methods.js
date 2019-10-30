@@ -1,16 +1,16 @@
-import {Log} from '../../library';
-import {} from './action';
+import {} from '../../library';
+import {MAIN_CLICK} from './actions';
 
 /**
  * @module Main/Methods
  * @description логика модуля
  * @private
  */
-const self = {};
+const main = {};
 
-/** Останавливаем отправку команды ping */
-self.test = params => async (dispatch, getState) => {
-	Log('Click', params);
+/** Тестовый метод который печатает в консоль */
+main.onClick = params => async (dispatch, getState) => {
+	dispatch({type: MAIN_CLICK, payload: {...params}});
 };
 
-export default self;
+export default main;

@@ -1,8 +1,10 @@
 import React from 'react';
-import {View, BindComponent, Text, Icon, Image, Button, Log, I} from '../../../library';
+import {View, BindComponent, Text} from '../../../library';
 import Styles from './styles';
 
-type Props = {};
+type Props = {
+	onClick: Function,
+};
 
 export default class Screen extends React.PureComponent<Props> {
 	constructor(props) {
@@ -10,19 +12,42 @@ export default class Screen extends React.PureComponent<Props> {
 
 		BindComponent(this, {
 			styles: Styles,
-			isBack: true, // работает ли бек
-			statusBar: 'dark',
+			statusBar: 'dark-tr',
 		});
 	}
 
+	/** Компонет начал отображаться на экрана */
+	componentDidAppear() {}
+
+	/** Компонент прекратил отображение на экране */
+	componentDidDisappear() {}
+
 	render() {
-		const {styles, props, propsWix} = this;
-		const {} = props;
+		const {
+			state, // состояние компонента
+			props, // пропса компонента
+			setPropsWix, // записывает какую либо информацию между экранами
+			getPropsWix, // возвращает пропсу между экранами
+			onUpdateTheme, // меняет тему приложения
+			onBack, // вызывает шаг назад по навигации
+			compose, // объединить стили
+			styles, // стили для экрана
+		} = this;
+		const {onClick} = props;
+		const {
+			isLoadScreen, // загрузился ли экран
+		} = state;
 
 		return (
-			<View safeArea style={{flex: 1, flexdirection: 'row'}}>
-				<Text style={{fontSize: 45}}>Привет</Text>
-				<Icon vector name="rocket" size={45} />
+			<View safeArea style={styles.mainContainer}>
+				<Text
+					onPress={onClick}
+					style={compose(
+						styles.textScreen,
+						{fontSize: 45},
+					)}>
+					MainScreen
+				</Text>
 			</View>
 		);
 	}

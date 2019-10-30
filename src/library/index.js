@@ -9,3 +9,4 @@ export * from './UI';
 export * from './Utils';
 export * from './Validates';
 export * from './Looper';
+export * from './TabNavigation';

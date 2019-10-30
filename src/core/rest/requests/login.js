@@ -1,17 +1,16 @@
-import {PORTAL} from '../globalOptions';
+import Fetch from '../fetch';
 
-export const requestTestLogin = async (params, callback) => {
+export const requestTestLogin = async params => {
 	console.log('request.other.requestTestLogin: ', params);
 
 	// request
 
-	callback({ok: true});
+	return {ok: true};
 };
 
-export const requestTestLogin2 = async (params, callback) => {
+export const requestTestLogin2 = async params => {
 	console.log('request.other.requestTestLogin2', params);
 
 	// request
-
-	callback({ok: true});
+	return {ok: true};
 };

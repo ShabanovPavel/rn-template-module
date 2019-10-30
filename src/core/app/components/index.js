@@ -6,10 +6,9 @@ import {traking} from '../../navigation';
 export default class Screen extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		// ...
 		BindComponent(this, {
 			styles: Styles,
-			statusBar: 'hide',
+			statusBar: 'hide-tr',
 		});
 	}
 
@@ -17,7 +16,7 @@ export default class Screen extends React.PureComponent {
 		const {props} = this;
 		const {onInit} = props;
 		onInit(this);
-		traking('initApp');
+		traking();
 	}
 
 	render() {

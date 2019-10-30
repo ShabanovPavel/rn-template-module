@@ -1,19 +1,18 @@
 /** @module Navigation */
 import {Navigation} from 'react-native-navigation';
 import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
-import {Provider} from 'react-redux';
-import configureStore from '../../store';
 
-const {store} = configureStore();
-
-let lastNameScreen = '';
-let stack = []; // для стэк навигации (орентировочный маршрут)
-let isWait = false; // для игнорирования сторонних операций во время совершения операции
-let isSwipebl = true;
-let screenEventListener;
+let targetScreen; // id текущего экрана
+let lastScreen; // id экрана который был
+let provider; // обертка редакса
+let screenEventListenerDidAppear;
 let screenEventListenerDidDisappear;
-const timeWait = 1000; // ms
-let constans; // константы
+const isWait = false; // для игнорирования сторонних операций во время совершения операции
+
+// const lastNameScreen = '';
+// const stack = []; // для стэк навигации (орентировочный маршрут)
+// let isSwipebl = true;
+// const timeWait = 1000; // ms
 
 /**
  * Переход назад по стек навигаци
@@ -21,70 +20,7 @@ let constans; // константы
  * @param {Object} options настройки перехода см(док wix/react-native-navigation)
  */
 const pop = (currentID, options = {}) => {
-	if (!isWait) {
-		isSwipebl = false;
-		isWait = true;
-		lastNameScreen = stack[stack.length - 1];
-		if (stack.length > 2) {
-			stack.pop();
-			stack.pop();
-			Navigation.pop(currentID, options);
-		}
-		setTimeout(() => {
-			isWait = false;
-			isSwipebl = true;
-		}, timeWait);
-	}
-};
-
-/**
- * Сбрасывание стека навигации до корня
- * @param {String} currentID имя текущей сцена
- */
-const popToRoot = currentID => {
-	if (!isWait) {
-		isSwipebl = false;
-		isWait = true;
-		lastNameScreen = '';
-		stack = [];
-		Navigation.popToRoot(currentID);
-		setTimeout(() => {
-			isWait = false;
-			isSwipebl = true;
-		}, timeWait);
-	}
-};
-
-/**
- * Переход назад по стек навигаци к определенному экрану
- * @param {String|Number} currentID имя компонента до которого вернуться или количество компонентов назад
- * @param {Object} options настройки перехода см(док wix/react-native-navigation)
- */
-const popTo = (currentID = 1, options = {}) => {
-	if (!isWait) {
-		isWait = true;
-		isSwipebl = false;
-		if (typeof currentID === 'number') {
-			for (let i = 0; i < currentID; i += 1) {
-				if (stack.length > 1) stack.pop();
-			}
-			const l = stack.length - 1;
-			lastNameScreen = stack[l];
-			Navigation.popTo(lastNameScreen, options);
-		} else {
-			lastNameScreen = stack[stack.length - 1];
-			for (let i = stack.length - 1; i > 0; i -= 1) {
-				if (stack[i] === currentID) break;
-				stack.pop();
-			}
-			stack.pop();
-			Navigation.popTo(currentID, options);
-		}
-		setTimeout(() => {
-			isWait = false;
-			isSwipebl = true;
-		}, timeWait);
-	}
+	Navigation.pop(currentID, options);
 };
 
 /**
@@ -94,23 +30,14 @@ const popTo = (currentID = 1, options = {}) => {
  * @param {Object} options настройки перехода см(док wix/react-native-navigation)
  */
 const push = (currentID, nameScreen, options) => {
-	if (lastNameScreen !== nameScreen) {
-		if (stack.includes(nameScreen)) {
-			popTo(nameScreen, {});
-		} else {
-			lastNameScreen = stack[stack.length - 1];
-			isSwipebl = false;
-			Navigation.push(currentID, {
-				component: {
-					id: nameScreen,
-					name: nameScreen,
-				},
-				options: options || {},
-			});
-			setTimeout(() => {
-				isSwipebl = true;
-			}, timeWait);
-		}
+	if (targetScreen !== nameScreen) {
+		Navigation.push(currentID, {
+			component: {
+				id: nameScreen,
+				name: nameScreen,
+			},
+			options: options || {},
+		});
 	}
 };
 
@@ -122,16 +49,12 @@ const push = (currentID, nameScreen, options) => {
  * @param {Object} options почие настройки (см wix/react-native-navigation)
  */
 const navigateTab = (screenID, nameScreen, options) => {
-	isSwipebl = false;
 	Navigation.mergeOptions(screenID, {
 		bottomTabs: {
 			currentTabId: nameScreen,
 			...options,
 		},
 	});
-	setTimeout(() => {
-		isSwipebl = true;
-	}, timeWait);
 };
 
 /**
@@ -140,21 +63,23 @@ const navigateTab = (screenID, nameScreen, options) => {
  */
 const setRoot = root => {
 	Navigation.setRoot(root);
-	isSwipebl = false;
-	for (let i = 0; i < stack.length - 1; i += 1) stack.pop();
+};
+
+/**
+ * Устанавливает провайдер для компонентов
+ * @param {Object} component обертка редакса
+ */
+const setProvider = component => {
+	provider = component || (componentScreen => componentScreen);
 };
 
 /**
  * Трансформирует экран
  * @param {*} screenID
- * @param {*} options
+ * @param {*} options настройки экрана
  */
 const mergeOptions = (screenID, options) => {
 	Navigation.mergeOptions(screenID, options);
-};
-
-const setLastNameScreen = nameScreen => {
-	lastNameScreen = nameScreen;
 };
 
 /**
@@ -171,18 +96,12 @@ const bindComponent = self => {
  * @param {Object} component компонент
  */
 function registerComponent(name, component) {
-	Navigation.registerComponentWithRedux(
+	Navigation.registerComponent(
 		name,
+		() => gestureHandlerRootHOC(provider(component)),
 		() => gestureHandlerRootHOC(component),
-		Provider,
-		store,
 	);
 }
-
-/** Получает  константы от навигации родной */
-const initConstans = async () => {
-	constans = await Navigation.constants();
-};
 
 /**
  * Отслеживает последовательность открытия экранов пользователем
@@ -190,18 +109,9 @@ const initConstans = async () => {
  * @param {Object} service сервисы для регистрации и отправки какой0либо информации
  */
 const traking = (root, service) => {
-	screenEventListener = Navigation.events().registerComponentDidAppearListener(
+	screenEventListenerDidAppear = Navigation.events().registerComponentDidAppearListener(
 		({componentId, componentName}) => {
-			// analytic.pushScreen(componentName);
-			// // console.log('open', componentName);
-			// // console.log('last', lastNameScreen);
-			// // console.log(stack, isSwipebl);
-			// if (Platform.OS === 'ios' && isSwipebl && stack.length > 2) {
-			// 	stack.pop();
-			// } else if (stack[stack.length - 1] !== componentName) stack.push(componentName);
-			// // console.log(stack, isSwipebl);
-			// lastNameScreen = analytic.getLastItem();
-			// initConstans();
+			targetScreen = componentId;
 		},
 	);
 	screenEventListenerDidDisappear = Navigation.events().registerComponentDidDisappearListener(
@@ -210,9 +120,10 @@ const traking = (root, service) => {
 };
 
 const deleteTraking = () => {
-	screenEventListener.remove();
+	screenEventListenerDidAppear.remove();
 	screenEventListenerDidDisappear.remove();
 };
+
 /**
  * Показывает компонент как наложение
  * @param {String} name имя/ид  компонента
@@ -242,30 +153,19 @@ const dismissOverlay = name => {
  */
 const storeDispatch = action => store.dispatch(action);
 
-/** Регистрирует компонент в стеке */
-const setStack = name => {
-	stack.push(name);
-};
-
 export {
-	setStack,
 	Navigation,
 	registerComponent,
 	pop,
-	popTo,
 	push,
 	setRoot,
 	bindComponent,
 	navigateTab,
-	lastNameScreen,
-	popToRoot,
 	mergeOptions,
-	setLastNameScreen,
 	traking,
 	deleteTraking,
 	showOverlay,
 	dismissOverlay,
 	storeDispatch,
-	constans,
-	initConstans,
+	setProvider,
 };

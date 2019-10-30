@@ -5,19 +5,19 @@ import thunk from 'redux-thunk';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import {app} from './core/reducers';
+import * as reducers from './core/reducers';
 import nav from './reducer';
-import Otions from './config';
+import config from './config';
 
 const rootReducer = combineReducers({
-	app,
+	...reducers,
 	nav,
 });
 
 const persistConfig = {
 	key: 'root',
 	stateReconciler: autoMergeLevel2,
-	whitelist: ['app'],
+	whitelist: config.redux.whitelist,
 	timeout: null,
 	storage: AsyncStorage,
 };
@@ -25,7 +25,7 @@ const persistConfig = {
 let enhacers;
 
 // eslint-disable-next-line
-if (Otions.isLogger && __DEV__ === true) {
+if (config.isLogger && __DEV__ === true) {
 	enhacers = applyMiddleware(thunk, createLogger({collapsed: true}));
 } else {
 	enhacers = applyMiddleware(thunk);

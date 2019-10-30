@@ -43,11 +43,11 @@ self.onInit = app_self => (dispatch, getState) => {
 	ManagerRequest.listenerNetConnected(
 		() => {
 			dispatch({type: APP_UPDATE_NET_CONNECT, isConnected: true});
-			dismissOverlay('offline');
+			// dismissOverlay('offline');
 		},
 		() => {
 			dispatch({type: APP_UPDATE_NET_CONNECT, isConnected: false});
-			showOverlay('offline');
+			// showOverlay('offline');
 		},
 	);
 

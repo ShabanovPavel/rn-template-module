@@ -197,7 +197,7 @@ PODS:
     - React
   - react-native-splash-screen (3.2.0):
     - React
-  - react-native-webview (7.4.2):
+  - react-native-webview (7.4.3):
     - React
   - React-RCTActionSheet (0.61.2):
     - React-Core/RCTActionSheetHeaders (= 0.61.2)
@@ -250,9 +250,9 @@ PODS:
     - React
   - RNVectorIcons (6.6.0):
     - React
-  - SDWebImage (5.2.3):
-    - SDWebImage/Core (= 5.2.3)
-  - SDWebImage/Core (5.2.3)
+  - SDWebImage (5.2.5):
+    - SDWebImage/Core (= 5.2.5)
+  - SDWebImage/Core (5.2.5)
   - SDWebImageWebPCoder (0.2.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.0)
@@ -400,7 +400,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-netinfo: 6bb847e64f45a2d69c6173741111cfd95c669301
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-webview: 5c7578eb1ee5daf16e4c84a500becaa2038db828
+  react-native-webview: 82d6456dfae1b3ef70c3939135536342afc96373
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
   React-RCTBlob: d26ac0e313fbf14e7203473fd593ccaaeee8329e
@@ -418,10 +418,10 @@ SPEC CHECKSUMS:
   RNKeychain: 45dbd50d1ac4bd42c3740f76ffb135abf05746d0
   RNLocalize: 07eb7a91d10021cdf59d80061ebf3adb8a5b5688
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
-  SDWebImage: 46a7f73228f84ce80990c786e4372cf4db5875ce
+  SDWebImage: 4eabf2fa6695c95c47724214417a9c036c965e4a
   SDWebImageWebPCoder: 947093edd1349d820c40afbd9f42acb6cdecd987
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: 8f898578f930c257cd939fb6b6d43e16692da65b
+PODFILE CHECKSUM: d79f374f809403b3512e7bd82cd9a4b62e784da3
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4

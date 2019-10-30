@@ -21,29 +21,29 @@ class Text extends React.PureComponent {
 		const {styles, props} = this;
 		const {style, children, i18n, html, ...other} = props;
 		if (html && i18n)
-			return (
+			{return (
 				<TextHTML
 					html={I.text(children || '')}
 					imagesMaxWidth={styles.screen.width}
 					baseFontStyle={style}
 					{...other}
 				/>
-			);
+			);}
 		if (html)
-			return (
+			{return (
 				<TextHTML
 					html={children}
 					imagesMaxWidth={styles.screen.width}
 					baseFontStyle={style}
 					{...other}
 				/>
-			);
+			);}
 		if (i18n)
-			return (
+			{return (
 				<RNText {...this.props} style={{...styles.text, ...style}}>
 					{I.text(children || '')}
 				</RNText>
-			);
+			);}
 
 		return <RNText {...this.props} style={{...styles.text, ...style}} />;
 	}

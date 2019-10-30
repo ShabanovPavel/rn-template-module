@@ -77,8 +77,10 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
+     iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf','Entypo.ttf','AntDesign.ttf','FontAwesome.ttf','Zocial.ttf'] 
 ]
+
 
 apply from: "../../node_modules/react-native/react.gradle"
 
@@ -217,19 +219,5 @@ subprojects { subproject ->
         }
 }
 
-subprojects { subproject ->
-    afterEvaluate {
-        if ((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
-            android {
-                variantFilter { variant ->
-                    def names = variant.flavors*.name
-                    if (names.contains("reactNative51") || names.contains("reactNative55")|| names.contains("reactNative56")|| names.contains("reactNative57")) {
-                        setIgnore(true)
-                    }
-                }
-            }
-        }
-    }
-}
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

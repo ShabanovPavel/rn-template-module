@@ -4,5 +4,6 @@
  * */
 import Screen from './connect';
 
-export * from './action';
+export * from './actions';
 export {Screen as MainScreen};
+

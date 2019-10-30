@@ -1,11 +1,10 @@
-import {PORTAL, Response} from '../globalOptions';
 import Fetch from '../fetch';
 /**
  * Продление жизни токена
  * @param {*} params
  * @param {*} callBack
  */
-export const refreshToken = async (params, callBack) => {
+export const refreshToken = async params => {
 	const {} = params;
 
 	// const response = await Fetch(`${PORTAL}/account/token/`, {
@@ -14,10 +13,13 @@ export const refreshToken = async (params, callBack) => {
 	// 		Accept: '*/*',
 	// 		'Content-Type': ' application/x-www-form-urlencoded',
 	// 	},
-	// 	body: formDataToString({
+	// 	params: {},
+	// 	body: {
 	// 		refresh_token,
-	// 	}),
+	// 	},
 	// });
+
+	// return response;
 
 	// Response(response, async res => {
 	// 	if (res.ok) {
@@ -30,6 +32,5 @@ export const refreshToken = async (params, callBack) => {
 	// 		callback(res);
 	// 	}
 	// });
-
-	callback({ok: true});
+	return {ok: true};
 };

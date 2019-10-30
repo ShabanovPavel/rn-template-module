@@ -1,12 +1,12 @@
 export const settingsDefault = {
 	layout: {
 		direction: 'ltr', // Supported directions are: 'rtl', 'ltr'
-		backgroundColor: 'rgb(255,255,255,255)',
+		backgroundColor: 'rgb(255,255,255,0)',
 		orientation: ['portrait'],
 	},
 	statusBar: {
-		backgroundColor: 'rgba(255,255,255,0)',
-		style: 'light',
+		drawBehind: false,
+		hideWithTopBar: false,
 	},
 	topBar: {
 		visible: false,

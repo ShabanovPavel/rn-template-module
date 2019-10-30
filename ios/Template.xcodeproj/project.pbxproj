@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0014F6B3AE514A43842F89A9 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD47FFF01454464DB7CE1D93 /* Octicons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -35,7 +34,7 @@
 		083C8D108A2FE225ED2042BB /* Pods-Template.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Template.debug.xcconfig"; path = "Target Support Files/Pods-Template/Pods-Template.debug.xcconfig"; sourceTree = "<group>"; };
 		0B6B5BE7FE396D77B539DD02 /* Pods-Template-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Template-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Template-tvOS/Pods-Template-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		0F41ECE2C451DEB8998F4CAA /* Pods-TemplateTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemplateTests.release.xcconfig"; path = "Target Support Files/Pods-TemplateTests/Pods-TemplateTests.release.xcconfig"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* Template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Template.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* PAN-Template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PAN-Template.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Template/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Template/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -173,7 +172,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* Template.app */,
+				13B07F961A680F5B00A75B9A /* PAN-Template.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -199,7 +198,7 @@
 			);
 			name = Template;
 			productName = Template;
-			productReference = 13B07F961A680F5B00A75B9A /* Template.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* PAN-Template.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -414,7 +413,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Template;
+				PRODUCT_NAME = "PAN-Template";
 				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -438,7 +437,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Template;
+				PRODUCT_NAME = "PAN-Template";
 				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

@@ -1,28 +1,12 @@
 import NetInfo from '@react-native-community/netinfo';
 import * as Requests from './requests';
 import {getItem, setItem} from './storadge';
-import {Toast, Log} from '../../library';
+import {Toast, Log, I} from '../../library';
 import Options from '../../config';
 
 let instance;
 
-const TIME_REFRESH = 5000;
-const FAILD_RESPONSE = {
-	ok: false,
-	error: 'Timeout wait error',
-};
-
-const FAILD_RESPONSE_NET = {
-	ok: false,
-	error: 'Timeout wait error',
-	result: 'Проверьте соединения с сетью',
-};
-
-const FAILD_REFRESH = {
-	ok: false,
-	error: 'Timeout wait error',
-	result: 'Не удалось обновить сессию',
-};
+const TIME_REFRESH = 5000; // дефолтное время обновления токена
 
 /**
  * Токены для запросов
@@ -59,25 +43,26 @@ class RequestsManager {
 	static instance() {
 		if (!instance) {
 			instance = new RequestsManager();
-			Log('Init ManagerRequest, methods:', Requests);
 		}
 		return instance;
 	}
 
 	constructor() {
 		this.callbackChangeConnectedNet = () => {};
-		this.bufferRequest = {};
-		this.currentNextId = 0;
-		this.isWait = false;
+		this.bufferRequest = []; // очередь запросов
+		this.bufferResponse = []; // запросы ожидающие ответа
+
+		this.isWait = false; // Флаг остановки очереди (В основном для рефреша токена)
+		this.idInterval;
 		this.methodList = [
-			// лист методов которые не должны дублироваться
+			// лист методов которые не должны дублироваться (получение нескольких таких собщений приведет к ожидания первого поступившего)
 			'login',
 			'changedOrders',
 		];
-		this.methodResponse = [
-			// лист методов которые должны получать ответ в любом случае
-		];
-		this.update();
+
+		this.currentNextId = 0;
+
+		this.startRequests(); // Запуск первого запроса
 	}
 
 	/**
@@ -91,12 +76,8 @@ class RequestsManager {
 		return this.currentNextId;
 	}
 
-	/**
-	 * Обновление очереди запросов, выполнение запросов по возможности
-	 * @memberof RequestsManager
-	 */
-	update() {
-		setInterval(() => {
+	waitResonse() {
+		this.idInterval = setInterval(() => {
 			NetInfo.fetch().then(state => {
 				const isNet = state.isConnected;
 				typeConected = state.type;
@@ -105,28 +86,72 @@ class RequestsManager {
 					this.callbackChangeConnectedNet(isNet);
 				}
 			});
-			Object.values(this.bufferRequest).forEach(item => {
-				if (!item.isWorkRequest && isConnected && !this.isWait) {
-					item.method();
-					// this.stopRequest(item.id);
-					item.isWorkRequest = true;
-				}
-				// Время ожидания ответа
-				if (item.timeWait <= item.timeWork + item.timeWaitWork) {
-					this.stopRequest(item.id);
-					item.callback(FAILD_RESPONSE);
-				}
-				// Время ожидания начала запроса
-				if (item.timeWait <= item.timeWaitWork) {
-					this.stopRequest(item.id);
-					item.callback(FAILD_RESPONSE_NET);
-				}
-				if (item.isWorkRequest) item.timeWork += 1;
-				if (!item.isWorkRequest) item.timeWaitWork += 1;
-				// console.log(item);
-			});
+			if (isConnected && this.bufferResponse.length < 1 && this.bufferRequest.length > 0) {
+				clearInterval(this.idInterval);
+				this.startRequests();
+			} else {
+				this.bufferRequest.forEach(item => {
+					// Время ожидания начала запроса
+					if (item.timeWait <= item.timeWaitWork) {
+						this.stopRequest(item);
+					}
+					if (!item.isWorkRequest) item.timeWaitWork += 1;
+				});
+				this.bufferResponse.forEach(item => {
+					// // Время ожидания ответа
+					if (item.timeWait <= item.timeWork + item.timeWaitWork) {
+						this.stopResponse(item);
+					}
+					if (item.isWorkRequest) item.timeWork += 1;
+				});
+			}
 		}, 1000);
 	}
+
+	/**
+	 * Выполнение первогов в очереди запроса
+	 * @memberof RequestsManager
+	 */
+	startRequests = async () => {
+		if (this.bufferResponse.length < 1) {
+			const targetRequest = this.bufferRequest.shift();
+
+			const state = await NetInfo.fetch();
+			const isNet = state.isConnected;
+			typeConected = state.type;
+			if (isConnected !== isNet) {
+				isConnected = isNet;
+				this.callbackChangeConnectedNet(isNet);
+			}
+
+			if (isConnected && targetRequest) {
+				const {
+					// id,
+					// name,
+					// isWorkRequest,
+					// timeWaitWork,
+					// timeWork,
+					// timeWait,
+					params,
+					method,
+					callback,
+				} = targetRequest;
+
+				this.bufferResponse.push(targetRequest);
+				const res = await method({...params, ...(await getTokens())});
+				this.deleteResponse(targetRequest.id);
+
+				callback(res);
+
+				this.startRequests();
+			} else {
+				if (!isConnected) this.bufferRequest.unshift(targetRequest);
+				this.waitResonse();
+			}
+		} else {
+			this.waitResonse();
+		}
+	};
 
 	/**
 	 * Фильтрует поступающие запросы по настройками (повторение)
@@ -139,16 +164,6 @@ class RequestsManager {
 			return !Object.values(this.bufferRequest).some(item => item.name === nameMethod);
 		}
 		return true;
-	}
-
-	/**
-	 * Фильтрует ответы
-	 * @param {String} nameMethod имя запроса
-	 * @returns  получить ли ответ в любом случае
-	 * @memberof RequestsManager
-	 */
-	filterResponse(nameMethod) {
-		return this.methodResponse.includes(nameMethod);
 	}
 
 	/**
@@ -165,39 +180,17 @@ class RequestsManager {
 		if (this.filterRequest(name)) {
 			const callBack = callback;
 			const id = this.generationId();
-			this.bufferRequest[id] = {
+			this.bufferRequest.push({
 				id,
 				name, // Имя запроcа
 				isWorkRequest: false,
 				timeWaitWork: 0, // время ожидания в очереди
 				timeWork: 0, // текущее время ожидания ответа
 				timeWait, // заданное время ожидания ответа, после которого запрос больше не ожидается и возвращается стандартный ответ
-				method: async () => {
-					try {
-						method(
-							{
-								...params,
-								...(await getTokens()),
-							},
-							res => {
-								try {
-									if (this.chekId(id)) {
-										this.stopRequest(id);
-										callBack(res);
-									}
-								} catch (e) {
-									this.stopRequest(id);
-									callBack({ok: false, result: 'Исключительная ситуация'});
-								}
-							},
-						);
-					} catch (e) {
-						this.stopRequest(id);
-						callBack({ok: false, result: 'Исключительная ситуация'});
-					}
-				}, // Запрос
+				params,
+				method, // Запрос
 				callback: callBack,
-			};
+			});
 		}
 	}
 
@@ -207,16 +200,34 @@ class RequestsManager {
 	 * @param {Number} id идентификатор запроса
 	 * @memberof RequestsManager
 	 */
-	stopRequest(id) {
-		// console.log('stop id',id)
-		delete this.bufferRequest[id];
+	deleteResponse(id) {
+		this.bufferResponse = this.bufferResponse.filter(el => id !== el.id);
 	}
 
 	/**
-	 * Проверяет содержится ли еще в очереди запрос
+	 * Удаляет запрос из очереди запроса
+	 * @param {Object} item запрос
 	 */
-	chekId(id) {
-		return !!this.bufferRequest[id];
+	stopRequest(item) {
+		this.bufferRequest = this.bufferRequest.filter(el => el.id !== item.id);
+		item.callback({
+			ok: false,
+			error: I.text('Timeout wait error'),
+			result: I.text('Проверьте соединения с сетью'),
+		});
+	}
+
+	/**
+	 * Удаляет запрос из очереди  ожидания ответа
+	 * @param {Object} item запрос
+	 */
+	stopResponse(item) {
+		this.bufferResponse = this.bufferResponse.filter(el => el.id !== item.id);
+		item.callback({
+			ok: false,
+			error: I.text('Timeout wait error'),
+			result: I.text('Время ожидания ответа истекло'),
+		});
 	}
 
 	/**
@@ -235,7 +246,7 @@ class RequestsManager {
 					}, 1000);
 				} else {
 					setTimeout(() => this.refreshToken(true), TIME_REFRESH);
-					Toast.show(FAILD_REFRESH.result);
+					Toast.show('Не удалось обновить сессию');
 				}
 			});
 		}
@@ -255,10 +266,6 @@ class RequestsManager {
 	logoutClient() {
 		logout();
 	}
-
-	async getTokens() {
-		return await getTokens();
-	}
 }
 
 const manager = RequestsManager.instance();
@@ -271,7 +278,7 @@ export default async (method, params, success, error, time) => {
 
 		Log(`request.${method}.params: `, params);
 
-		manager.addRequest(time || Options.timeRequest, Requests[method], method, params, async res => {
+		manager.addRequest(time || Options.timeRequest, Requests[method], method, params, res => {
 			// Настраивается в зависимости от клиента и типа сообщений
 			Log(`response.${method}: `, res);
 			if (res.ok) {

@@ -14,7 +14,7 @@ import {Theme} from '../Theme';
 
 export default (self, {styles}) => {
 	self.state = {...self.state, isLoadScreen: false};
-
+	self.styles = styles ? Theme.createStyles(styles) : {};
 	/** мерджит стили в один объект */
 	self.compose = (...array) => {
 		let r = {};
@@ -26,7 +26,7 @@ export default (self, {styles}) => {
 
 	self.componentDidMount = () => {
 		self.__proto__.componentDidMount && self.__proto__.componentDidMount.bind(self)();
-
+		self.styles = styles ? Theme.createStyles(styles) : {};
 		this.timerLoading = setTimeout(() => {
 			self.setState({isLoadComponent: true});
 		}, 500);
@@ -40,15 +40,15 @@ export default (self, {styles}) => {
 		// Логика при размонтровании
 	};
 
-	self.componentWillUpdate = () => {
-		self.__proto__.componentWillUpdate && self.__proto__.componentWillUpdate.bind(self)();
+	self.componentDidUpdate = () => {
+		self.__proto__.componentDidUpdate && self.__proto__.componentDidUpdate.bind(self)();
 		self.styles = styles ? Theme.createStyles(styles) : {};
 		// console.log('componentWillUpdate');
 	};
 
-	self.componentWillMount = () => {
-		self.__proto__.componentWillMount && self.__proto__.componentWillMount.bind(self)();
-		self.styles = styles ? Theme.createStyles(styles) : {};
-		// console.log('componentWillMount');
-	};
+	// self.componentDidMount = () => {
+	// 	self.__proto__.componentDidMount && self.__proto__.componentDidMount.bind(self)();
+	// 	self.styles = styles ? Theme.createStyles(styles) : {};
+	// 	// console.log('componentWillMount');
+	// };
 };

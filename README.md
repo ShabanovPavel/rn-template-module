@@ -22,8 +22,8 @@ version 0.61.2
 3. **Функционал**  
     
     yarn app:reboot - чистит проект и подтягивает заново зависимости  
-    yarn app:doc - генерация документации 
-    yarn app:update - повышение версии реакта 
+    yarn app:doc - генерация документации  
+    yarn app:update - повышение версии реакта  
     yarn android - запуск на android  
     yarn ios - запуск на ios  
     yarn ios5 - запуск iphone5  
@@ -34,6 +34,17 @@ version 0.61.2
     yarn start - запуск сервера ноды  
     yarn test - запуск тестов  
     yarn lint:update - установка и обвновление eslint + prettier  
+     //bash  scripts
+    yarn app:npm <name_module> - создает локальный модуль  
+    yarn app:m <name> - создает модуль экрана и подключает его к проекту  
+    yarn app:um <name> - отключает модуль от проекта   
+    yarn app:dm <name> - удаляет модуль экрана и отключает его от проекта  
+    yarn app:sl <name> - создает тип селекторов по имени <name>  
+    yarn app:dsl <name> - удаляет тип селекторов по имени <name>    
+    yarn app:r <name> - создает редьюсер с заданным именем <name>  
+    yarn app:dr <name> - удаляет редьюсер с заданным именем <name>  
+    yarn app:rs <name> - создает тип запросов по имени <name>  
+    yarn app:drs <name> - удаляет тип запросов по имени <name>   
     
 
 4. **Содержимое**  
@@ -49,6 +60,7 @@ version 0.61.2
     'Модульная струткура'  
     Логирование  
     Автодок  
+    UniversalLink (android) для ios надо больше прописать индивидуально
     Библиотека примитивов   
         - Текcт  
         - Вьюха  
