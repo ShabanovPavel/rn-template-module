@@ -17,7 +17,7 @@ const formDataToString = formDataObject => {
 	return this.formDataString.slice(1);
 };
 
-export default async function App_Service(url, {method, headers, params, body}) {
+export default async function App_Service(url, {method, headers, params, body, type = 'json'}) {
 	const header = {};
 	let urls = url;
 
@@ -39,7 +39,7 @@ export default async function App_Service(url, {method, headers, params, body}) 
 	return fetch(urls, reqBody)
 		.then(response => {
 			Log('REST fetch response', response);
-			return response.json();
+			return response[type]();
 		})
 		.then(data => {
 			return {

@@ -1,7 +1,7 @@
 package com.template;
 
 
-import android.content.Intent;
+//import android.content.Intent;
 
 import android.os.Bundle;
 import org.devio.rn.splashscreen.SplashScreen;

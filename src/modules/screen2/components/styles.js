@@ -10,5 +10,6 @@ export default theme =>
 		},
 		textScreen: {
 			fontSize: 15,
+			color: theme.color.BLACK,
 		},
 	});

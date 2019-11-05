@@ -6,7 +6,7 @@
 import {APP_INIT, APP_UPDATE_NET_CONNECT} from './action';
 import {Request, ManagerRequest} from '../rest';
 import {showOverlay, dismissOverlay} from '../navigation';
-import {Theme, SplashScreen, Log, Looper} from '../../library';
+import {Theme, SplashScreen, Log, Looper, Toast} from '../../library';
 
 const self = {};
 /**
@@ -20,17 +20,21 @@ self.loadApp = app_self => dispatch => {
 
 	SplashScreen(); // отключаем нативный сплэш
 
-	// Пример запроса
-	Request(
-		'login', // имя метода
-		{}, // параметры
-		res => {
-			Log('success', res);
-		},
-		res => {
-			Log('error', res); // или любая другая логика на отрицательный результат
-		},
-	);
+	// TODO test REST
+	// for (let i = 0; i < 100; i += 1) {
+	// 	// Пример запроса
+	// 	Request(
+	// 		'getReactNative', // имя метода
+	// 		{}, // параметры
+	// 		res => {
+	// 			Log('success', res);
+	// 		},
+	// 		res => {
+	// 			Log('error', res); // или любая другая логика на отрицательный результат
+	// 		},
+	// 		500,
+	// 	);
+	// }
 };
 
 /**

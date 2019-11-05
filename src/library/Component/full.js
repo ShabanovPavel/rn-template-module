@@ -1,5 +1,6 @@
 import {BackHandler} from 'react-native';
-import {pop, bindComponent, mergeOptions} from '../../core/navigation';
+import React from 'react';
+import {pop, bindComponent, mergeOptions, push} from '../../core/navigation';
 import {StatusBar} from '../StatusBar';
 import {Theme} from '../Theme';
 import {Utils} from '../Utils';
@@ -9,7 +10,7 @@ let propsWix = {
 };
 
 /**
- * 	Расширяет компонент :
+ *	Расширяет компонент :
  *  state.isLoadScreen - показывает загрузился ли компонент или нет (полезно для рендеринга высоконагруженных компонентов)
  *
  *  propsWix - глобальная пропса для передаи данных между экранами минуя редакс
@@ -19,22 +20,21 @@ let propsWix = {
  *  componentDidAppear - вызывается когда компонент получил фокус
  *  componentDidDisappear - вызывается когда компонент потерял фокус
  *
+ * @export
+ * @param {*} self
+ * @param {*} {style, statusBar, isBack, colorBackStatusBar}
+ * @returns
  */
-
-/**
- * @param {Object} self компонент подписи
- * @param {Object} options параметры компонента
- * @param {Boolean} options.isBack флаг который указывает возможно ли осуществление обработки кнопки бек
- * @param {String} options.statusBar ('light','dark','hide') указывает использовать светлый статус бар или же оставить темный статус бар  или вообще срыть
- * @param {Function} options.onFocusedScreen функция обработки фокусировки на экран (возвращает true or false в зависимости от фокусировки)
- * @param {Function} options.styles функция возвращаюзаяя стиль компонента
- */
-export default (self, options = {}) => {
-	const {isBack = true, statusBar, colorBackStatusBar, onFocusedScreen, styles} = options;
+export default (self, {style, statusBar, isBack = true, colorBackStatusBar}) => {
 	bindComponent(self);
 	const nameScreen = self.props.componentId;
 	self.state = {...self.state, isLoadScreen: false};
-	self.styles = styles ? Theme.createStyles(styles) : {};
+	self.styles = style ? Theme.createStyles(style) : {};
+
+	const updateStyles = () => {
+		self.styles = style ? Theme.createStyles(style) : {};
+		self.forceUpdate();
+	};
 
 	const handleBackPress = () => {
 		if (isBack) {
@@ -42,11 +42,6 @@ export default (self, options = {}) => {
 			return true;
 		}
 		return true;
-	};
-
-	/** Обновляет экран для отображения изменений (Вызывается оин раз при открытии экрана) */
-	const updateScreen = () => {
-		self.forceUpdate();
 	};
 
 	const setStatusBar = () => {
@@ -105,13 +100,7 @@ export default (self, options = {}) => {
 	};
 
 	/** мерджит стили в один объект */
-	self.compose = (...array) => {
-		let r = {};
-		array.forEach(element => {
-			r = {...r, ...element};
-		});
-		return r;
-	};
+	self.compose = Utils.compose;
 
 	/** Настанавливает пропсу доступную на экранах */
 	self.setPropsWix = (props, isClear = false) => {
@@ -125,7 +114,7 @@ export default (self, options = {}) => {
 		return other;
 	};
 
-	/** Выполняет навигацию на первый экран */
+	/**  Выполняет навигацию на первый экран  */
 	self.onBack = function() {
 		pop(nameScreen);
 	};
@@ -133,19 +122,20 @@ export default (self, options = {}) => {
 	/** Обновляет тему прилы */
 	self.onUpdateTheme = theme => {
 		Theme.setTheme(theme);
-		updateScreen();
-		self.styles = styles ? Theme.createStyles(styles) : {};
+		updateStyles();
+	};
+
+	self.onPushNavigation = (nextScreen, params) => {
+		push(nameScreen, nextScreen, {}, params);
+	};
+	self.onTabNavigation = nextScreen => {
+		// TODO
 	};
 
 	self.componentDidAppear = () => {
 		setStatusBar();
 		iosSwipeBack();
-		// Фокусировка экрана
-		onFocusedScreen !== undefined
-			? onFocusedScreen({status: true, nameScreen})
-			: self.props.onFocusedScreen && self.props.onFocusedScreen({status: true, nameScreen});
-
-		self.timerLoading = setTimeout(() => {
+		this.timerLoading = setTimeout(() => {
 			self.setState({isLoadScreen: true});
 		}, 500);
 
@@ -155,17 +145,14 @@ export default (self, options = {}) => {
 
 	self.componentDidDisappear = () => {
 		// Логика при снятии фокуса с экрана
-		// Фокусировка экрана
-		onFocusedScreen !== undefined
-			? onFocusedScreen({status: false, nameScreen})
-			: self.props.onFocusedScreen && self.props.onFocusedScreen({status: false, nameScreen});
 
 		self.__proto__.componentDidDisappear && self.__proto__.componentDidDisappear.bind(self)();
 		// console.log('componentDidDisappear');
 	};
 
 	self.componentDidMount = () => {
-		self.styles = styles ? Theme.createStyles(styles) : {};
+		// Логика при монтировании
+		updateStyles();
 		BackHandler.addEventListener('hardwareBackPress', handleBackPress);
 
 		self.__proto__.componentDidMount && self.__proto__.componentDidMount.bind(self)();
@@ -174,8 +161,10 @@ export default (self, options = {}) => {
 
 	self.componentWillUnmount = () => {
 		// Логика при размонтровании
+
 		BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-		clearTimeout(self.timerLoading);
+		clearTimeout(this.timerLoading);
+
 		self.__proto__.componentWillUnmount && self.__proto__.componentWillUnmount.bind(self)();
 		// console.log('componentWillUnmount');
 	};

@@ -3,17 +3,20 @@ import {View, BindComponent, Text} from '../../../library';
 import Styles from './styles';
 
 type Props = {
+	isLoadScreen: Boolean, // загрузился ли экран
+	styles: Object, // стили для экрана
+	compose: Function, // объединить стили
+	setPropsWix: Function, // записывает какую либо информацию между экранами
+	getPropsWix: Function, // возвращает пропсу между экранами
+	onUpdateTheme: Function, // меняет тему приложения
+	onBack: Function, // вызывает шаг назад по навигации
+	onPushNavigation: Function, // вызывает пуш в стек по навигации приложения
 	onClick: Function,
 };
 
-export default class Screen extends React.PureComponent<Props> {
+class Screen extends React.PureComponent<Props> {
 	constructor(props) {
 		super(props);
-
-		BindComponent(this, {
-			styles: Styles,
-			statusBar: 'dark-tr',
-		});
 	}
 
 	/** Компонет начал отображаться на экрана */
@@ -24,24 +27,23 @@ export default class Screen extends React.PureComponent<Props> {
 
 	render() {
 		const {
-			state, // состояние компонента
 			props, // пропса компонента
-			setPropsWix, // записывает какую либо информацию между экранами
-			getPropsWix, // возвращает пропсу между экранами
-			onUpdateTheme, // меняет тему приложения
-			onBack, // вызывает шаг назад по навигации
-			compose, // объединить стили
-			styles, // стили для экрана
 		} = this;
-		const {onClick} = props;
 		const {
-			isLoadScreen, // загрузился ли экран
-		} = state;
+			onClick,
+			styles,
+			compose,
+			setPropsWix,
+			getPropsWix,
+			onUpdateTheme,
+			onBack,
+			onPushNavigation,
+			isLoadScreen,
+		} = props;
 
 		return (
 			<View safeArea style={styles.mainContainer}>
 				<Text
-					i18n
 					onPress={onClick}
 					style={compose(
 						styles.textScreen,
@@ -53,7 +55,7 @@ export default class Screen extends React.PureComponent<Props> {
 					onPress={onBack}
 					style={compose(
 						styles.textScreen,
-						{fontSize: 45},
+						{fontSize: 25},
 					)}>
 					onBack
 				</Text>
@@ -61,3 +63,5 @@ export default class Screen extends React.PureComponent<Props> {
 		);
 	}
 }
+
+export default BindComponent(Screen, {style: Styles, statusBar: 'dark-tr', isBack: false});

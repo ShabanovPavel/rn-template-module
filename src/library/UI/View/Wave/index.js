@@ -44,7 +44,7 @@ export default class WaveView extends PureComponent {
 WaveView.propTypes = {
 	start: PropTypes.number,
 	end: PropTypes.number,
-	duration: PropTypes.func,
+	duration: PropTypes.number,
 	style: PropTypes.any,
 };
 

@@ -37,10 +37,10 @@ export default class BlockIndicator extends PureComponent {
 		}
 	}
 
-	componentWillUnmount() {
-		// this.animateOffset(0);
-		// this.animateHide();
-	}
+	// componentWillUnmount() {
+	// 	// this.animateOffset(0);
+	// 	// this.animateHide();
+	// }
 
 	animateShow = () => {
 		this.setState({isShow: true});

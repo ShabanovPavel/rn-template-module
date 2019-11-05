@@ -1,5 +1,5 @@
-import {Screen1Screen} from './modules';
 import {Screen2Screen} from './modules';
+import {Screen1Screen} from './modules';
 import React from 'react';
 import {Provider} from 'react-redux';
 import {  MainScreen} from './modules';
@@ -13,8 +13,8 @@ const {store} = configureStore();
 
 /** Инициализация модулей */
 function initModules() {
-registerComponent('screen1', Screen1Screen);
 registerComponent('screen2', Screen2Screen);
+registerComponent('screen1', Screen1Screen);
 	registerComponent('main', MainScreen);
 	registerComponent('initApp', AppScreen);
 }

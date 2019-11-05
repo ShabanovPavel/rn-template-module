@@ -1,6 +1,6 @@
 # rn-template-module
 Dummy pattern React Native + Redux 
-version 0.61.2
+version 0.61.4
 
 
 1. **Необходимо**  
@@ -84,8 +84,6 @@ version 0.61.2
     
 6. **Необходимо добавить**   
     умный экспорт  
-    расширить toast (тестирование)   
-    улучшить rest  (тестирование)  
-    улучшить обертку component (применить НОС)  
+    расширить toast (тестирование) 
     расширить Links (deep link and universal link, работа с обработчиками)  
-
+    баш скрипт CI  

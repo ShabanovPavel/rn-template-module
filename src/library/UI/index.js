@@ -10,7 +10,6 @@ export * from './LinearGradient';
 export * from './Picker';
 export * from './ScrollView';
 export * from './Slider';
-export * from './SplashScreen';
 export * from './Text';
 export * from './TextInput';
 export * from './TextMask';

@@ -1,6 +1,6 @@
 /** @module Navigation */
 import {Navigation} from 'react-native-navigation';
-import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {Log} from '../../library/Log';
 
 let targetScreen; // id текущего экрана
 let lastScreen; // id экрана который был
@@ -28,15 +28,17 @@ const pop = (currentID, options = {}) => {
  * @param {String} currentID имя компонента с которого делается переход
  * @param {String} nameScreen имя компонента на который делается переход
  * @param {Object} options настройки перехода см(док wix/react-native-navigation)
+ * @param {Object} passProps пропса для передачи между экранами через натив
  */
-const push = (currentID, nameScreen, options) => {
+const push = (currentID, nameScreen, options = {}, passProps = {}) => {
 	if (targetScreen !== nameScreen) {
 		Navigation.push(currentID, {
 			component: {
 				id: nameScreen,
 				name: nameScreen,
+				passProps,
+				options,
 			},
-			options: options || {},
 		});
 	}
 };
@@ -96,11 +98,7 @@ const bindComponent = self => {
  * @param {Object} component компонент
  */
 function registerComponent(name, component) {
-	Navigation.registerComponent(
-		name,
-		() => gestureHandlerRootHOC(provider(component)),
-		() => gestureHandlerRootHOC(component),
-	);
+	Navigation.registerComponent(name, () => provider(component), () => component);
 }
 
 /**

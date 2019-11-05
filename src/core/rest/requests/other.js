@@ -1,16 +1,12 @@
 import Fetch from '../fetch';
 
-export const requestTest = async params => {
+export const getReactNative = async params => {
 	console.log('request.other.requestTest: ', params);
-
+	const response = await Fetch('https://facebook.github.io/react-native/', {
+		method: 'GET',
+		type: 'text',
+	});
+	console.log('response', response);
 	// request
-	return {ok: true};
-};
-
-export const requestTest2 = async params => {
-	console.log('request.other.requestTest2', params);
-
-	// request
-
 	return {ok: true};
 };

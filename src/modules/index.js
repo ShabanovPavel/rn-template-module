@@ -1,3 +1,3 @@
 export * from './main';
-export * from './screen2';
 export * from './screen1';
+export * from './screen2';

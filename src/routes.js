@@ -7,21 +7,22 @@ export const settingsDefault = {
 	statusBar: {
 		drawBehind: false,
 		hideWithTopBar: false,
+		backgroundColor: 'rgb(255,255,255,0)',
 	},
 	topBar: {
 		visible: false,
 		drawBehind: true,
 		height: 0,
 	},
-	animations: {
-		setRoot: {
-			alpha: {
-				from: 0,
-				to: 1,
-				duration: 300,
-			},
-		},
-	},
+	// animations: {
+	// 	setRoot: {
+	// 		alpha: {
+	// 			from: 0,
+	// 			to: 1,
+	// 			duration: 300,
+	// 		},
+	// 	},
+	// },
 	bottomTabs: {
 		visible: true,
 		backgroundColor: 'white',

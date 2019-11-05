@@ -27,18 +27,18 @@ export default (self, {styles}) => {
 	self.componentDidMount = () => {
 		self.__proto__.componentDidMount && self.__proto__.componentDidMount.bind(self)();
 		self.styles = styles ? Theme.createStyles(styles) : {};
-		this.timerLoading = setTimeout(() => {
-			self.setState({isLoadComponent: true});
-		}, 500);
+		// this.timerLoading = setTimeout(() => {
+		// 	self.setState({isLoadComponent: true});
+		// }, 500);
 		// console.log('componentDidMount');
 		// Логика при монтировании
 	};
 
-	self.componentWillUnmount = () => {
-		clearTimeout(this.timerLoading);
-		self.__proto__.componentWillUnmount && self.__proto__.componentWillUnmount.bind(self)();
-		// Логика при размонтровании
-	};
+	// self.componentWillUnmount = () => {
+	// 	// clearTimeout(this.timerLoading);
+	// 	self.__proto__.componentWillUnmount && self.__proto__.componentWillUnmount.bind(self)();
+	// 	// Логика при размонтровании
+	// };
 
 	self.componentDidUpdate = () => {
 		self.__proto__.componentDidUpdate && self.__proto__.componentDidUpdate.bind(self)();

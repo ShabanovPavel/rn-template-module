@@ -8,7 +8,6 @@
 /* Begin PBXBuildFile section */
 		0014F6B3AE514A43842F89A9 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD47FFF01454464DB7CE1D93 /* Octicons.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1AD1191F6C4A48F09437C765 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29C05BB588FF402EACB04990 /* Zocial.ttf */; };
@@ -26,6 +25,8 @@
 		C821FAA815594C58A3BB536A /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE9386CCCD234E6A92868019 /* FontAwesome5_Solid.ttf */; };
 		CD2B2C57886246CB9C787D22 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED67D1EF3516498AA2B3B86F /* SimpleLineIcons.ttf */; };
 		DBCCC69DDD924F719AD132DE /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6794BC6D412649C8945E6388 /* FontAwesome5_Brands.ttf */; };
+		E97433432369B2EF00DE9F12 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E97433412369B2EF00DE9F12 /* LaunchScreen.xib */; };
+		E97433442369B2EF00DE9F12 /* splash.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E97433422369B2EF00DE9F12 /* splash.jpg */; };
 		F3CA185337CC411A8941A6F5 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 36390D27B13E4EB1B0734F6F /* FontAwesome5_Regular.ttf */; };
 /* End PBXBuildFile section */
 
@@ -37,7 +38,6 @@
 		13B07F961A680F5B00A75B9A /* PAN-Template.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PAN-Template.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Template/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Template/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Template/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Template/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Template/main.m; sourceTree = "<group>"; };
@@ -63,6 +63,8 @@
 		CF388BB1EBF9B51649BDCE30 /* Pods-Template.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Template.release.xcconfig"; path = "Target Support Files/Pods-Template/Pods-Template.release.xcconfig"; sourceTree = "<group>"; };
 		D2744934AF6B0803799C35ED /* Pods-Template-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Template-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Template-tvOSTests/Pods-Template-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		DCC19671D68E464B8980086B /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		E97433412369B2EF00DE9F12 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		E97433422369B2EF00DE9F12 /* splash.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpg; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		ED67D1EF3516498AA2B3B86F /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
@@ -85,12 +87,12 @@
 		13B07FAE1A68108700A75B9A /* Template */ = {
 			isa = PBXGroup;
 			children = (
+				E97433402369B2EF00DE9F12 /* SplashScreenResource */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = Template;
@@ -177,6 +179,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E97433402369B2EF00DE9F12 /* SplashScreenResource */ = {
+			isa = PBXGroup;
+			children = (
+				E97433412369B2EF00DE9F12 /* LaunchScreen.xib */,
+				E97433422369B2EF00DE9F12 /* splash.jpg */,
+			);
+			name = SplashScreenResource;
+			path = Template/SplashScreenResource;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -212,7 +224,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = QC2MUXRP7P;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -241,10 +253,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				67DE09418ACF43C2A712D6D6 /* AntDesign.ttf in Resources */,
 				891E2FD3345A4714B0EDE714 /* Entypo.ttf in Resources */,
 				89DB5A2FBB0F43D7A84DFE58 /* EvilIcons.ttf in Resources */,
+				E97433442369B2EF00DE9F12 /* splash.jpg in Resources */,
 				7BE7D67DBE2249E18052A2E3 /* Feather.ttf in Resources */,
 				83D34172B34E44399341B0F2 /* FontAwesome.ttf in Resources */,
 				DBCCC69DDD924F719AD132DE /* FontAwesome5_Brands.ttf in Resources */,
@@ -254,6 +266,7 @@
 				1F31A641DF0646E4BF116B85 /* Foundation.ttf in Resources */,
 				A329B8F72BE6408EB604C71B /* Ionicons.ttf in Resources */,
 				68CE1BC2B2C2401B9734DB8F /* MaterialCommunityIcons.ttf in Resources */,
+				E97433432369B2EF00DE9F12 /* LaunchScreen.xib in Resources */,
 				2A8626CF9DD5473493C5154F /* MaterialIcons.ttf in Resources */,
 				0014F6B3AE514A43842F89A9 /* Octicons.ttf in Resources */,
 				CD2B2C57886246CB9C787D22 /* SimpleLineIcons.ttf in Resources */,
@@ -381,29 +394,17 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = Template;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 083C8D108A2FE225ED2042BB /* Pods-Template.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = QC2MUXRP7P;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Template/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.1;
@@ -414,7 +415,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "PAN-Template";
-				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -424,10 +425,10 @@
 			baseConfigurationReference = CF388BB1EBF9B51649BDCE30 /* Pods-Template.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = QC2MUXRP7P;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Template/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 0.1;
@@ -438,7 +439,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "PAN-Template";
-				PROVISIONING_PROFILE_SPECIFIER = Wildcard;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

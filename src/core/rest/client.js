@@ -86,16 +86,17 @@ class RequestsManager {
 					this.callbackChangeConnectedNet(isNet);
 				}
 			});
+
 			if (isConnected && this.bufferResponse.length < 1 && this.bufferRequest.length > 0) {
 				clearInterval(this.idInterval);
 				this.startRequests();
 			} else {
 				this.bufferRequest.forEach(item => {
 					// Время ожидания начала запроса
-					if (item.timeWait <= item.timeWaitWork) {
+					if (item && item.timeWait <= item.timeWaitWork) {
 						this.stopRequest(item);
 					}
-					if (!item.isWorkRequest) item.timeWaitWork += 1;
+					if (item && !item.isWorkRequest) item.timeWaitWork += 1;
 				});
 				this.bufferResponse.forEach(item => {
 					// // Время ожидания ответа
@@ -145,7 +146,7 @@ class RequestsManager {
 
 				this.startRequests();
 			} else {
-				if (!isConnected) this.bufferRequest.unshift(targetRequest);
+				if (!isConnected && targetRequest) this.bufferRequest.unshift(targetRequest);
 				this.waitResonse();
 			}
 		} else {
@@ -177,7 +178,7 @@ class RequestsManager {
 	 * @memberof RequestsManager
 	 */
 	addRequest(timeWait, method, name, params, callback) {
-		if (this.filterRequest(name)) {
+		if (this.filterRequest(name) && method) {
 			const callBack = callback;
 			const id = this.generationId();
 			this.bufferRequest.push({
@@ -282,10 +283,10 @@ export default async (method, params, success, error, time) => {
 			// Настраивается в зависимости от клиента и типа сообщений
 			Log(`response.${method}: `, res);
 			if (res.ok) {
-				success && success(res.result);
+				success && success(res.data);
 			} else {
-				Options.boolean.isLog && Toast.show(res.result);
-				error && error(res.result);
+				Options.boolean.isLog && Toast.show(res.message);
+				error && error(res.message);
 			}
 		});
 	} else {

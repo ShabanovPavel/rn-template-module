@@ -1,4 +1,5 @@
-import BindComponent from './full';
+import BindComponent from './noc';
 import BindSimple from './simple';
+import BindFull from './full';
 
-export {BindComponent, BindSimple};
+export {BindComponent, BindSimple, BindFull};

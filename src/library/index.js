@@ -10,3 +10,4 @@ export * from './Utils';
 export * from './Validates';
 export * from './Looper';
 export * from './TabNavigation';
+export * from './SplashScreen';

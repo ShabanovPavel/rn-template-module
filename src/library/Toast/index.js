@@ -1,8 +1,9 @@
 import {Alert} from 'react-native';
-import SimpleToast, {DURATION} from 'react-native-easy-toast';
+import EasyToast, {DURATION} from 'react-native-easy-toast';
+import SimpleToast from 'react-native-simple-toast';
 import {I} from '../I18n';
 
-function Toast() {}
+const Toast = {};
 
 /** Массив запросов */
 const PoolRequest = [];
