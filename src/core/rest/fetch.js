@@ -1,4 +1,3 @@
-import {set, isEmpty} from 'lodash';
 import {Log} from '../../library';
 
 const formDataToString = formDataObject => {
@@ -17,23 +16,38 @@ const formDataToString = formDataObject => {
 	return this.formDataString.slice(1);
 };
 
-export default async function App_Service(url, {method, headers, params, body, type = 'json'}) {
+/**
+ * Выполняет асинхронный запрос
+ *
+ * @export
+ * @param {String} url урл запроса
+ * @param {Object} config конфигурация запроса
+ * @param {String} config.method тип запроса
+ * @param {String} config.headers голова запроса
+ * @param {String} config.params параметры которые будут мерджится с урл запросом
+ * @param {String} config.body тело запоса (чаще используется в пост запросах)
+ * @param {String} config.type тип ответа (json, text, blob)
+ *
+ * @returns
+ */
+export default async function App_Service(url, config) {
+	const {method, headers, params, body, type = 'json'} = config;
 	const header = {};
 	let urls = url;
 
-	set(header, 'Accept', 'application/json');
-	set(header, 'Content-Type', 'application/json');
+	header.Accept = 'application/json';
+	header['Content-Type'] = 'application/json';
 
 	const reqBody = {
 		method,
 		headers: {...header, ...headers},
 	};
 
-	if (!isEmpty(params)) {
+	if (params) {
 		urls += `?${formDataToString(params)}`;
 	}
-	if (!isEmpty(body)) {
-		reqBody.body = JSON.stringify(body);
+	if (body) {
+		reqBody.body = body;
 	}
 
 	return fetch(urls, reqBody)

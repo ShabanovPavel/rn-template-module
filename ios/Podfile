@@ -37,7 +37,9 @@ target 'Template' do
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   use_native_modules!
-  
+
+
+  pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
 end
 

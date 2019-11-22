@@ -11,12 +11,21 @@ type Props = {
 	onUpdateTheme: Function, // меняет тему приложения
 	onBack: Function, // вызывает шаг назад по навигации
 	onPushNavigation: Function, // вызывает пуш в стек по навигации приложения
+	onRegisterFocusScreen: Function, // регистрирует слушателя на фокусировку экрана
 	onClick: Function,
 };
 
 class Screen extends React.PureComponent<Props> {
 	constructor(props) {
 		super(props);
+		const {onRegisterFocusScreen} = props;
+		onRegisterFocusScreen(isFocus => {
+			if (isFocus) {
+				/** Компонет начал отображаться на экрана */
+			} else {
+				/** Компонент прекратил отображение на экране */
+			}
+		});
 	}
 
 	/** Компонет начал отображаться на экрана */
@@ -56,4 +65,6 @@ class Screen extends React.PureComponent<Props> {
 	}
 }
 
-export default BindComponent(Screen, {style: Styles, statusBar: 'light-tr'});
+export default BindComponent(Screen, {
+	style: Styles,
+});

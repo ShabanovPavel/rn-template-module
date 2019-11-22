@@ -17,6 +17,7 @@ echo "import Fetch from '../fetch';
 
 export const requestTest${NameRestLower} = async params => {
 	console.log('request.${NameRestLower}.requestTest${NameRestLower}: ', params);
+	const {UrlHost} = params;
 
 	// request
 

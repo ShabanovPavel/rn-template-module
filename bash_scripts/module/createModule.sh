@@ -32,19 +32,22 @@ type Props = {
 	onUpdateTheme: Function, // меняет тему приложения
 	onBack: Function, // вызывает шаг назад по навигации
 	onPushNavigation: Function, // вызывает пуш в стек по навигации приложения
+	onRegisterFocusScreen: Function, // регистрирует слушателя на фокусировку экрана
 	onClick: Function,
 };
 
 class Screen extends React.PureComponent<Props> {
 	constructor(props) {
 		super(props);
+		const {onRegisterFocusScreen} = props;
+		onRegisterFocusScreen(isFocus => {
+			if (isFocus) {
+				/** Компонет начал отображаться на экране */
+			} else {
+				/** Компонент прекратил отображение на экране */
+			}
+		});
 	}
-
-	/** Компонет начал отображаться на экрана */
-	componentDidAppear() {}
-
-	/** Компонент прекратил отображение на экране */
-	componentDidDisappear() {}
 
 	render() {
 		const {
@@ -120,6 +123,7 @@ export const ${NameAction}_CLICK = '${NameTextModule}/${NameAction}_CLICK';"> ac
 #############Создание Методов Модуля
 echo "import {} from '../../library';
 import {${NameAction}_CLICK} from './actions';
+import {Request} from '../../core/rest';
 
 /**
  * @module ${NameTextModule}/Methods
@@ -163,14 +167,16 @@ cd ..
 echo "$(sed '/'${NameModule}'/d'  index.js)">index.js &&
 echo "$(sed '/'${NameTextModule}Screen'/d'  index.js)" >index.js &&
 echo "$(sed "s/. ${NameTextModule}Screen//" index.js)">index.js &&
-echo "$(sed "s/.${NameTextModule}Screen//" index.js)">index.js 
+echo "$(sed "s/.${NameTextModule}Screen//" index.js)">index.js &&
+echo "$(sed "s/\\,\\,/\\,/" index.js)">index.js 
 
 echo "$(< index.js sed "/initModules() {/a \\
 registerComponent('${NameModule}', ${NameTextModule}Screen);
 ")" > index.js
 
-echo "$(sed "1s/^/import \\{${NameTextModule}Screen\\} from \\'\\.\\/modules\\'\\;\\
-/"  index.js)" >index.js
+echo "$(sed "s/\\} from \\'\\.\\/modules\\'\\;/\\, ${NameTextModule}Screen\\} from \\'\\.\\/modules\\'\\;/" index.js)">index.js 
+echo "$(sed "s/^\\, ${NameTextModule}Screen/${NameTextModule}Screen/" index.js)">index.js 
+
 
 
 #Проверяем был ли он подключен арньше и если был то раскоменим связи

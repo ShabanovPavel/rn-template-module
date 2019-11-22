@@ -16,7 +16,7 @@ class InitflowFlatList extends React.PureComponent {
 	}
 
 	render() {
-		const {style, reference} = this.props;
+		const {reference} = this.props;
 
 		return (
 			<FlatList

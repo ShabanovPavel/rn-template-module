@@ -9,8 +9,8 @@ version 0.61.4
     nodeJS  
     yarn  
     cocoapods  
-    react-native cli  
-    SDK 28 API  
+    react-native cli  - https://github.com/react-native-community/cli  
+    SDK 28 API+
     и немного храбренья  
 
 2. **Старт**   
@@ -84,6 +84,7 @@ version 0.61.4
     
 6. **Необходимо добавить**   
     умный экспорт  
-    расширить toast (тестирование) 
+    statusBar
+    расширить toast (тестирование)  
     расширить Links (deep link and universal link, работа с обработчиками)  
     баш скрипт CI  

@@ -294,6 +294,16 @@ const mergeObject = (target, ...sources) => {
 	return mergeObject(target, ...sources);
 };
 
+/** помогает сформировать список экранов */
+const listScreen = (list, screen) => {
+	const resList = {};
+
+	Object.keys(list || {}).forEach(key => {
+		resList[key] = {screen};
+	});
+	return resList;
+};
+
 export const Utils = {
 	arrayToMap,
 	objectToHash,
@@ -310,4 +320,5 @@ export const Utils = {
 	getNumberRegion,
 	functionLast,
 	mergeObject,
+	listScreen,
 };

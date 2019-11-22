@@ -46,7 +46,7 @@ class View extends React.PureComponent {
 		if (wave) {
 			return <WaveView {...other} style={[styles.view, style]} />;
 		}
-		return <RNView {...other} style={{...styles.view, ...style}} />;
+		return <RNView {...other} style={style} />;
 	}
 }
 

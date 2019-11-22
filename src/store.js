@@ -25,7 +25,7 @@ const persistConfig = {
 let enhacers;
 
 // eslint-disable-next-line
-if (config.isLogger && __DEV__ === true) {
+if (config.boolean.isLogger && __DEV__ === true) {
 	enhacers = applyMiddleware(thunk, createLogger({collapsed: true}));
 } else {
 	enhacers = applyMiddleware(thunk);

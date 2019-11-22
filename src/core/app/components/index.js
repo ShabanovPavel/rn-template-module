@@ -8,7 +8,7 @@ export default class Screen extends React.PureComponent {
 		super(props);
 		BindComponent(this, {
 			styles: Styles,
-			statusBar: 'hide-tr',
+			statusBar: 'light-tr',
 		});
 	}
 

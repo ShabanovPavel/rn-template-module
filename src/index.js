@@ -1,20 +1,21 @@
-import {Screen2Screen} from './modules';
-import {Screen1Screen} from './modules';
 import React from 'react';
 import {Provider} from 'react-redux';
-import {  MainScreen} from './modules';
+import {Screen2Screen, Screen1Screen, MainScreen, PlaygroundScreen, StoryScreen} from './modules';
 
 import {registerComponent, Navigation, setProvider} from './core/navigation';
 import {settingsDefault, rootLoadApp} from './routes';
 import {AppScreen} from './core/app';
 import configureStore from './store';
 
+let isRunApp = false;
 const {store} = configureStore();
 
 /** Инициализация модулей */
 function initModules() {
-registerComponent('screen2', Screen2Screen);
-registerComponent('screen1', Screen1Screen);
+	registerComponent('story', StoryScreen);
+	registerComponent('playground', PlaygroundScreen);
+	registerComponent('screen2', Screen2Screen);
+	registerComponent('screen1', Screen1Screen);
 	registerComponent('main', MainScreen);
 	registerComponent('initApp', AppScreen);
 }
@@ -22,8 +23,11 @@ registerComponent('screen1', Screen1Screen);
 /** Инициализация дерева навигаци */
 function initRoutes() {
 	Navigation.events().registerAppLaunchedListener(() => {
-		Navigation.setDefaultOptions(settingsDefault);
-		Navigation.setRoot(rootLoadApp);
+		if (!isRunApp) {
+			Navigation.setDefaultOptions(settingsDefault);
+			Navigation.setRoot(rootLoadApp);
+			isRunApp = true;
+		}
 	});
 }
 

@@ -4,6 +4,7 @@ import {Simple} from './simple';
 import {Full} from './full';
 import {Around} from './around';
 import {FullG} from './fullG';
+import Gradient from './grad';
 
 /**
  * @module Button
@@ -31,16 +32,16 @@ class Button extends React.PureComponent {
 	handleOnAction = () => {
 		const {onAction, keyDismiss} = this.props;
 
-		if  (keyDismiss) {
-			requestAnimationFrame(Keyboard.dismiss);;
+		if (keyDismiss) {
+			requestAnimationFrame(Keyboard.dismiss);
 		}
-		onAction();;
+		onAction();
 	};
 
 	render() {
 		const {props} = this;
 
-		const {fullG, simple, full, around, onAction, activeOpacity, ...other} = props;
+		const {fullG, simple, full, around, grad, onAction, activeOpacity, ...other} = props;
 
 		if (fullG) {
 			return <FullG {...other} onAction={this.handleOnAction} activeOpacity={activeOpacity} />;
@@ -53,6 +54,9 @@ class Button extends React.PureComponent {
 		}
 		if (around) {
 			return <Around {...other} onAction={this.handleOnAction} activeOpacity={activeOpacity} />;
+		}
+		if (grad) {
+			return <Gradient {...other} onAction={this.handleOnAction} activeOpacity={0} />;
 		}
 
 		return <TouchableOpacity activeOpacity={activeOpacity} {...other} onPress={onAction} />;

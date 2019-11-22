@@ -1,18 +1,18 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
 
+import {createAppContainer} from 'react-navigation';
 import {
-	createMaterialTopTabNavigator,
 	createMaterialBottomTabNavigator,
-	createAppContainer,
-} from 'react-navigation';
+	createMaterialTopTabNavigator,
+} from 'react-navigation-material-bottom-tabs';
 
 import NavigationService from '../NavigationService';
 
 class NavigatorTab extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		const {screens, options, isBottom} = props;
+		const {screens = {}, options = {}, isBottom} = props;
 		if (isBottom) {
 			this.tab = createAppContainer(createMaterialBottomTabNavigator(screens, options));
 		} else {

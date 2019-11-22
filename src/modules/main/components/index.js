@@ -11,20 +11,24 @@ type Props = {
 	onUpdateTheme: Function, // меняет тему приложения
 	onBack: Function, // вызывает шаг назад по навигации стека
 	onPushNavigation: Function, // вызывает пуш в стек по навигации приложения
+	onRegisterFocusScreen: Function, // регистрирует слушателя на фокусировку экрана
 	onClick: Function,
 };
 
 class Screen extends React.PureComponent<Props> {
 	constructor(props) {
 		super(props);
+		const {onRegisterFocusScreen} = props;
+		onRegisterFocusScreen(isFocus => {
+			if (isFocus) {
+				/** Компонет начал отображаться на экрана */
+			} else {
+				/** Компонент прекратил отображение на экране */
+			}
+		});
+
 		this.isTheme;
 	}
-
-	/** Компонет начал отображаться на экрана */
-	componentDidAppear() {}
-
-	/** Компонент прекратил отображение на экране */
-	componentDidDisappear() {}
 
 	render() {
 		const {
@@ -40,16 +44,12 @@ class Screen extends React.PureComponent<Props> {
 			onBack,
 			isLoadScreen,
 			onPushNavigation,
+			onRegisterFocusScreen,
 		} = props;
 
 		return (
 			<View safeArea style={styles.mainContainer}>
-				<Text
-					onPress={onClick}
-					style={compose(
-						styles.textScreen,
-						{fontSize: 45},
-					)}>
+				<Text onPress={onClick} style={[styles.textScreen, {fontSize: 45}]}>
 					MainScreen
 				</Text>
 				<Text
@@ -66,7 +66,6 @@ class Screen extends React.PureComponent<Props> {
 							this.isTheme = 'light';
 						}
 					}}>
-					{' '}
 					UpdateTheme
 				</Text>
 			</View>

@@ -1,4 +1,4 @@
-export * from './ActivityIndicators';
+export * from './ActivityIndicator';
 export * from './BlockView';
 export * from './Button';
 export * from './Counter';
@@ -15,3 +15,4 @@ export * from './TextInput';
 export * from './TextMask';
 export * from './View';
 export * from './WebView';
+export * from './Stories';

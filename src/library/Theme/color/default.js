@@ -11,6 +11,7 @@ export default {
 	GOLD: '#FFD700',
 	GRAY_BOTTOM_BAR: 'rgb(194,194,194)',
 	BLUE_BOTTOM_BAR: 'rgb(8,40,84)',
+	BLUE_LIGHT: '#E6EFF4',
 
 	BLACK_LIGHT: 'rgb(32, 32, 32)',
 
@@ -29,8 +30,14 @@ export default {
 	PLACEHOLDER: 'rgb(185, 199, 218)',
 	BACKGROUND_MODAL: 'rgba(73, 99, 134, 0.39)',
 
-	GRADIENT: 'rgba(8, 40, 84, 0.62)',
-	GRADIENT2: 'rgba(8, 40, 84, 0.30)',
+	DUMMY: 'rgb(73, 99, 134)',
+	BACKGROUND_STORY: '#21273d',
+
+	GRADIENT: '#21273d',
+	GRADIENT2: '#21273d',
+
+	GRADIENT_STORY_ITEM1: '#53b3d7',
+	GRADIENT_STORY_ITEM2: '#65dc87',
 	GRADIENT_TRANSLUCENT: 'rgba(0, 0, 0, 0.25)',
 	GRADIENT_OPACITY: 'rgba(0, 0, 0, 0)',
 };

@@ -4,7 +4,12 @@ export default {
 		isLog: true, // работаю ли консоль логи
 		isLogger: true, // работает ли логер экшинов
 	},
+	rest: {
+		type: 'http',
+		host: 'localhost:3000',
+	},
 
+	deeplink: 'template', // диплинк на приложение можно
 	redux: {
 		whitelist: ['app'], // Список редьюсеров которые необходимо запомнить в прилоении до следующего запуска
 	},

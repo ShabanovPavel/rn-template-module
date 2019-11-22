@@ -1,11 +1,12 @@
 import Fetch from '../fetch';
+
 /**
  * Продление жизни токена
  * @param {*} params
  * @param {*} callBack
  */
 export const refreshToken = async params => {
-	const {} = params;
+	const {UrlHost} = params;
 
 	// const response = await Fetch(`${PORTAL}/account/token/`, {
 	// 	method: 'POST',

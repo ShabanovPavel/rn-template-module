@@ -8,9 +8,7 @@ import LinearGradient from 'react-native-linear-gradient';
  */
 class InitflowLinearGradient extends React.PureComponent {
 	render() {
-		const {...other} = this.props;
-
-		return <LinearGradient {...other} />;
+		return <LinearGradient locations={[0, 1]} {...this.props} />;
 	}
 }
 

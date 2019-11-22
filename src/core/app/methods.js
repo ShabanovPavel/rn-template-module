@@ -5,8 +5,9 @@
  */
 import {APP_INIT, APP_UPDATE_NET_CONNECT} from './action';
 import {Request, ManagerRequest} from '../rest';
-import {showOverlay, dismissOverlay} from '../navigation';
-import {Theme, SplashScreen, Log, Looper, Toast} from '../../library';
+import {showOverlay, dismissOverlay, mergeOptions} from '../navigation';
+import {Theme, SplashScreen, Log, Looper, Toast, Links} from '../../library';
+import DeepLink from './deeplink';
 
 const self = {};
 /**
@@ -18,9 +19,10 @@ self.loadApp = app_self => dispatch => {
 
 	app_self.forceUpdate();
 
+	dispatch(DeepLink());
 	SplashScreen(); // отключаем нативный сплэш
 
-	// TODO test REST
+	// // TODO test REST
 	// for (let i = 0; i < 100; i += 1) {
 	// 	// Пример запроса
 	// 	Request(
@@ -41,6 +43,9 @@ self.loadApp = app_self => dispatch => {
  *  Выполняет ожидание прогрузки состояний хранилища
  */
 self.onInit = app_self => (dispatch, getState) => {
+	Theme.onUpdateTheme(theme => {
+		// Выполняем обновление темы
+	});
 	// Тема ()/('default') -стандартная , ('black') - темная
 	Theme.setTheme();
 	// Поддерживает статус соединения постоянно

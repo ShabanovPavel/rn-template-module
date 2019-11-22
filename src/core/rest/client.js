@@ -139,7 +139,11 @@ class RequestsManager {
 				} = targetRequest;
 
 				this.bufferResponse.push(targetRequest);
-				const res = await method({...params, ...(await getTokens())});
+				const res = await method({
+					...params,
+					...(await getTokens()),
+					UrlHost: `${Options.rest.type}://${Options.rest.host}`,
+				});
 				this.deleteResponse(targetRequest.id);
 
 				callback(res);

@@ -32,6 +32,7 @@ export default function full(Component, {style, statusBar, isBack = true, colorB
 			bindComponent(this);
 			this.state = {
 				nameScreen: props.componentId,
+				onFocusScreen: () => {},
 				statusBar,
 				_isBack: isBack,
 				isLoadScreen: false,
@@ -64,6 +65,7 @@ export default function full(Component, {style, statusBar, isBack = true, colorB
 		setStatusBar() {
 			const {nameScreen} = this.state;
 			let status = statusBar;
+
 			if (!status) {
 				status = Utils.getKeyObject(propsWix, 'statusBar');
 			} else {
@@ -71,7 +73,12 @@ export default function full(Component, {style, statusBar, isBack = true, colorB
 			}
 			switch (status) {
 				case 'light':
-					StatusBar.setStatus({nameScreen, hide: false, style: 'light', colorBackStatusBar});
+					StatusBar.setStatus({
+						nameScreen,
+						hide: false,
+						style: 'light',
+						colorBackStatusBar: Theme.theme.color[colorBackStatusBar],
+					});
 					break;
 				case 'light-tr':
 					StatusBar.setStatus({
@@ -83,7 +90,12 @@ export default function full(Component, {style, statusBar, isBack = true, colorB
 					});
 					break;
 				case 'dark':
-					StatusBar.setStatus({nameScreen, hide: false, style: 'dark', colorBackStatusBar});
+					StatusBar.setStatus({
+						nameScreen,
+						hide: false,
+						style: 'dark',
+						colorBackStatusBar: Theme.theme.color[colorBackStatusBar],
+					});
 					break;
 				case 'dark-tr':
 					StatusBar.setStatus({
@@ -103,10 +115,17 @@ export default function full(Component, {style, statusBar, isBack = true, colorB
 					});
 					break;
 				case 'hide':
-					StatusBar.setStatus({nameScreen, hide: true, colorBackStatusBar});
+					StatusBar.setStatus({
+						nameScreen,
+						hide: true,
+						colorBackStatusBar: Theme.theme.color[colorBackStatusBar],
+					});
 					break;
 				default:
-					StatusBar.setStatus({nameScreen, colorBackStatusBar});
+					StatusBar.setStatus({
+						nameScreen,
+						colorBackStatusBar: Theme.theme.color[colorBackStatusBar],
+					});
 					break;
 			}
 		}
@@ -150,9 +169,14 @@ export default function full(Component, {style, statusBar, isBack = true, colorB
 			this.setState({
 				isLoadScreen: true,
 			});
+			this.updateStyles();
+			const {onFocusScreen} = this.state;
+			onFocusScreen(true);
 		}
 
 		componentDidDisappear() {
+			const {onFocusScreen} = this.state;
+			onFocusScreen(false);
 			// Логика при снятии фокуса с экрана
 		}
 
@@ -180,6 +204,9 @@ export default function full(Component, {style, statusBar, isBack = true, colorB
 					onUpdateTheme={this.onUpdateTheme}
 					onBack={this.onBack}
 					onPushNavigation={this.onPushNavigation}
+					onRegisterFocusScreen={callback => {
+						this.setState({onFocusScreen: callback});
+					}}
 				/>
 			);
 		}

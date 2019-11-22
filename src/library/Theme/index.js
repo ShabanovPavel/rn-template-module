@@ -5,6 +5,7 @@ import simple from './simple';
 import macro from './macro';
 
 let type;
+let callBackUpdateTheme;
 let theme = {
 	color: color(() => type),
 	simple,
@@ -22,11 +23,24 @@ const setTheme = typeTheme => {
 		view,
 		macro,
 	};
+	callBackUpdateTheme && callBackUpdateTheme(theme);
 };
 
-const createStyles = creator => creator(theme);
+/** Вешает слушателя на обновление темы
+ * @param {Function} call слушатель на обновление темы
+ */
+const onUpdateTheme = call => {
+	callBackUpdateTheme = call;
+};
+
+const createStyles = (creator, params) => creator(theme, params);
+
+const getColors = () => theme.color;
 
 export const Theme = {
+	onUpdateTheme,
+	theme,
 	setTheme,
 	createStyles,
+	getColors,
 };

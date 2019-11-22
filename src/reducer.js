@@ -1,5 +1,11 @@
-import {push, setRoot} from './core/navigation';
-import {MAIN_CLICK, SCREEN1_CLICK} from './modules';
+import {push, setRoot, showOverlay, dismissOverlay} from './core/navigation';
+import {
+	MAIN_CLICK,
+	SCREEN1_CLICK,
+	STORY_CLOSE,
+	PLAYGROUND_STORY_OPEN,
+	PLAYGROUND_CLICK,
+} from './modules';
 import {APP_INIT} from './core/app';
 import {rootMainApp} from './routes';
 /**
@@ -20,16 +26,24 @@ export default function nav(
 ) {
 	let nextState;
 	switch (action.type) {
+		case PLAYGROUND_CLICK:
+			push('playgroundStack', 'screen1');
+			break;
 		case MAIN_CLICK:
-			push('main', 'screen1');
+			push('playgroundStack', 'screen1');
 			break;
 		case SCREEN1_CLICK:
-			push('screen1', 'screen2');
+			push('playgroundStack', 'screen2');
 			break;
 		case APP_INIT:
 			setRoot(rootMainApp);
 			break;
-
+		case PLAYGROUND_STORY_OPEN:
+			showOverlay('story');
+			break;
+		case STORY_CLOSE:
+			dismissOverlay('story');
+			break;
 		case 'persist/REHYDRATE':
 			return {...state, isLoadPersistStore: true};
 		default:

@@ -1,0 +1,32 @@
+{
+  "name": "parser-property",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/shabanov-pavel/parser-property.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/shabanov-pavel/parser-property#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "es6": "^0.0.7",
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^3.5.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "express": "^4.16.4",
+    "node-fetch": "^2.3.0",
+    "numeral": "^2.0.6",
+    "prettier": "^1.16.4",
+    "sqlite3": "^4.1.0"
+  }
+}

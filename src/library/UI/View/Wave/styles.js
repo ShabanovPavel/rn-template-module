@@ -1,5 +1,4 @@
 import {StyleSheet} from 'react-native';
-import {Color} from '../../Color';
 
 export default StyleSheet.create({
 	main: {
@@ -17,6 +16,6 @@ export default StyleSheet.create({
 		left: 0,
 		right: 0,
 		bottom: 0,
-		backgroundColor: Color.WHITE,
+		backgroundColor: 'white',
 	},
 });

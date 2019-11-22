@@ -44,7 +44,9 @@ class ImageView extends React.Component {
 			text,
 			isActive,
 			fadeDuration,
+			...other
 		} = props;
+
 		const styleImg = compose(
 			styles.image,
 			style,
@@ -67,6 +69,7 @@ class ImageView extends React.Component {
 							source={uri}
 							resizeMode={FastImage.resizeMode[resizeMode]}
 							fadeDuration={fadeDuration}
+							{...other}
 						/>
 					</View>
 				) : (
@@ -75,6 +78,7 @@ class ImageView extends React.Component {
 						source={uri}
 						resizeMode={FastImage.resizeMode[resizeMode]}
 						fadeDuration={fadeDuration}
+						{...other}
 					/>
 				);
 			}
@@ -85,6 +89,7 @@ class ImageView extends React.Component {
 						source={IMAGE[name]}
 						resizeMode={FastImage.resizeMode[resizeMode]}
 						fadeDuration={fadeDuration}
+						{...other}
 					/>
 				);
 			}
